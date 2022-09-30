@@ -1,5 +1,6 @@
 // 这个 scss 文件夹里面存放 SCSS 方法/变量
 // 这个文件存放全局样式
+@import './constant.scss';
 
 body {
   * {
@@ -7,12 +8,16 @@ body {
   }
   &.night-style {
     // 夜间模式样式
-    --text-color: #f0f0f0;
-    --bg-color: #222;
+    --text-color: #{$light};
+    --bg-color: #{$dark};
+    --text-color-2: #{$light2};
+    --bg-color-2: #{$dark2};
   }
   &:not(.night-style) {
     // 夜间模式样式
-    --text-color: #222;
-    --bg-color: #f0f0f0;
+    --text-color: #{$dark};
+    --bg-color: #{$light};
+    --text-color-2: #{$dark2};
+    --bg-color-2: #{$light2};
   }
 }

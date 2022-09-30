@@ -5,6 +5,7 @@
     "outfile",
     "pubdir",
     "redbg",
-    "SUCCED"
+    "SUCCED",
+    "Varchar"
   ]
 }

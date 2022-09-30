@@ -1,4 +1,5 @@
-// 这是一个 SCSS 模块的演示，后缀为 .module.scss、.mod.scss、.m.scss 的文件将视为 SCSS 模块
+@import '../scss/constant.scss';
+
 $font-size: 16px;
 
 .demo-container {
@@ -20,9 +21,25 @@ $font-size: 16px;
 }
 .text {
   font-size: $font-size;
-  code {
+  code,
+  input,
+  select,
+  textarea,
+  pre {
     padding: 0 4px;
     border-radius: 2px;
     border: 1px solid #9999;
+    font-family: $fontCode;
+  }
+  input,
+  select,
+  textarea {
+    background-color: $bgColor2;
+    color: $fontColor;
+  }
+  input,
+  textarea,
+  pre {
+    font-size: $font-size;
   }
 }

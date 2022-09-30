@@ -1,10 +1,14 @@
-
 $dark: #222;
 $light: #f0f0f0;
+$dark2: #333;
+$light2: #eee;
 $primaryColor: hsl(200, 100%, 55%);
 
-
 $leftWidth: 240px;
-$bgColor: var(--bg-color, $dark);
 $fontSize: 16px;
+$bgColor: var(--bg-color, $dark);
 $fontColor: var(--text-color, $light);
+$bgColor2: var(--bg-color-2, $dark2);
+$fontColor2: var(--text-color-2, $light2);
+
+$fontCode: Consolas, Source Code Pro, Courier New;
