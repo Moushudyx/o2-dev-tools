@@ -1,0 +1,46 @@
+{
+  "name": "ms-esbuild-react-scaffold",
+  "version": "1.0.0",
+  "description": "自用的使用 esbuild 为打包工具的 react 网页应用模板",
+  "main": "src/index.tsx",
+  "scripts": {
+    "test": "",
+    "build": "node script/bundle.js",
+    "build-hash": "node script/bundle.js --hash",
+    "serve": "node script/serve.js",
+    "lint": "eslint src/** && eslint pages/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitee.com:moushu/ms-esbuild-react-scaffold.git"
+  },
+  "keywords": [
+    "react",
+    "esbuild",
+    "tsx"
+  ],
+  "author": "MouShu",
+  "license": "MulanPSL-2.0",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router": "^6.2.2",
+    "react-router-dom": "^6.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.13",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "esbuild": "^0.14.25",
+    "esbuild-sass-plugin": "^2.2.4",
+    "eslint": "^8.10.0",
+    "open": "^8.4.0",
+    "postcss": "^8.4.8",
+    "postcss-modules": "^4.3.1",
+    "prettier": "^2.5.0",
+    "serve-http": "^1.0.6",
+    "typescript": "^4.6.2",
+    "yarn": "^1.22.17"
+  }
+}

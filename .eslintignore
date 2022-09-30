@@ -1,0 +1,29 @@
+# 样式表不要 eslint
+*.css
+*.scss
+*.less
+
+# 各类资源
+*.htm
+*.html
+*.woff
+*.ttf
+*.gif
+*.jpg
+*.jpeg
+*.png
+*.svg
+
+# 开发用的文件
+script/*
+build/*
+dist/*
+www/*
+www/dist
+src/assets
+LICENSE
+package-lock.json
+package.json
+*.log
+*.lock
+*.md

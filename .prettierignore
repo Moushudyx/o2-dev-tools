@@ -1,0 +1,21 @@
+# 各类资源
+src/assets
+*.htm
+*.html
+*.woff
+*.ttf
+*.gif
+*.jpg
+*.jpeg
+*.png
+*.svg
+
+# 开发用的文件
+dist
+www/dist
+LICENSE
+package-lock.json
+package.json
+*.log
+*.lock
+*.md

@@ -1,0 +1,18 @@
+$font-size: 16px;
+
+.demo {
+  display: flex;
+  width: 100%;
+  .toggle-night {
+    position: absolute;
+    top: 5vh;
+    right: 10vw;
+    width: 2 * $font-size;
+    height: 2 * $font-size;
+    line-height: 2 * $font-size;
+    font-size: 1.5 * $font-size;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+  }
+}
