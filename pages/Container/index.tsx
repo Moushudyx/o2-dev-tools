@@ -24,7 +24,9 @@ const MenuItem: React.FC<{ setting: MenuItemSetting }> = (props) => {
   return (
     <div
       className={`${styles['left-menu-item']}${match ? ' active' : ''}`}
-      onClick={() => nav(setting.link, setting.options)}
+      onClick={() => {
+        if (!match) nav(setting.link, setting.options);
+      }}
     >
       {setting.name}
     </div>
