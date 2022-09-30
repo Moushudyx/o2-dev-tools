@@ -1,19 +1,20 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2022-09-30 16:37:30
+ * @LastEditTime: 2022-09-30 16:45:28
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\CreateO2Col\index.tsx
  */
 import { Container, Para, SubTitle } from 'Components/Typo';
 import React, { useReducer } from 'react';
-import { read } from 'Utils/localStorage';
+import { read, write } from 'Utils/localStorage';
 import { o2ColGen } from './utils';
+import styles from './index.mod.scss';
 
-const key = 'CreateO2Col';
+const storageKey = 'CreateO2Col';
 const defaultDescTable = read(
-  `${key}-descTable`,
+  `${storageKey}-descTable`,
   `supplement_code	补足单号	Varchar	文本框
 online_shop_code	网店编码	Varchar	LOV
 start_time	生效时间（起止）	DateTime	日历组件选择
@@ -21,10 +22,10 @@ end_time	失效时间（起止）	DateTime	日历组件选择
 valid_status	生效状态	Varchar	下拉框
 supplement_status	补足单状态	Varchar	下拉框`
 );
-const defaultTextColumnIndex = read(`${key}-textColumnIndex`, '0');
-const defaultCodeColumnIndex = read(`${key}-codeColumnIndex`, '1');
-const defaultTypeColumnIndex = read(`${key}-typeColumnIndex`, '3');
-const defaultIntlPrefix = read(`${key}-intlPrefix`, 'o2.xxx.xxx.model');
+const defaultTextColumnIndex = read(`${storageKey}-textColumnIndex`, '0');
+const defaultCodeColumnIndex = read(`${storageKey}-codeColumnIndex`, '1');
+const defaultTypeColumnIndex = read(`${storageKey}-typeColumnIndex`, '3');
+const defaultIntlPrefix = read(`${storageKey}-intlPrefix`, 'o2.xxx.xxx.model');
 const defaultValue = {
   descTable: defaultDescTable,
   textColumnIndex: defaultTextColumnIndex,
@@ -35,10 +36,15 @@ const defaultValue = {
 
 export default () => {
   const [state, dispatch] = useReducer(
-    (preState: typeof defaultValue, action: Partial<typeof defaultValue>) => ({
-      ...preState,
-      ...action,
-    }),
+    (preState: typeof defaultValue, action: Partial<typeof defaultValue>) => {
+      for (const key of Object.keys(action)) {
+        write(`${storageKey}-${key}`, action[key as keyof typeof defaultValue]);
+      }
+      return {
+        ...preState,
+        ...action,
+      };
+    },
     { ...defaultValue }
   );
   const bindValue = (key: keyof typeof defaultValue) => ({
@@ -68,26 +74,28 @@ export default () => {
       <Container>
         <SubTitle>生成O2Table的列代码</SubTitle>
         <Para>
-          <div>
-            字段名称索引
+          <div className={styles.field}>
+            <label>字段名称索引</label>
             <input {...bindValue('textColumnIndex')}></input>
           </div>
-          <div>
-            字段编码索引
+          <div className={styles.field}>
+            <label>字段编码索引</label>
             <input {...bindValue('codeColumnIndex')}></input>
           </div>
-          <div>
-            字段类型索引
+          <div className={styles.field}>
+            <label>字段类型索引</label>
             <input {...bindValue('typeColumnIndex')}></input>
           </div>
-          <div>
-            多语言前缀
+          <div className={styles.field}>
+            <label>多语言前缀</label>
             <input {...bindValue('intlPrefix')}></input>
           </div>
-          <div>
+          <div className={styles.field}>
+            <label>复制文档中描述字段的表格</label>
             <textarea {...bindValue('descTable')}></textarea>
           </div>
-          <div>
+          <div className={styles.field}>
+            <label>生成代码</label>
             <textarea value={output}></textarea>
           </div>
         </Para>
