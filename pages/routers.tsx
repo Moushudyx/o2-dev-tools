@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2022-03-17 15:22:10
+ * @LastEditTime: 2022-09-30 15:06:16
  * @Description: 路由配置文件
  */
 
@@ -13,6 +13,10 @@ const routers: MsRouteObject[] = [
       {
         index: true,
         component: () => import('Pages/Index'),
+      },
+      {
+        path: '/create-o2-col',
+        component: () => import('Pages/CreateO2Col')
       },
       {
         path: '/about',

@@ -1,11 +1,62 @@
+@import '../../src/scss/constant.scss';
+
 .container {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: auto;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding-left: 100px;
+  overflow: hidden;
+  background-color: $bgColor;
+  color: $fontColor;
+  padding-left: $leftWidth;
+  .left-menu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: $leftWidth;
+    padding: 0.5 * $fontSize;
+    .left-menu-item {
+      width: 100%;
+      height: 2 * $fontSize;
+      border-left: 0px solid transparent;
+      padding-left: 12px;
+      font-size: $fontSize;
+      line-height: 2 * $fontSize;
+      cursor: pointer;
+      transition: all 120ms ease;
+      &:hover {
+        background-color: #9993;
+      }
+      &:global {
+        &.active {
+          padding-left: 8px;
+          border-left: 4px solid hsl(200, 100%, 50%);
+          background-color: #9992;
+        }
+      }
+    }
+  }
+  .right-section {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: $leftWidth;
+    right: 0;
+    overflow: auto;
+  }
+}
+.toggle-night {
+  position: fixed;
+  top: $fontSize;
+  right: 5vw;
+  width: 2 * $fontSize;
+  height: 2 * $fontSize;
+  line-height: 2 * $fontSize;
+  font-size: 1.5 * $fontSize;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  z-index: 99999;
 }

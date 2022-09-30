@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2022-03-16 17:10:56
+ * @LastEditTime: 2022-09-30 14:56:15
  * @Description: 打包到 dist
  */
 const outFile = 'dist/bundle.js';
@@ -30,8 +30,8 @@ const $P = require('./tools/format-print');
 const $T = require('./tools/format-time');
 
 ((argus) => {
-  argus.forEach((argu) => {
-    if (argu === '--hash') {
+  argus.forEach((argv) => {
+    if (argv === '--hash') {
       commonBuild.define['process.env.HISTORY'] = '"hash"';
       console.log($P('以哈希路由模式打包', 'grey'));
     }

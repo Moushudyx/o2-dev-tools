@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2022-09-30 14:53:29
+ * @LastEditTime: 2022-09-30 15:08:19
  * @Description: 本地热更新服务
  */
 const port = 5000;
@@ -28,6 +28,7 @@ console.log($P("MouShu's scaffold - serve " + $T(), 'grey'));
     props: {
       outfile: 'doc/dist/index.js',
       sourcemap: true,
+      minify: true,
       watch: { onRebuild },
     },
     define: {
