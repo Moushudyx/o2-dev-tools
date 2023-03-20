@@ -3,6 +3,7 @@
 @import './constant.scss';
 
 body {
+  background-color: var(--bg-color-2);
   * {
     box-sizing: border-box;
   }

@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   overflow: hidden;
-  background-color: $bgColor;
+  background-color: var(--bg-color);
   color: $fontColor;
   padding-left: $leftWidth;
   .left-menu {
