@@ -1,0 +1,2 @@
+body{background-color:var(--bg-color-2)}body *{box-sizing:border-box}body.night-style{--text-color: #f0f0f0;--bg-color: #222;--text-color-2: #eee;--bg-color-2: #333}body:not(.night-style){--text-color: #222;--bg-color: #f0f0f0;--text-color-2: #333;--bg-color-2: #eee}
+/*# sourceMappingURL=index.css.map */
