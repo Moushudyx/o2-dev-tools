@@ -1,8 +1,8 @@
 /*
- * @LastEditTime: 2022-03-16 16:27:15
+ * @LastEditTime: 2023-03-20 11:30:36
  * @Description: file content
  */
-const { build } = require('esbuild');
+const { build, context } = require('esbuild');
 const { sassPlugin, postcssModules } = require('esbuild-sass-plugin');
 
 const isCssModule = /\.mo?d?u?l?e?\.scss$/i;
@@ -37,6 +37,7 @@ const defaultBuildConfig = {
  * - `define` 构建参数中的`define，输入`null`来使用空的`define`
  */
 module.exports = async ({ props, define }) => {
+  const { watch, ...otherProps } = props;
   // define
   const $define =
     define === null
@@ -51,9 +52,10 @@ module.exports = async ({ props, define }) => {
   const buildProps = {
     ...defaultBuildConfig,
     define: $define,
-    ...props,
+    ...otherProps,
   };
-  return build(buildProps);
+  if (!watch) return build(buildProps);
+  else return context(buildProps);
 };
 
 module.exports.defaultBuildConfig = defaultBuildConfig;

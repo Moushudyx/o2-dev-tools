@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2022-09-30 15:23:30
+ * @LastEditTime: 2023-03-20 11:59:31
  * @Description: 本地热更新服务
  */
 const port = 5000;
@@ -24,9 +24,9 @@ console.log($P("MouShu's scaffold - serve " + $T(), 'grey'));
       console.log($P(' WATCH ', 'b', 'white', 'greenbg'), '代码变动, 自动更新', $P($T(), 'grey'));
     }
   };
-  await core({
+  const context = await core({
     props: {
-      outfile: 'doc/dist/index.js',
+      outfile: 'docs/dist/index.js',
       sourcemap: true,
       minify: true,
       watch: { onRebuild },
@@ -37,11 +37,13 @@ console.log($P("MouShu's scaffold - serve " + $T(), 'grey'));
       'process.env.HISTORY': '"hash"',
     },
   });
+  await context.watch();
   console.log($P(' SERVE ', 'b', 'white', 'cyanbg'), '编译完成, 开启服务中');
   createServer({
     port: _port,
-    pubdir: path.resolve(__dirname, '../doc'),
-    quiet: true,
+    pubdir: path.resolve(__dirname, '../docs'),
+    quiet: false,
+    livereload: true,
   });
   open(url);
   console.log($P(' SERVE ', 'b', 'white', 'greenbg'), '服务开启, 见:', $P(url, 'b'));

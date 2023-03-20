@@ -15,7 +15,6 @@ node_modules/
 dist/
 html/
 build/
-yarn.lock
 
 # 各类日志
 log/
