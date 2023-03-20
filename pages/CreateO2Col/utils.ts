@@ -1,11 +1,13 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2022-09-30 15:45:14
+ * @LastEditTime: 2023-03-20 15:47:30
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\CreateO2Col\utils.ts
  */
+import { isString, isNumber, isBoolean, isNull } from 'salt-lib';
+
 interface CreateO2ColProp {
   /** 需以制表符`\t`分割 */
   descTable: string;
@@ -23,6 +25,7 @@ const InputColumn: { [type: string]: string } = {
   text: 'O2ColumnInput',
   number: 'O2ColumnInputNumber',
   lov: 'O2ColumnLov',
+  select: 'O2ColumnSelect',
   lovView: 'O2ColumnLovView',
   datetime: 'O2ColumnDatePicker',
 };
@@ -30,11 +33,13 @@ const InputColumn: { [type: string]: string } = {
 const InputTypeRegExp: { [type: string]: RegExp } = {
   text: /varchar|文本框?/i,
   number: /number|数字输?入?框?/i,
-  lov: /lov|值?集?下拉框?/i,
-  lovView: /lovView|l?o?v?值?集?视图/i,
-  datetime: /DateTime|(?:日[期历]|时间)选?择?组件/,
+  lovView: /lovView|l?o?v?值?集?(?:视图|弹出?框)/i,
+  lov: /lov|值集|下拉框?/i,
+  // lov: /lov|值集/i,
+  select: /select|下拉框?/i,
+  datetime: /DateTime|(?:日[期历]|时间)选?择?组?件?/i,
 };
-
+/** 根据描述确定使用何种组件 */
 const getType = (typeDesc: string) => {
   if (typeof typeDesc === 'string') {
     for (const type in InputTypeRegExp) {
@@ -43,6 +48,44 @@ const getType = (typeDesc: string) => {
   }
   return 'text';
 };
+/** 解析自然语言为布尔值 */
+const getBoolean = (desc: string) => {
+  if (/Y|yes|是|√/i.test(desc)) return true;
+  else return false;
+};
+
+const defaultMap: { [prop: string]: unknown } = {
+  editable: true,
+  required: false,
+};
+/** 判断一个属性是否为默认值 */
+const isDefaultValue = (prop: string, value: unknown) => defaultMap[prop] === value;
+/** 生成单个列组件的代码 */
+const renderColumnCode = (options: { type: string; props: { [prop: string]: unknown } }) => {
+  const { type, props } = options;
+  const renderPropCodeList: string[] = [];
+  for (const prop in props) {
+    const v = props[prop];
+    if (v === undefined) continue;
+    if (isDefaultValue(prop, v)) continue;
+    if (isString(v)) {
+      if (/^["'\{].*[\}"']$/.test(v)) renderPropCodeList.push(`${prop}=${v}`);
+      else renderPropCodeList.push(`${prop}="${v}"`);
+    } else if (isNumber(v)) {
+      renderPropCodeList.push(`${prop}={${v}}`);
+    } else if (isBoolean(v)) {
+      if (v) renderPropCodeList.push(`${prop}`);
+      else renderPropCodeList.push(`${prop}={false}`);
+    } else if (isNull(v)) {
+      renderPropCodeList.push(`${prop}={${v}}`);
+    }
+  }
+  return `<${InputColumn[type]}
+  ${renderPropCodeList.map((s) => `${s}`).join('\n  ')}
+/>
+`;
+};
+
 /** 根据输入的信息描述，生成`O2Table`的列代码 */
 export const o2ColGen = (props: CreateO2ColProp) => {
   const { descTable, textColumnIndex, codeColumnIndex, typeColumnIndex, intlPrefix } = props;
@@ -63,11 +106,10 @@ export const o2ColGen = (props: CreateO2ColProp) => {
       const field = camel(line[codeColumnIndex]);
       const name = line[textColumnIndex];
       const i18n = intlPrefix.endsWith('.') ? intlPrefix : `${intlPrefix}.`;
-      return `
-<${InputColumn[type]}
-  title={intl.get(\`${i18n}${field}\`).d('${name}')}
-  field="${field}"
-/>`;
+      return renderColumnCode({
+        type,
+        props: { title: `intl.get(\`${i18n}${field}\`).d('${name}')`, field },
+      });
     })
     .join('');
 };

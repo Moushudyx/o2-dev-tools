@@ -3,6 +3,7 @@
     display: inline-block;
     min-width: 8em;
     margin-right: 1rem;
+    margin-top: 0.5rem;
   }
   textarea {
     display: block;
@@ -11,7 +12,14 @@
     max-height: 100vh;
     resize: vertical;
   }
-  + .field {
-    margin-top: 0.5rem;
+}
+.span-btn {
+  user-select: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #9993;
+  }
+  &:active {
+    background-color: #9996;
   }
 }
