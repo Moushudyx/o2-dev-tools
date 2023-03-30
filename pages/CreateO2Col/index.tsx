@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-03-20 15:31:55
+ * @LastEditTime: 2023-03-30 17:41:26
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\CreateO2Col\index.tsx
@@ -25,8 +25,8 @@ supplement_status	补足单状态	Varchar	下拉框`
 );
 const defaultValue = {
   descTable: defaultDescTable,
-  textColumnIndex: read(`${storageKey}-textColumnIndex`, '0'),
-  codeColumnIndex: read(`${storageKey}-codeColumnIndex`, '1'),
+  textColumnIndex: read(`${storageKey}-textColumnIndex`, '1'),
+  codeColumnIndex: read(`${storageKey}-codeColumnIndex`, '0'),
   typeColumnIndex: read(`${storageKey}-typeColumnIndex`, '3'),
   intlPrefix: read(`${storageKey}-intlPrefix`, 'o2.xxx.xxx.model'),
 };
@@ -69,7 +69,7 @@ export default () => {
   return (
     <>
       <Container>
-        <SubTitle>生成O2Table的列代码</SubTitle>
+        <SubTitle>生成 O2Table 的列代码</SubTitle>
         <Para>
           <div className={styles.field} style={{ width: '50%', display: 'inline-block' }}>
             <label>字段名称索引</label>

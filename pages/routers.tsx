@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2022-09-30 15:06:16
+ * @LastEditTime: 2023-03-30 17:00:14
  * @Description: 路由配置文件
  */
 
@@ -17,6 +17,10 @@ const routers: MsRouteObject[] = [
       {
         path: '/create-o2-col',
         component: () => import('Pages/CreateO2Col')
+      },
+      {
+        path: '/icon-font-tool',
+        component: () => import('Pages/IconFont')
       },
       {
         path: '/about',

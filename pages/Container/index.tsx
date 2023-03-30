@@ -12,7 +12,8 @@ type MenuItemSetting = { name: string; link: string; options?: NavigateOptions }
 
 const menus: MenuItemSetting[] = [
   { name: '主页', link: '/' },
-  { name: '表格列代码生成器', link: '/create-o2-col' },
+  { name: '中台-表格列代码生成器', link: '/create-o2-col' },
+  { name: '商城-IconFont 转换工具', link: '/icon-font-tool' },
   { name: '关于', link: '/about' },
 ];
 
