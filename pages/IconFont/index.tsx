@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-03-30 16:59:03
- * @LastEditTime: 2023-03-30 20:15:49
+ * @LastEditTime: 2023-03-31 09:16:19
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\IconFont\index.tsx
@@ -99,6 +99,7 @@ const IconFont = () => {
               type="file"
               name="css + ttf"
               accept=".css, .ttf, .ttf2"
+              multiple
               onChange={(ev) => {
                 const list = Array.from((ev.target as HTMLInputElement).files || []);
                 void handleChange(list);
