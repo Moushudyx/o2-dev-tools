@@ -18,8 +18,8 @@
 script/*
 build/*
 dist/*
-www/*
-www/dist
+docs/*
+docs/dist
 src/assets
 LICENSE
 package-lock.json
