@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-03-30 16:59:03
- * @LastEditTime: 2023-04-07 14:26:52
+ * @LastEditTime: 2023-04-07 16:19:49
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\IconFont\index.tsx
@@ -9,13 +9,18 @@
 import { Container, Field, Para, SubTitle } from 'Components/Typo';
 import React, { useMemo, useReducer } from 'react';
 import { defer } from 'salt-lib';
-import styles from './index.mod.scss';
+import { loadAsync } from 'jszip';
 import { copy } from 'Utils/utils';
+import styles from './index.mod.scss';
 /** 截取 CSS 中配置部分 */
 const cutCss = (css: string) => css.slice(Math.max(0, css.indexOf('.iconfont')));
 
-const cutBase = (base: string) =>
-  `data:font/ttf;charset=utf-8;${base.slice(Math.max(0, base.indexOf('base64,')))}`;
+const cutBase = (base: string) => {
+  const sliceIndex = base.indexOf('base64,');
+  if (sliceIndex > -1) {
+    return `data:font/ttf;charset=utf-8;${base.slice(sliceIndex)}`;
+  } else return `data:font/ttf;charset=utf-8;base64,${base}`;
+};
 
 const readAsBase64 = (file: File) => {
   const dfd = defer<string>();
@@ -41,6 +46,20 @@ const readAsTxt = (file: File) => {
     dfd.reject();
   };
   return dfd.promise;
+};
+
+const readZip = async (file: File) => {
+  const res = { css: '', base: '' };
+  const zip = await loadAsync(file);
+  const fileList = Object.keys(zip.files);
+  for (const fileName of fileList) {
+    if (/(^|[\/\\])iconfont\.css/i.test(fileName)) {
+      res.css = await zip.files[fileName].async('string');
+    } else if (/(^|[\/\\])iconfont\.ttf/i.test(fileName)) {
+      res.base = await zip.files[fileName].async('base64');
+    }
+  }
+  return res;
 };
 
 const defaultValue = {
@@ -77,6 +96,10 @@ const IconFont = () => {
           map.css = cutCss(await readAsTxt(file));
         } else if (/\.ttf2?$/i.test(file.name)) {
           map.base = cutBase(await readAsBase64(file));
+        } else if (/\.zip$/i.test(file.name)) {
+          const { css, base } = await readZip(file);
+          if (css) map.css = cutCss(css);
+          if (base) map.base = cutBase(base);
         }
       }
       dispatch(map);
@@ -89,16 +112,23 @@ const IconFont = () => {
         <SubTitle>IconFont 转换工具</SubTitle>
         <Para>使用说明：</Para>
         <Para>在 IconFont 的项目页面点击“下载至本地”按钮下载压缩包</Para>
-        <Para>将压缩包中的 iconfont.css 和 iconfont.ttf 解压并上传到这里</Para>
+        <Para>
+          <del>
+            将压缩包中的<code>iconfont.css</code>和<code>iconfont.ttf</code>解压并上传到这里
+          </del>
+        </Para>
+        <Para>
+          将下载的压缩包<code>download.zip</code>直接上传到这里
+        </Para>
         <Para>最下面的文本框中的内容就是拼接后的样式表</Para>
         <hr />
         <Para>
           <Field>
-            <label>上传 iconfont.css 和 iconfont.ttf</label>
+            <label>上传 download.zip</label>
             <input
               type="file"
-              name="css + ttf"
-              accept=".css, .ttf, .ttf2"
+              name="css + ttf + zip"
+              accept=".css, .ttf, .ttf2, .zip"
               multiple
               onChange={(ev) => {
                 const list = Array.from((ev.target as HTMLInputElement).files || []);
@@ -118,7 +148,7 @@ const IconFont = () => {
             <label>
               合成后的 CSS
               <span className={styles['span-btn']} onClick={() => copy(state.out)} title="复制">
-                📋
+                📋复制
               </span>
             </label>
             <textarea value={state.out}></textarea>

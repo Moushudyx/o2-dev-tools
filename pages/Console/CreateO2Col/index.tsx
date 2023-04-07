@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-04-07 14:25:46
+ * @LastEditTime: 2023-04-07 15:57:12
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Col\index.tsx
@@ -95,7 +95,7 @@ export default () => {
             <label>
               生成代码
               <span className={styles['span-btn']} onClick={() => copy(output)} title="复制">
-                📋
+                📋复制
               </span>
             </label>
             <textarea value={output}></textarea>
