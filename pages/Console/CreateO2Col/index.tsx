@@ -1,17 +1,17 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-03-30 17:41:26
+ * @LastEditTime: 2023-04-07 14:25:46
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
- * @FilePath: \o2-dev-tools\pages\CreateO2Col\index.tsx
+ * @FilePath: \o2-dev-tools\pages\Console\CreateO2Col\index.tsx
  */
-import { Container, Para, SubTitle } from 'Components/Typo';
+import { Container, Field, Para, SubTitle } from 'Components/Typo';
 import React, { useReducer } from 'react';
 import { read, write } from 'Utils/localStorage';
+import { copy } from 'Utils/utils';
 import { o2ColGen } from './utils';
 import styles from './index.mod.scss';
-import { copy } from 'Utils/utils';
 
 const storageKey = 'CreateO2Col';
 const defaultDescTable = read(
@@ -71,27 +71,27 @@ export default () => {
       <Container>
         <SubTitle>生成 O2Table 的列代码</SubTitle>
         <Para>
-          <div className={styles.field} style={{ width: '50%', display: 'inline-block' }}>
+          <Field style={{ width: '50%', display: 'inline-block' }}>
             <label>字段名称索引</label>
             <input {...bindValue('textColumnIndex')}></input>
-          </div>
-          <div className={styles.field} style={{ width: '50%', display: 'inline-block' }}>
+          </Field>
+          <Field style={{ width: '50%', display: 'inline-block' }}>
             <label>字段编码索引</label>
             <input {...bindValue('codeColumnIndex')}></input>
-          </div>
-          <div className={styles.field} style={{ width: '50%', display: 'inline-block' }}>
+          </Field>
+          <Field style={{ width: '50%', display: 'inline-block' }}>
             <label>字段类型索引</label>
             <input {...bindValue('typeColumnIndex')}></input>
-          </div>
-          <div className={styles.field} style={{ width: '50%', display: 'inline-block' }}>
+          </Field>
+          <Field style={{ width: '50%', display: 'inline-block' }}>
             <label>多语言前缀</label>
             <input {...bindValue('intlPrefix')}></input>
-          </div>
-          <div className={styles.field}>
+          </Field>
+          <Field>
             <label>复制文档中描述字段的表格（以制表符分割的模式）</label>
             <textarea {...bindValue('descTable')}></textarea>
-          </div>
-          <div className={styles.field}>
+          </Field>
+          <Field>
             <label>
               生成代码
               <span className={styles['span-btn']} onClick={() => copy(output)} title="复制">
@@ -99,7 +99,7 @@ export default () => {
               </span>
             </label>
             <textarea value={output}></textarea>
-          </div>
+          </Field>
         </Para>
       </Container>
     </>

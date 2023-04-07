@@ -14,3 +14,10 @@ export const SubTitle: React.FC = (props) => (
   <h3 className={style['sub-title']}>{props.children}</h3>
 );
 export const Para: React.FC = (props) => <div className={style['text']}>{props.children}</div>;
+export const Field: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
+  <div
+    {...{ ...props, className: `${props.className || ''} ${style['field']}`, children: undefined }}
+  >
+    {props.children}
+  </div>
+);

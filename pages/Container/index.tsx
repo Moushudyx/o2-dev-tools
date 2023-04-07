@@ -4,18 +4,10 @@
  * @Description: 路由之外的容器
  */
 import React from 'react';
-import { useNavigate, useResolvedPath, useMatch, type NavigateOptions } from 'react-router-dom';
+import { useNavigate, useResolvedPath, useMatch } from 'react-router-dom';
 import { useNightMode } from 'Utils/utils';
+import { MenuItemSetting, menus } from 'Pages/routers';
 import styles from './index.mod.scss';
-
-type MenuItemSetting = { name: string; link: string; options?: NavigateOptions };
-
-const menus: MenuItemSetting[] = [
-  { name: '主页', link: '/' },
-  { name: '中台-表格列代码生成器', link: '/create-o2-col' },
-  { name: '商城-IconFont 转换工具', link: '/icon-font-tool' },
-  { name: '关于', link: '/about' },
-];
 
 const MenuItem: React.FC<{ setting: MenuItemSetting }> = (props) => {
   const { setting } = props;

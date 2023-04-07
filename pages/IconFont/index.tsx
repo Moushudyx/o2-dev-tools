@@ -1,12 +1,12 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-03-30 16:59:03
- * @LastEditTime: 2023-03-31 09:16:19
+ * @LastEditTime: 2023-04-07 14:26:52
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\IconFont\index.tsx
  */
-import { Container, Para, SubTitle } from 'Components/Typo';
+import { Container, Field, Para, SubTitle } from 'Components/Typo';
 import React, { useMemo, useReducer } from 'react';
 import { defer } from 'salt-lib';
 import styles from './index.mod.scss';
@@ -93,7 +93,7 @@ const IconFont = () => {
         <Para>最下面的文本框中的内容就是拼接后的样式表</Para>
         <hr />
         <Para>
-          <div className={styles.field}>
+          <Field>
             <label>上传 iconfont.css 和 iconfont.ttf</label>
             <input
               type="file"
@@ -105,16 +105,16 @@ const IconFont = () => {
                 void handleChange(list);
               }}
             />
-          </div>
-          <div className={styles.field}>
+          </Field>
+          <Field>
             <label>IconFont 的 CSS</label>
             <textarea value={state.css}></textarea>
-          </div>
-          <div className={styles.field}>
+          </Field>
+          <Field>
             <label>转换为 BASE64 的字体文件</label>
             <textarea value={state.base}></textarea>
-          </div>
-          <div className={styles.field}>
+          </Field>
+          <Field>
             <label>
               合成后的 CSS
               <span className={styles['span-btn']} onClick={() => copy(state.out)} title="复制">
@@ -122,7 +122,7 @@ const IconFont = () => {
               </span>
             </label>
             <textarea value={state.out}></textarea>
-          </div>
+          </Field>
         </Para>
       </Container>
     </>
