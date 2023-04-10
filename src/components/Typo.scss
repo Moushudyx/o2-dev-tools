@@ -2,24 +2,33 @@
 
 $font-size: 16px;
 
-.demo-container {
+.demo-typo-container {
   margin: auto;
   // max-width: min(90vw, 50 * $font-size); // min 方法比较新，老浏览器不兼容
   max-width: 50 * $font-size;
 }
-.title {
-  text-align: center;
-  font-size: 4 * $font-size;
-  margin-block-start: 0.5em;
-  margin-block-end: 0.5em;
-}
-.sub-title {
+.demo-typo-h2,
+.demo-typo-title {
   text-align: center;
   font-size: 2 * $font-size;
   margin-block-start: 0.6em;
-  margin-block-end: 0.6em;
+  margin-block-end: 0.4em;
 }
-.text {
+.demo-typo-h3,
+.demo-typo-sub-title {
+  text-align: center;
+  font-size: 1.5 * $font-size;
+  margin-block-start: 0.6em;
+  margin-block-end: 0.4em;
+}
+.demo-typo-h4,
+.demo-typo-sub-line {
+  font-size: 1.25 * $font-size;
+  margin-inline-start: 0.2em;
+  margin-block-start: 0.3em;
+  margin-block-end: 0.2em;
+}
+.demo-typo-text {
   font-size: $font-size;
   code,
   input,
@@ -43,12 +52,12 @@ $font-size: 16px;
     font-size: $font-size;
   }
 }
-.field {
+.demo-typo-field {
   margin-bottom: 0.2rem;
   label {
     display: inline-block;
     min-width: 8em;
-    margin: 0.2rem  1rem 0.2rem 0;
+    margin: 0.2rem 1rem 0.2rem 0;
   }
   textarea {
     display: block;
