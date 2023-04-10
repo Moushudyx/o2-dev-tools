@@ -5,7 +5,7 @@ $font-size: 16px;
 .demo-typo-container {
   margin: auto;
   // max-width: min(90vw, 50 * $font-size); // min 方法比较新，老浏览器不兼容
-  max-width: 50 * $font-size;
+  max-width: 64 * $font-size;
 }
 .demo-typo-h2,
 .demo-typo-title {

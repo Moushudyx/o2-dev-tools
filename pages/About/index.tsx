@@ -1,8 +1,8 @@
 /*
- * @LastEditTime: 2023-04-07 15:31:38
+ * @LastEditTime: 2023-04-10 10:30:11
  * @Description: “关于”页面
  */
-import { Container, Para, SubTitle } from 'Components/Typo';
+import { Container, Para, SubLine, SubTitle } from 'Components/Typo';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import style from './index.module.scss';
@@ -80,10 +80,8 @@ export default () => {
   return (
     <Container>
       <SubTitle>关于 O2 开发工具</SubTitle>
-      <Para>
-        开源软件
-        {creditPara}
-      </Para>
+      <SubLine>开源软件</SubLine>
+      {creditPara}
       <Link to="/">跳转到主页</Link>
     </Container>
   );
