@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 13:34:39
- * @LastEditTime: 2023-04-11 11:02:08
+ * @LastEditTime: 2023-04-11 11:43:59
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\codeConvert.ts
@@ -20,7 +20,7 @@ const getPrefixConfigReg =
   /(?<!\/\/\s*)import\s*\{\s*([^}]+)\s*\}\s*from\s*["'](?:o2-front\/(?:src|lib)\/utils|o2Utils)\/config["']/;
 /** 匹配`import { XXX } from 'o2Utils/o2Utils';` */
 const getO2UtilsReg =
-  /(?<!\/\/\s*)import\s*\{\s*([^}]+)\s*\}\s*from\s*["'](?:o2-front\/(?:src|lib)\/utils|o2Utils)\/o2Utils["']/;
+  /(?<!\/\/\s*)import\s*\{\s*([^}]+)\s*\}\s*from\s*["'](?:o2-front\/(?:src|lib)\/utils|o2Utils)\/o2Utils["'];?/;
 const getPrefixMapReg = (name: string) =>
   new RegExp(`(?:var|let|const)\\s*(\\S+)\\s*=\\s*(${name}|\`\\$\\{${name}\\}\`)`);
 
@@ -112,8 +112,8 @@ function getPagePrefixVersion(
  */
 function getCodeMaps(code: string) {
   const prefixMap: { [prefix: string]: string } = {};
-  if(!code.match(getPrefixConfigReg)) return (console.log(code), prefixMap);
-  const knownPrefix = (code.match(getPrefixConfigReg) || ['',''])[1].replace(/\s/g, '').split(',');
+  if (!code.match(getPrefixConfigReg)) return prefixMap;
+  const knownPrefix = (code.match(getPrefixConfigReg) || ['', ''])[1].replace(/\s/g, '').split(',');
   knownPrefix.forEach((p) => {
     const match = code.match(getPrefixMapReg(p));
     if (match) prefixMap[match[1]] = p;

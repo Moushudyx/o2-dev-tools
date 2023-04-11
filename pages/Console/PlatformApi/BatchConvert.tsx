@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 18:12:06
- * @LastEditTime: 2023-04-11 11:15:43
+ * @LastEditTime: 2023-04-11 11:52:44
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\BatchConvert.tsx
@@ -13,27 +13,39 @@ import { codeConvert, needConvert } from './codeConvert';
 import { copy } from 'Utils/utils';
 import styles from './index.mod.scss';
 
-type FileData = { fullPath: string; raw: string; convert: string; needConvert: boolean };
-type FileTree = { children?: { [path: string]: FileTree }; data?: FileData; needConvert: boolean };
+type FileData = {
+  fullPath: string;
+  raw: string;
+  convert: string;
+  needConvert: boolean;
+  problem: boolean;
+};
+type FileTree = {
+  children?: { [path: string]: FileTree };
+  data?: FileData;
+  needConvert: boolean;
+  problem: boolean;
+};
 
 const validFileReg = /\.([tj]sx?|m[tj]s)$/i;
 
 const convertFileTree = (data: { [path: string]: FileData }): FileTree => {
-  const tree: FileTree = { children: {}, needConvert: false };
-  const findPath = (path: string, needConvert: boolean): FileTree => {
+  const tree: FileTree = { children: {}, needConvert: false, problem: false };
+  const findPath = (path: string, needConvert: boolean, problem: boolean): FileTree => {
     const paths = path.split('/');
     let t = tree;
     for (const p of paths) {
       if (needConvert) t.needConvert = needConvert;
-      if (!t.children) t.children = { [p]: { needConvert } };
+      if (problem) t.problem = problem;
+      if (!t.children) t.children = { [p]: { needConvert, problem } };
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      else if (!t.children[p]) t.children[p] = { needConvert };
+      else if (!t.children[p]) t.children[p] = { needConvert, problem };
       t = t.children[p];
     }
     return t;
   };
   Object.keys(data).forEach((p) => {
-    findPath(p, data[p].needConvert).data = data[p];
+    findPath(p, data[p].needConvert, data[p].problem).data = data[p];
   });
   return tree;
 };
@@ -58,7 +70,7 @@ const FileTreeNode = (props: {
   handleClick: (data: FileData) => unknown;
 }) => {
   const { fileTree, name, depth, handleClick } = props;
-  const { children = {}, data, needConvert: treeNeedConvert } = fileTree;
+  const { children = {}, data, needConvert, problem } = fileTree;
   const [collapse, setCollapse] = useState(depth > 1);
   if (data) {
     return (
@@ -66,6 +78,7 @@ const FileTreeNode = (props: {
         <label>
           {name}
           {data.needConvert && '🍉'}
+          {data.problem && '❌'}
         </label>
       </Field>
     );
@@ -86,7 +99,8 @@ const FileTreeNode = (props: {
         <label title={collapse ? '点击展开' : '点击收起'} onClick={() => setCollapse(!collapse)}>
           {name}
           {collapse && `(${childrenList.length})`}
-          {treeNeedConvert && '🍊'}
+          {needConvert && '🍊'}
+          {problem && '❌'}
         </label>
         {childrenList}
       </Field>
@@ -107,7 +121,8 @@ const BatchConvert = () => {
       const raw = await readAsTxt(file);
       const nc = needConvert(raw);
       const convert = nc ? codeConvert(raw)[0] : raw;
-      map[fullPath] = { fullPath, raw, convert, needConvert: nc };
+      const problem = !nc && raw.includes('getCurrentOrganizationId');
+      map[fullPath] = { fullPath, raw, convert, needConvert: nc, problem };
     }
     setFileList(convertFileTree(map));
     if (name in map) {
@@ -135,7 +150,7 @@ const BatchConvert = () => {
         上传文件夹，此工具将自动辨认哪些文件需要处理（仅处理<code>.js</code>、<code>.ts</code>、
         <code>.jsx</code>、<code>.tsx</code>等代码文件）
       </Para>
-      <Para>注：🍊，此文件夹有需要处理的文件；🍉，此文件需要处理</Para>
+      <Para>注：🍊，此文件夹有需要处理的文件；🍉，此文件需要处理；❌，此文件没能正确转换请检查</Para>
       <Para>
         <Field>
           <label>上传文件夹</label>
