@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 13:34:39
- * @LastEditTime: 2023-04-11 11:43:59
+ * @LastEditTime: 2023-04-17 18:40:48
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\codeConvert.ts
@@ -20,7 +20,7 @@ const getPrefixConfigReg =
   /(?<!\/\/\s*)import\s*\{\s*([^}]+)\s*\}\s*from\s*["'](?:o2-front\/(?:src|lib)\/utils|o2Utils)\/config["']/;
 /** 匹配`import { XXX } from 'o2Utils/o2Utils';` */
 const getO2UtilsReg =
-  /(?<!\/\/\s*)import\s*\{\s*([^}]+)\s*\}\s*from\s*["'](?:o2-front\/(?:src|lib)\/utils|o2Utils)\/o2Utils["'];?/;
+  /(?<!\/\/\s*)import\s*\{\s*([^}]+?),?\s*\}\s*from\s*["'](?:o2-front\/(?:src|lib)\/utils|o2Utils)\/o2Utils["'];?/;
 const getPrefixMapReg = (name: string) =>
   new RegExp(`(?:var|let|const)\\s*(\\S+)\\s*=\\s*(${name}|\`\\$\\{${name}\\}\`)`);
 
@@ -128,15 +128,7 @@ function importUrlFactory(code: string, options: replaceUrlOptions): [string, st
   let _code = code;
   const res: string[] = [];
   let codeList = _code.split('\n');
-  /** 用于在所有已有 import 的后面加东西 */
-  const getImportLine = () => {
-    let res = 0;
-    for (let i = 0; i < codeList.length; i++) {
-      if (/\}\s*from\s*["']\S+["'];*\s*$/.test(codeList[i]) && !/^\s*\/\//.test(codeList[i]))
-        res = i;
-    }
-    return res + 1;
-  };
+  // 引入 platformUrlFactory
   if (_code.match(getO2UtilsReg)) {
     _code = _code.replace(
       getO2UtilsReg,
@@ -144,16 +136,30 @@ function importUrlFactory(code: string, options: replaceUrlOptions): [string, st
     );
     codeList = _code.split('\n');
   } else {
-    codeList.splice(getImportLine(), 0, `import { platformUrlFactory } from 'o2Utils/o2Utils';`);
+    codeList.splice(getImportLine(_code, 'import'), 0, `import { platformUrlFactory } from 'o2Utils/o2Utils';`);
   }
+  _code = codeList.join('\n');
   const { basePrefix, baseVersion } = options;
   const getPlatformUrlLine =
     baseVersion === defaultBaseVersion
       ? `const getPlatformUrl = platformUrlFactory(${basePrefix});`
       : `const getPlatformUrl = platformUrlFactory({ prefix: ${basePrefix}, version: \`${baseVersion}\` });`;
-  codeList.splice(getImportLine(), 0, '', getPlatformUrlLine);
+  codeList.splice(getImportLine(_code, 'code-start'), 0, getPlatformUrlLine);
   _code = codeList.join('\n');
   return [_code, res];
+}
+function getImportLine(code: string, type: 'code-start' | 'import-end' | 'import') {
+  const lines = code.split('\n');
+  /** 是否计入`import './index.less'`这种 */
+  const readImportFile = type === 'import-end' || type === 'code-start';
+  let i = 0;
+  lines.forEach((line, index) => {
+    if (/^\s*\/\//.test(line)) return;
+    if (/\}\s*from\s*["']\S+["'];*\s*$/.test(line)) i = index;
+    if (readImportFile && /^\s*import\s*["']\S+["'];*\s*$/.test(line)) i = index;
+  });
+  i += type === 'code-start' ? 2 : 1;
+  return i;
 }
 /**
  * 内部方法，将代码中所有\

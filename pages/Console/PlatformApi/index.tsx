@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-07 14:11:12
- * @LastEditTime: 2023-04-11 11:18:11
+ * @LastEditTime: 2023-04-17 18:05:08
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\index.tsx
@@ -25,7 +25,7 @@ export default function PlatformApi() {
         </Para>
         <Para>利用下列工具达成目的，记得自测和联调</Para>
         <hr />
-        <SubLine>手动处理</SubLine>
+        <SubLine>常用代码</SubLine>
         {CopyList}
         <hr />
         <SubLine>单文件处理（需要浏览器支持 ES9 否则报错）</SubLine>

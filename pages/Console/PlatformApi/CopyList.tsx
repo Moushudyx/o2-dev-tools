@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 15:02:13
- * @LastEditTime: 2023-04-11 09:34:25
+ * @LastEditTime: 2023-04-17 18:42:19
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\CopyList.tsx
@@ -32,9 +32,14 @@ const copyList = [
     title: '从 o2Utils/o2Utils 引入 isTenantRoleLevel',
     code: `import { isTenantRoleLevel } from 'utils/utils';`,
   },
+  {
+    text: '调用 isTenantRoleLevel 生成 isTenant',
+    title: 'isTenantRoleLevel() 生成一个 isTenant',
+    code: `const isTenant = isTenantRoleLevel();`,
+  },
 ];
 export const CopyList = copyList.map(({ text, title, code }) => (
   <Para key={code} className={styles['copy-list-item']} onClick={() => copy(code)} title={title}>
-    📋复制代码：{text}
+    <small className={styles['copy-list-item-right']}>📋点击复制</small>{text}
   </Para>
 ));

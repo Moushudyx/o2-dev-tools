@@ -1,8 +1,21 @@
 .copy-list-item {
-  padding: 8px 16px;
+  display: inline-block;
+  position: relative;
+  width: 50%;
+  padding: 4px 8px;
+  box-sizing: border-box;
   cursor: pointer;
+  .copy-list-item-right {
+    opacity: 0;
+    position: absolute;
+    right: 10%;
+    transition: opacity 60ms ease;
+  }
   &:hover {
-    background-color: #9991;
+    background-color: #39f1;
+    .copy-list-item-right {
+      opacity: 1;
+    }
   }
 }
 .span-btn {
