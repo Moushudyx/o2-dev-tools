@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 15:02:13
- * @LastEditTime: 2023-04-19 15:05:51
+ * @LastEditTime: 2023-04-19 15:41:40
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\CopyList.tsx
@@ -54,13 +54,15 @@ const copyList = [
   },
   {
     text: '引入 O2ColumnSource',
-    title: '从 o2Components 引入 O2ColumnSource',
-    code: `import O2ColumnSource from 'o2Components/O2ColumnSource';`,
+    title: '从 o2Components 引入 O2ColumnSource，此列不能出现在 0 租户的租户级页面上',
+    code: `import O2ColumnSource from 'o2Components/O2ColumnSource';
+
+const { isUserTenant } = O2ColumnSource;`,
   },
   {
     text: '调用 O2ColumnSource',
-    title: '使用 O2ColumnSource',
-    code: `{isTenant && <O2ColumnSource disappearInFormEditor />}`,
+    title: 'isUserTenant() 和 isTenant 有区别，后者会出现在 0 租户的租户级页面上',
+    code: `{isUserTenant() && <O2ColumnSource disappearInFormEditor />}`,
   },
 ];
 export const CopyList = copyList.map(({ text, title, code }) => (
