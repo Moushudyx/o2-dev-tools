@@ -1,10 +1,10 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2023-03-20 15:47:30
+ * @LastEditTime: 2023-04-20 14:49:49
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
- * @FilePath: \o2-dev-tools\pages\CreateO2Col\utils.ts
+ * @FilePath: \o2-dev-tools\pages\Console\CreateO2Col\utils.ts
  */
 import { isString, isNumber, isBoolean, isNull } from 'salt-lib';
 
@@ -70,6 +70,7 @@ const renderColumnCode = (options: { type: string; props: { [prop: string]: unkn
     if (isDefaultValue(prop, v)) continue;
     if (isString(v)) {
       if (/^["'\{].*[\}"']$/.test(v)) renderPropCodeList.push(`${prop}=${v}`);
+      else if (/^[^"'\{].*\..*[^\}"']$/.test(v)) renderPropCodeList.push(`${prop}={${v}}`);
       else renderPropCodeList.push(`${prop}="${v}"`);
     } else if (isNumber(v)) {
       renderPropCodeList.push(`${prop}={${v}}`);
