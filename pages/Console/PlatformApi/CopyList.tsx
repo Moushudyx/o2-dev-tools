@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 15:02:13
- * @LastEditTime: 2023-04-19 15:41:40
+ * @LastEditTime: 2023-04-23 16:47:57
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\CopyList.tsx
@@ -28,11 +28,11 @@ const copyList = [
     code: `getPlatformUrl(/* 接口路径中“租户ID/”后面的部分 */)`,
   },
   {
-    text: '商户名称列',
-    title: '使用 O2ColumnLovView 的商户名称列',
+    text: '商家名称列',
+    title: '使用 O2ColumnLovView 的商家名称列',
     code: `{!isTenant && (
   <O2ColumnLovView
-    title={intl.get('o2.多语言前缀.model.tenantName').d('商户名称')}
+    title={intl.get('o2.多语言前缀.model.tenantName').d('商家名称')}
     field="tenantId"
     showKey="tenantName"
     map={{ tenantId: 'tenantId', tenantName: 'tenantName', tenantNum: 'tenantNum' }}
