@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2022-03-10 15:31:03
+ * @LastEditTime: 2023-04-23 11:17:10
  * @Description: file content
  */
 export {
@@ -47,4 +47,17 @@ export function copy(txt: string) {
   // 移除 textarea 不影响 DOM 结构
   textarea.remove();
   return success;
+}
+
+export function download(file: File) {
+    const anchor = document.createElement("a");
+    const objectUrl = URL.createObjectURL(file);
+
+    anchor.href = objectUrl;
+    anchor.download = file.name;
+    document.body.appendChild(anchor);
+    anchor.click();
+
+    document.body.removeChild(anchor);
+    URL.revokeObjectURL(objectUrl);
 }

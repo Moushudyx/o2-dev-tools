@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 18:12:06
- * @LastEditTime: 2023-04-11 11:52:44
+ * @LastEditTime: 2023-04-23 11:20:23
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\BatchConvert.tsx
@@ -12,43 +12,9 @@ import { defer } from 'salt-lib';
 import { codeConvert, needConvert } from './codeConvert';
 import { copy } from 'Utils/utils';
 import styles from './index.mod.scss';
-
-type FileData = {
-  fullPath: string;
-  raw: string;
-  convert: string;
-  needConvert: boolean;
-  problem: boolean;
-};
-type FileTree = {
-  children?: { [path: string]: FileTree };
-  data?: FileData;
-  needConvert: boolean;
-  problem: boolean;
-};
+import { FileData, FileTree, convertFileTree, convertZipFile, saveZip } from './fileUtils';
 
 const validFileReg = /\.([tj]sx?|m[tj]s)$/i;
-
-const convertFileTree = (data: { [path: string]: FileData }): FileTree => {
-  const tree: FileTree = { children: {}, needConvert: false, problem: false };
-  const findPath = (path: string, needConvert: boolean, problem: boolean): FileTree => {
-    const paths = path.split('/');
-    let t = tree;
-    for (const p of paths) {
-      if (needConvert) t.needConvert = needConvert;
-      if (problem) t.problem = problem;
-      if (!t.children) t.children = { [p]: { needConvert, problem } };
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      else if (!t.children[p]) t.children[p] = { needConvert, problem };
-      t = t.children[p];
-    }
-    return t;
-  };
-  Object.keys(data).forEach((p) => {
-    findPath(p, data[p].needConvert, data[p].problem).data = data[p];
-  });
-  return tree;
-};
 
 const readAsTxt = (file: File) => {
   const dfd = defer<string>();
@@ -111,7 +77,7 @@ const FileTreeNode = (props: {
 const BatchConvert = () => {
   const [txt, setTxt] = useState('');
   const [name, setName] = useState('');
-  const [hide, setHide] = useState(false);
+  const [hide /* , setHide */] = useState(false);
   const [fileList, setFileList] = useState({} as FileTree);
   const handleChange = async (list: File[]) => {
     const map = {} as { [path: string]: FileData };
@@ -150,7 +116,9 @@ const BatchConvert = () => {
         上传文件夹，此工具将自动辨认哪些文件需要处理（仅处理<code>.js</code>、<code>.ts</code>、
         <code>.jsx</code>、<code>.tsx</code>等代码文件）
       </Para>
-      <Para>注：🍊，此文件夹有需要处理的文件；🍉，此文件需要处理；❌，此文件没能正确转换请检查</Para>
+      <Para>
+        注：🍊，此文件夹有需要处理的文件；🍉，此文件需要处理；❌，此文件没能正确转换请检查
+      </Para>
       <Para>
         <Field>
           <label>上传文件夹</label>
@@ -165,6 +133,13 @@ const BatchConvert = () => {
               void handleChange(list);
             }}
           />
+          <button
+            onClick={() => {
+              void saveZip(convertZipFile(fileList));
+            }}
+          >
+            下载转换后的 zip 文件
+          </button>
         </Field>
       </Para>
       {renderFileList}
