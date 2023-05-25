@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 13:34:39
- * @LastEditTime: 2023-04-17 18:40:48
+ * @LastEditTime: 2023-05-25 16:03:53
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\codeConvert.ts
@@ -13,8 +13,8 @@ type replaceUrlOptions = {
   tenantMap: string[];
 };
 
-const getApiReg = /\`\$\{\s*([^}]+)\s*\}\/([^$]+)\/\$\{\s*([^}]+)\s*\}\/(\S+)\`/i;
-const getAllApiReg = /\`\$\{\s*([^}]+)\s*\}\/([^$]+)\/\$\{\s*([^}]+)\s*\}\/(\S+)\`/gi;
+const getApiReg = /\`\$\{\s*([^}]+)\s*\}\/([^$]+)\/(\$\{\s*[^}]+\s*\}|\d+)\/(\S+)\`/i;
+const getAllApiReg = new RegExp(getApiReg, 'gi');
 /** 匹配`import { XXX } from 'o2Utils/config';` */
 const getPrefixConfigReg =
   /(?<!\/\/\s*)import\s*\{\s*([^}]+)\s*\}\s*from\s*["'](?:o2-front\/(?:src|lib)\/utils|o2Utils)\/config["']/;
@@ -136,7 +136,11 @@ function importUrlFactory(code: string, options: replaceUrlOptions): [string, st
     );
     codeList = _code.split('\n');
   } else {
-    codeList.splice(getImportLine(_code, 'import'), 0, `import { platformUrlFactory } from 'o2Utils/o2Utils';`);
+    codeList.splice(
+      getImportLine(_code, 'import'),
+      0,
+      `import { platformUrlFactory } from 'o2Utils/o2Utils';`
+    );
   }
   _code = codeList.join('\n');
   const { basePrefix, baseVersion } = options;
@@ -187,7 +191,9 @@ function generatePlatformUrl(code: string, options: replaceUrlOptions) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, prefix, version, tenantId, path] = match;
   // eslint-disable-next-line no-console
-  if (!tenantMap.includes(tenantId)) console.error('未知的“租户ID”获取方式: ', tenantId);
+  if (!tenantMap.includes(tenantId.replace(/^\$\{\s*/, '').replace(/\s*\}$/, ''))) {
+    console.error('未知的“租户ID”获取方式: ', tenantId);
+  }
   const needPrefix = !(prefix === basePrefix || prefixMap[prefix] === basePrefix);
   const needVersion = version !== baseVersion;
   const getPlatformUrlOptions: string[] = [];
