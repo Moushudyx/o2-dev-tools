@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-04-23 11:17:10
+ * @LastEditTime: 2023-05-31 16:12:16
  * @Description: file content
  */
 export {
@@ -28,10 +28,7 @@ export { toggleNightMode, isNightMode, useNightMode } from './nightMode';
 // 创建 textarea 元素
 const textarea = document.createElement('textarea');
 // 用样式表隐藏元素
-textarea.setAttribute(
-  'style',
-  'position:fixed;top:0;opacity:0;pointer-events:none;'
-);
+textarea.setAttribute('style', 'position:fixed;top:0;opacity:0;pointer-events:none;');
 
 function checkTextarea(txt: string) {
   // 输入校验
@@ -50,14 +47,54 @@ export function copy(txt: string) {
 }
 
 export function download(file: File) {
-    const anchor = document.createElement("a");
-    const objectUrl = URL.createObjectURL(file);
+  const anchor = document.createElement('a');
+  const objectUrl = URL.createObjectURL(file);
 
-    anchor.href = objectUrl;
-    anchor.download = file.name;
-    document.body.appendChild(anchor);
-    anchor.click();
+  anchor.href = objectUrl;
+  anchor.download = file.name;
+  document.body.appendChild(anchor);
+  anchor.click();
 
-    document.body.removeChild(anchor);
-    URL.revokeObjectURL(objectUrl);
+  document.body.removeChild(anchor);
+  URL.revokeObjectURL(objectUrl);
+}
+/** 防抖 */
+export function debounce(fn: () => unknown, delay?: number, immediate?: boolean): () => void;
+export function debounce<T>(
+  fn: (...args: T[]) => unknown,
+  delay?: number,
+  immediate?: boolean
+): (...args: T[]) => void;
+export function debounce<T>(
+  fn: (...args: T[]) => unknown,
+  delay = 120,
+  immediate = false
+): (...args: T[]) => void {
+  if (immediate) {
+    let last = 0;
+    let timeout: number | undefined;
+    return function (...args: T[]) {
+      const now = Date.now();
+      const timeDiff = now - last;
+      if (timeDiff >= delay) {
+        last = now;
+        clearTimeout(timeout);
+        fn(...args);
+      } else {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          fn(...args);
+        }, timeDiff);
+      }
+    };
+  } else {
+    let timer = 0;
+    return (...args: T[]) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn(...args);
+        timer = 0;
+      }, delay);
+    };
+  }
 }

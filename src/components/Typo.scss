@@ -7,6 +7,46 @@ $font-size: 16px;
   // max-width: min(90vw, 50 * $font-size); // min 方法比较新，老浏览器不兼容
   max-width: 64 * $font-size;
 }
+.demo-typo-collapse {
+  &-header {
+    padding: 8px 16px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-line {
+      font-size: $font-size;
+    }
+    &-button {
+      padding: $font-size * 0.125 $font-size * 0.25;
+      font-size: $font-size * 0.75;
+      user-select: none;
+      cursor: pointer;
+      &:hover {
+        background-color: #9991;
+      }
+      &:active {
+        background-color: #9992;
+      }
+    }
+  }
+  &-body-container {
+    overflow: hidden;
+    transition: all 240ms ease;
+    box-sizing: border-box;
+    .demo-typo-collapse-body {
+      padding: 8px 16px;
+    }
+  }
+  &.hide {
+    .demo-typo-collapse-body-container {
+      transform-origin: center 0;
+      transform: scaleY(0);
+      opacity: 0;
+      max-height: 0 !important;
+    }
+  }
+}
 .demo-typo-h2,
 .demo-typo-title {
   text-align: center;

@@ -1,0 +1,41 @@
+.pack-ver-item {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 4px 8px;
+  &-name,
+  &-info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    padding: 2px 4px;
+    &:hover {
+      background-color: #6cf2;
+      .pack-ver-item-btn {
+        opacity: 1;
+      }
+    }
+    .pack-ver-item-btn {
+      padding: 0 8px;
+      opacity: 0;
+      user-select: none;
+      cursor: pointer;
+      transition: all 120ms ease;
+      &:hover {
+        background-color: #6cf1;
+      }
+      &:active {
+        background-color: #6cf2;
+      }
+    }
+  }
+  &-name {
+    min-width: 300px;
+  }
+  &-info {
+    width: 100%;
+    min-width: 128px;
+  }
+  &:hover {
+    background-color: #9df2;
+  }
+}

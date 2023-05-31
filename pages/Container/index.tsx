@@ -8,22 +8,49 @@ import { useNavigate, useResolvedPath, useMatch } from 'react-router-dom';
 import { useNightMode } from 'Utils/utils';
 import { MenuItemSetting, menus } from 'Pages/routers';
 import styles from './index.mod.scss';
+import { Collapse } from 'Components/Typo';
+
+const GroupItem: React.FC<{ menus: MenuItemSetting[] }> = (props) => {
+  const { menus } = props;
+  return (
+    <>
+      {menus.map((menu) => (
+        <MenuItem key={menu.isGroup ? menu.name : menu.link} setting={menu} />
+      ))}
+    </>
+  );
+};
 
 const MenuItem: React.FC<{ setting: MenuItemSetting }> = (props) => {
   const { setting } = props;
-  const nav = useNavigate();
-  const resolved = useResolvedPath(setting.link);
-  const match = useMatch({ path: resolved.pathname, end: true });
-  return (
-    <div
-      className={`${styles['left-menu-item']}${match ? ' active' : ''}`}
-      onClick={() => {
-        if (!match) nav(setting.link, setting.options);
-      }}
-    >
-      {setting.name}
-    </div>
-  );
+  const { name, isGroup } = setting;
+  if (isGroup) {
+    const { children } = setting;
+    return (
+      <Collapse
+        header={name}
+        headerContainerProps={{ style: { height: '2em', padding: '0 0 0 12px' } }}
+        bodyProps={{ style: { padding: '2px 0 2px 12px' } }}
+      >
+        <GroupItem menus={children} />
+      </Collapse>
+    );
+  } else {
+    const { link, options } = setting;
+    const nav = useNavigate();
+    const resolved = useResolvedPath(link);
+    const match = useMatch({ path: resolved.pathname, end: true });
+    return (
+      <div
+        className={`${styles['left-menu-item']}${match ? ' active' : ''}`}
+        onClick={() => {
+          if (!match) nav(link, options);
+        }}
+      >
+        {name}
+      </div>
+    );
+  }
 };
 
 const Container: React.FC = (props) => {
@@ -39,9 +66,7 @@ const Container: React.FC = (props) => {
   );
   const Menu = (
     <div className={styles['left-menu']}>
-      {menus.map((menu) => (
-        <MenuItem key={menu.link} setting={menu} />
-      ))}
+      <GroupItem menus={menus} />
     </div>
   );
   return (
