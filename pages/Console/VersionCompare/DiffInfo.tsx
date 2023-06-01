@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-05-31 17:57:20
- * @LastEditTime: 2023-05-31 18:08:48
+ * @LastEditTime: 2023-06-01 10:06:36
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\VersionCompare\DiffInfo.tsx
@@ -42,10 +42,10 @@ export function DiffInfo(props: { code: string; info: CompareResult }) {
             </>
           }
         >
-          {Object.keys(info.add).map((name) => (
+          {Object.keys(info.remove).map((name) => (
             <Field className={styles['pack-ver-item']}>
               <Info className={styles['pack-ver-item-name']} text={name} />
-              <Info className={styles['pack-ver-item-info']} text={info.add[name]} />
+              <Info className={styles['pack-ver-item-info']} text={info.remove[name]} />
             </Field>
           ))}
         </Collapse>
@@ -58,10 +58,10 @@ export function DiffInfo(props: { code: string; info: CompareResult }) {
             </>
           }
         >
-          {Object.keys(info.remove).map((name) => (
+          {Object.keys(info.add).map((name) => (
             <Field className={styles['pack-ver-item']}>
               <Info className={styles['pack-ver-item-name']} text={name} />
-              <Info className={styles['pack-ver-item-info']} text={info.remove[name]} />
+              <Info className={styles['pack-ver-item-info']} text={info.add[name]} />
             </Field>
           ))}
         </Collapse>
