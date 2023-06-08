@@ -1,14 +1,14 @@
 /*
- * @LastEditTime: 2023-06-07 15:18:05
+ * @LastEditTime: 2023-06-08 16:49:53
  * @Description: 演示页面
  */
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import { Container, Title, SubTitle, Para } from 'Components/Typo';
-import style from './index.module.scss';
+import { Container, SubTitle, Para } from 'Components/Typo';
+// import style from './index.module.scss';
 
 export default () => (
-  <div className={style['demo']}>
+  <>
     <Container>
       <SubTitle>O2 开发工具</SubTitle>
       <Para>左侧是可用的前端开发辅助工具。</Para>
@@ -25,5 +25,5 @@ export default () => (
         <Link to="/about">跳转到“关于”页</Link>
       </Para> */}
     </Container>
-  </div>
+  </>
 );

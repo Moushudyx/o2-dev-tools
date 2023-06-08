@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-06-07 15:29:22
+ * @LastEditTime: 2023-06-08 15:47:01
  * @Description: 路由配置文件
  */
 
@@ -18,9 +18,9 @@ export const menus: MenuItemSetting[] = [
     isGroup: true,
     children: [
       // { name: '表格列代码生成器', link: '/create-o2-col' },
-      { name: '代码模板工具(开发中)', link: '/template-code' },
       { name: 'BBC 改造工具', link: '/platform-api' },
-      { name: '比对依赖版本', link: '/version-compare' },
+      { name: '比对 package.json', link: '/version-compare' },
+      { name: '模板生成代码(开发中)', link: '/template-code' },
       { name: '代码处理工具(开发中)', link: '/code-tools' },
     ],
   },
@@ -32,7 +32,7 @@ export const menus: MenuItemSetting[] = [
   {
     name: 'Link 中台(开发中)',
     isGroup: true,
-    children: [{ name: '字段生成工具', link: '/link-create-field' }],
+    children: [{ name: '页面字段生成工具', link: '/link-create-field' }],
   },
   // { name: '关于', link: '/about' },
 ];
