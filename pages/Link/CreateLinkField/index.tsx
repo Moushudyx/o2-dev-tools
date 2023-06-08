@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-06-08 15:56:08
+ * @LastEditTime: 2023-06-08 18:11:31
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\index.tsx
@@ -14,6 +14,7 @@ import { intelligentHeadRead } from './intelligent';
 import { isNumber } from 'salt-lib';
 import './index.scss';
 import { Output } from './Output';
+import Switch from 'Components/Switch';
 
 const storageKey = 'CreateLinkField';
 const defaultDescTable = read(
@@ -45,6 +46,7 @@ const defaultValue = {
     '业务字段名	字段类型	字段长度	录入方式	是否必需	是否可编辑	业务含义／规则	值列表类型	值列表可选值	默认值	DB表名	DB字段名称'
   ),
   pageCode: read(`${storageKey}-pageCode`, 'clue'),
+  ignoreNoCode: read(`${storageKey}-ignoreNoCode`, true),
 };
 
 export default () => {
@@ -58,14 +60,25 @@ export default () => {
     { ...defaultValue }
   );
   const [isEditable, setIsEditable] = useState(read(`${storageKey}-isEditable`, true));
-  const bindValue = (key: keyof typeof defaultValue) => ({
-    value: state[key],
-    onInput: (ev: { target: EventTarget | null }) => {
-      const { target } = ev;
-      if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement)) return;
-      dispatch({ [key]: target.value || '' });
-    },
-  });
+  const bindValue: <T extends keyof typeof defaultValue>(
+    key: T
+  ) => { value: (typeof defaultValue)[T] } = (key) => {
+    const _type = typeof state[key] as 'boolean' | 'string';
+    const defaultValue = ((type) => {
+      if (type === 'boolean') return false;
+      else return '';
+    })(_type);
+    console.log(key, state[key]);
+    return {
+      value: state[key],
+      onInput: (ev: { target: EventTarget | null }) => {
+        const { target } = ev;
+        console.log(target, target?.value);
+        if (!target || !('value' in target)) return;
+        dispatch({ [key]: target.value || defaultValue });
+      },
+    };
+  };
   const computedProps =
     state.descTable &&
     isFinite(+state.textColumnIndex) &&
@@ -139,7 +152,11 @@ export default () => {
         </Para>
         <hr />
         <Para>
-          在下面的表单中填写应该从第几列读取指定数据（或者点击上面的“智能读取”按钮自动填写）
+          <Field>
+            <label>
+              在下面的表单中填写应该从第几列读取指定数据（或者点击上面的“智能读取”按钮自动填写）
+            </label>
+          </Field>
           <Field className="half-field">
             <label>字段名称</label>
             <input {...bindValue('textColumnIndex')}></input>
@@ -210,7 +227,15 @@ export default () => {
             <label>页面编码</label>
             <input {...bindValue('pageCode')}></input>
           </Field>
-          <Output pageCode={state.pageCode} FieldProps={computedProps} />
+          <Field className="half-field">
+            <label>忽略没有获取到编码的字段</label>
+            <Switch {...bindValue('ignoreNoCode')}></Switch>
+          </Field>
+          <Output
+            pageCode={state.pageCode}
+            FieldProps={computedProps}
+            ignoreNoCode={state.ignoreNoCode}
+          />
         </Para>
       </Container>
     </>

@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-08 15:48:10
- * @LastEditTime: 2023-06-08 15:53:19
+ * @LastEditTime: 2023-06-08 17:58:02
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\Output.tsx
@@ -13,9 +13,16 @@ import { renderLinkColumn, renderLinkListPage } from './column';
 import { renderLinkFormItem, renderLinkFormPage } from './form';
 import { copy } from 'Utils/utils';
 
-export function Output(props: { pageCode: string; FieldProps: LinkFieldProp[] }) {
-  const { FieldProps, pageCode } = props;
+export function Output(props: {
+  pageCode: string;
+  FieldProps: LinkFieldProp[];
+  ignoreNoCode: boolean;
+}) {
+  const { FieldProps, pageCode, ignoreNoCode } = props;
   const [output, setOutput] = useState('');
+  // eslint-disable-next-line no-confusing-arrow
+  const getProps = () =>
+    ignoreNoCode ? FieldProps.filter(({ code }) => !!code) : FieldProps.slice();
   return (
     <>
       <Field>
@@ -24,7 +31,7 @@ export function Output(props: { pageCode: string; FieldProps: LinkFieldProp[] })
             className="span-btn"
             onClick={() => {
               setOutput(
-                FieldProps.filter(({ code }) => !!code)
+                getProps()
                   .map((prop) => renderLinkColumn(prop))
                   .join('\n')
               );
@@ -36,7 +43,7 @@ export function Output(props: { pageCode: string; FieldProps: LinkFieldProp[] })
             className="span-btn"
             onClick={() => {
               setOutput(
-                FieldProps.filter(({ code }) => !!code)
+                getProps()
                   .map((prop) => renderLinkFormItem(prop))
                   .join('\n')
               );
@@ -47,12 +54,7 @@ export function Output(props: { pageCode: string; FieldProps: LinkFieldProp[] })
           <span
             className="span-btn"
             onClick={() => {
-              setOutput(
-                renderLinkListPage(
-                  FieldProps.filter(({ code }) => !!code),
-                  { name: pageCode }
-                )
-              );
+              setOutput(renderLinkListPage(getProps(), { name: pageCode }));
             }}
           >
             📝生成列表页模板代码
@@ -60,12 +62,7 @@ export function Output(props: { pageCode: string; FieldProps: LinkFieldProp[] })
           <span
             className="span-btn"
             onClick={() => {
-              setOutput(
-                renderLinkFormPage(
-                  FieldProps.filter(({ code }) => !!code),
-                  { name: pageCode }
-                )
-              );
+              setOutput(renderLinkFormPage(getProps(), { name: pageCode }));
             }}
           >
             📝生成详情页模板代码

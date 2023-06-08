@@ -1,0 +1,48 @@
+.demo-switch-container {
+  $fontSize: 14px;
+  $w: 42px;
+  $h: 20px;
+  $border: 2px;
+  padding-left: $fontSize;
+  display: flex;
+  align-items: center;
+  .demo-switch {
+    position: relative;
+    width: $w + $border * 2;
+    height: $h + $border * 2;
+    border-radius: $h / 2 + $border;
+    box-shadow: inset 0 0 4px #999;
+    transition: all 120ms;
+    &::after {
+      content: '';
+      position: absolute;
+      width: $h;
+      height: $h;
+      top: $border;
+      border-radius: $h;
+      background-color: #fff;
+      z-index: 1;
+      transition: all 120ms;
+    }
+    &.off {
+      background-color: #9999;
+      &::after {
+        left: $border;
+      }
+    }
+    &.on {
+      background-color: var(--_primary-color, #29bece);
+      &::after {
+        left: $w - $h + $border;
+      }
+    }
+    &:active {
+      &::after {
+        width: $h + $border * 2;
+      }
+      &.on::after {
+        left: $w - $h - $border;
+      }
+    }
+  }
+}
