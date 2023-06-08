@@ -32,7 +32,7 @@ $font-size: 16px;
   }
   &-body-container {
     overflow: hidden;
-    transition: all 240ms ease;
+    transition: all 240ms ease, color 0s;
     box-sizing: border-box;
     .demo-typo-collapse-body {
       padding: 8px 16px;

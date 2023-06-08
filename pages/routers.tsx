@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-05-31 18:19:49
+ * @LastEditTime: 2023-06-07 15:29:22
  * @Description: 路由配置文件
  */
 
@@ -17,10 +17,11 @@ export const menus: MenuItemSetting[] = [
     name: '中台',
     isGroup: true,
     children: [
-      { name: '表格列代码生成器', link: '/create-o2-col' },
+      // { name: '表格列代码生成器', link: '/create-o2-col' },
+      { name: '代码模板工具(开发中)', link: '/template-code' },
       { name: 'BBC 改造工具', link: '/platform-api' },
       { name: '比对依赖版本', link: '/version-compare' },
-      { name: '代码编辑工具(开发中)', link: '/intl-tools' },
+      { name: '代码处理工具(开发中)', link: '/code-tools' },
     ],
   },
   {
@@ -28,7 +29,12 @@ export const menus: MenuItemSetting[] = [
     isGroup: true,
     children: [{ name: 'IconFont 转换工具', link: '/icon-font-tool' }],
   },
-  { name: '关于', link: '/about' },
+  {
+    name: 'Link 中台(开发中)',
+    isGroup: true,
+    children: [{ name: '字段生成工具', link: '/link-create-field' }],
+  },
+  // { name: '关于', link: '/about' },
 ];
 
 export const routers: MsRouteObject[] = [
@@ -44,12 +50,16 @@ export const routers: MsRouteObject[] = [
         component: () => import('Pages/Console/CreateO2Col'),
       },
       {
+        path: '/template-code',
+        component: () => import('Pages/Console/TemplateCode'),
+      },
+      {
         path: '/platform-api',
         component: () => import('Pages/Console/PlatformApi'),
       },
       {
-        path: '/intl-tools',
-        component: () => import('Pages/Console/IntlTools'),
+        path: '/code-tools',
+        component: () => import('Pages/Console/CodeTools'),
       },
       {
         path: '/version-compare',
@@ -58,6 +68,10 @@ export const routers: MsRouteObject[] = [
       {
         path: '/icon-font-tool',
         component: () => import('Pages/IconFont'),
+      },
+      {
+        path: '/link-create-field',
+        component: () => import('Pages/Link/CreateLinkField'),
       },
       {
         path: '/about',
