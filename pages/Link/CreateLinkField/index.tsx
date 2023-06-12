@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-06-08 18:11:31
+ * @LastEditTime: 2023-06-09 09:28:21
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\index.tsx
@@ -68,12 +68,10 @@ export default () => {
       if (type === 'boolean') return false;
       else return '';
     })(_type);
-    console.log(key, state[key]);
     return {
       value: state[key],
       onInput: (ev: { target: EventTarget | null }) => {
         const { target } = ev;
-        console.log(target, target?.value);
         if (!target || !('value' in target)) return;
         dispatch({ [key]: target.value || defaultValue });
       },

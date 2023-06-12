@@ -95,10 +95,11 @@ export const Collapse: FC<
           {header}
         </div>
         <span
+          role="button"
           {...combineProps(headerButtonProps, `demo-typo-collapse-header-button`)}
           onClick={() => setCollapse((isCollapse) => !isCollapse)}
         >
-          {collapse ? '展开' : '收起'}
+          <span>{collapse ? '展开' : '收起'}</span>
         </span>
       </div>
       <div ref={bodyRef} {...combineProps(bodyContainerProps, `demo-typo-collapse-body-container`)}>

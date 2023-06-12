@@ -3,6 +3,7 @@ $light: #fffcf6;
 $dark2: #222;
 $light2: #f7f6f2;
 $primaryColor: hsl(200, 100%, 55%);
+$btnBgColor: hsl(200, 25%, 70%);
 
 $leftWidth: 240px;
 $fontSize: 16px;
@@ -12,3 +13,24 @@ $bgColor2: var(--bg-color-2, $dark2);
 $fontColor2: var(--text-color-2, $light2);
 
 $fontCode: Consolas, Source Code Pro, Courier New;
+
+@mixin msButton(
+  $bgColor: #6cf0,
+  $hoverBgColor: #6cf1,
+  $activeBgColor: #6cf2
+) {
+  // 内部水平垂直居中
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  // 用户无法选中且鼠标改为手形状
+  user-select: none;
+  cursor: pointer;
+  background-color: $bgColor;
+  &:hover {
+    background-color: $hoverBgColor;
+  }
+  &:active {
+    background-color: $activeBgColor;
+  }
+}

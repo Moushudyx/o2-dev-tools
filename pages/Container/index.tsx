@@ -3,19 +3,19 @@
  * @Date: 2022-03-10 13:33:18
  * @Description: 路由之外的容器
  */
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useNavigate, useResolvedPath, useMatch } from 'react-router-dom';
 import { useNightMode } from 'Utils/utils';
 import { MenuItemSetting, menus } from 'Pages/routers';
-import styles from './index.mod.scss';
 import { Collapse } from 'Components/Typo';
+import './index.scss';
 
 const GroupItem: React.FC<{ menus: MenuItemSetting[] }> = (props) => {
   const { menus } = props;
   return (
     <>
       {menus.map((menu) => (
-        <MenuItem key={menu.isGroup ? menu.name : menu.link} setting={menu} />
+        <MenuItem key={`${menu.name} : ${menu.link}`} setting={menu} />
       ))}
     </>
   );
@@ -23,26 +23,15 @@ const GroupItem: React.FC<{ menus: MenuItemSetting[] }> = (props) => {
 
 const MenuItem: React.FC<{ setting: MenuItemSetting }> = (props) => {
   const { setting } = props;
-  const { name, isGroup } = setting;
-  if (isGroup) {
-    const { children } = setting;
-    return (
-      <Collapse
-        header={name}
-        headerContainerProps={{ style: { height: '2em', padding: '0 0 0 12px' } }}
-        bodyProps={{ style: { padding: '2px 0 2px 12px' } }}
-      >
-        <GroupItem menus={children} />
-      </Collapse>
-    );
-  } else {
-    const { link, options } = setting;
+  const { name, link, options, children } = setting;
+  let el: ReactElement;
+  if (link) {
     const nav = useNavigate();
     const resolved = useResolvedPath(link);
     const match = useMatch({ path: resolved.pathname, end: true });
-    return (
+    el = (
       <div
-        className={`${styles['left-menu-item']}${match ? ' active' : ''}`}
+        className={`left-menu-item ${match ? ' active' : ''}`}
         onClick={() => {
           if (!match) nav(link, options);
         }}
@@ -50,14 +39,26 @@ const MenuItem: React.FC<{ setting: MenuItemSetting }> = (props) => {
         {name}
       </div>
     );
+  } else el = <>{name}</>;
+  if (children) {
+    el = (
+      <Collapse
+        header={el}
+        headerContainerProps={{ style: { height: '2em', padding: link? '0' : '0 0 0 12px' } }}
+        bodyProps={{ style: { padding: '2px 0 2px 12px' } }}
+      >
+        <GroupItem menus={children} />
+      </Collapse>
+    );
   }
+  return el;
 };
 
 const Container: React.FC = (props) => {
   const [isNight, setNight] = useNightMode();
   const ToggleNight = (
     <div
-      className={styles['toggle-night']}
+      className="toggle-night"
       onClick={() => setNight(!isNight)}
       title={isNight ? '点击进入明亮模式' : '点击进入深色模式'}
     >
@@ -65,15 +66,15 @@ const Container: React.FC = (props) => {
     </div>
   );
   const Menu = (
-    <div className={styles['left-menu']}>
+    <div className="page-container-left-menu">
       <GroupItem menus={menus} />
     </div>
   );
   return (
-    <div className={styles.container}>
+    <div className="page-container">
       {ToggleNight}
       {Menu}
-      <div className={styles['right-section']}>{props.children}</div>
+      <div className="page-container-right-section">{props.children}</div>
     </div>
   );
 };

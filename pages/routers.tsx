@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-06-08 15:47:01
+ * @LastEditTime: 2023-06-09 09:34:06
  * @Description: 路由配置文件
  */
 
@@ -7,15 +7,20 @@ import React from 'react';
 import { type NavigateOptions } from 'react-router-dom';
 import { Outlet } from 'react-router';
 
-export type MenuItemSetting =
-  | { name: string; isGroup: true; children: MenuItemSetting[] }
-  | { name: string; link: string; options?: NavigateOptions; isGroup?: false };
+export type MenuItemSetting = {
+  name: string;
+  link?: string;
+  options?: NavigateOptions;
+  children?: MenuItemSetting[];
+};
 
 export const menus: MenuItemSetting[] = [
   { name: '主页', link: '/' },
+  // { name: '主页', link: '/', children: [
+  //   {name: 'about', link: '/about'}
+  // ] },
   {
     name: '中台',
-    isGroup: true,
     children: [
       // { name: '表格列代码生成器', link: '/create-o2-col' },
       { name: 'BBC 改造工具', link: '/platform-api' },
@@ -26,12 +31,14 @@ export const menus: MenuItemSetting[] = [
   },
   {
     name: '商城',
-    isGroup: true,
     children: [{ name: 'IconFont 转换工具', link: '/icon-font-tool' }],
   },
   {
-    name: 'Link 中台(开发中)',
-    isGroup: true,
+    name: 'Link 电脑端(开发中)',
+    children: [{ name: '页面字段生成工具', link: '/link-create-field' }],
+  },
+  {
+    name: 'Link 移动端(开发中)',
     children: [{ name: '页面字段生成工具', link: '/link-create-field' }],
   },
   // { name: '关于', link: '/about' },

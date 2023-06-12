@@ -13,21 +13,24 @@ $font-size: 16px;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     &-line {
+      width: 100%;
+      display: flex;
+      align-items: center;
       font-size: $font-size;
     }
     &-button {
+      @include msButton;
+      min-width: 3em;
       padding: $font-size * 0.125 $font-size * 0.25;
       font-size: $font-size * 0.75;
-      user-select: none;
-      cursor: pointer;
-      &:hover {
-        background-color: #9991;
-      }
-      &:active {
-        background-color: #9992;
-      }
+      // &:hover {
+      //   background-color: #9991;
+      // }
+      // &:active {
+      //   background-color: #9992;
+      // }
     }
   }
   &-body-container {

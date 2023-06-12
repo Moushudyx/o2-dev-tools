@@ -1,6 +1,6 @@
 @import '../../src/scss/constant.scss';
 
-.container {
+.page-container {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -10,7 +10,7 @@
   background-color: var(--bg-color);
   color: $fontColor;
   padding-left: $leftWidth;
-  .left-menu {
+  &-left-menu {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -41,18 +41,16 @@
         width: 0;
         transition: all 120ms;
       }
-      &:global {
-        &.active {
-          background-color: #aaa2;
-          &::after {
-            width: 4px;
-            background-color: hsl(210, 75%, 50%);
-          }
+      &.active {
+        background-color: #aaa2;
+        &::after {
+          width: 4px;
+          background-color: hsl(210, 75%, 50%);
         }
       }
     }
   }
-  .right-section {
+  &-right-section {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -60,17 +58,17 @@
     right: 0;
     overflow: auto;
   }
-}
-.toggle-night {
-  position: fixed;
-  top: $fontSize;
-  right: 5vw;
-  width: 2 * $fontSize;
-  height: 2 * $fontSize;
-  line-height: 2 * $fontSize;
-  font-size: 1.5 * $fontSize;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  z-index: 99999;
+  .toggle-night {
+    position: fixed;
+    top: $fontSize;
+    right: 5vw;
+    width: 2 * $fontSize;
+    height: 2 * $fontSize;
+    line-height: 2 * $fontSize;
+    font-size: 1.5 * $fontSize;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    z-index: 99999;
+  }
 }

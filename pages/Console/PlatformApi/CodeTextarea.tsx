@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 15:58:41
- * @LastEditTime: 2023-04-10 18:14:30
+ * @LastEditTime: 2023-06-09 09:51:28
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\CodeTextarea.tsx
@@ -18,8 +18,6 @@ const CodeTextarea = () => {
   const [code, setCode] = useState(read(`${storageKey}-CodeTextarea`, ''));
   const [convert, setConvert] = useState(codeConvert(code)[0]);
   const [log, setLog] = useState([] as string[]);
-  // eslint-disable-next-line no-console
-  console.log(log);
   return (
     <Para>
       <Field>
@@ -33,6 +31,8 @@ const CodeTextarea = () => {
             setCode(_code);
             setConvert(_convert);
             setLog(_log);
+            // eslint-disable-next-line no-console
+            console.log(log);
           }}
           value={code}
         />
