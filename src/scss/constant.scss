@@ -16,21 +16,27 @@ $fontCode: Consolas, Source Code Pro, Courier New;
 
 @mixin msButton(
   $bgColor: #6cf0,
-  $hoverBgColor: #6cf1,
-  $activeBgColor: #6cf2
+  $hoverBgColor: #6cf2,
+  $activeBgColor: #6cf4
 ) {
   // 内部水平垂直居中
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  // 外观
+  border-radius: 1px;
   // 用户无法选中且鼠标改为手形状
   user-select: none;
   cursor: pointer;
   background-color: $bgColor;
+  box-shadow: 0 0 0 0 adjust-color($bgColor, $alpha: -0.1);
+  transition: all 120ms ease;
   &:hover {
     background-color: $hoverBgColor;
+    box-shadow: 0 0 0 3px adjust-color($hoverBgColor, $alpha: -0.05);
   }
   &:active {
     background-color: $activeBgColor;
+    box-shadow: 0 0 0 4px adjust-color($activeBgColor, $alpha: -0.1);
   }
 }

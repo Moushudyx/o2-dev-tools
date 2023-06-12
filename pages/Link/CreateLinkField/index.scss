@@ -11,14 +11,4 @@
       width: 100%;
     }
   }
-  .span-btn {
-    user-select: none;
-    cursor: pointer;
-    &:hover {
-      background-color: #9993;
-    }
-    &:active {
-      background-color: #9996;
-    }
-  }
 }

@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-03-20 11:30:36
+ * @LastEditTime: 2023-06-12 13:41:28
  * @Description: file content
  */
 const { build, context } = require('esbuild');
@@ -46,6 +46,7 @@ module.exports = async ({ props, define }) => {
           __DEV__: 'true',
           'process.env.NODE_ENV': '"development"',
           'process.env.HISTORY': '"browser"',
+          'process.env.BABEL_TYPES_8_BREAKING': 'false',
           ...define,
         };
   // 构建参数

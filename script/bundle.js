@@ -1,28 +1,35 @@
 /*
- * @LastEditTime: 2022-09-30 14:56:15
+ * @LastEditTime: 2023-06-12 11:59:28
  * @Description: 打包到 dist
  */
 const outFile = 'dist/bundle.js';
 const outMinFile = 'dist/bundle.min.js';
 
-const commonBuild = {
+const { packs } = require('./setting');
+
+const commonBuild = (pack) => ({
   props: {
     outfile: outFile,
     minify: false,
+    ...pack,
   },
   define: {
     __DEV__: 'false',
     'process.env.NODE_ENV': '"production"',
   },
-};
-const minifyBuild = {
-  props: {
-    ...commonBuild.props,
-    minify: true,
-  },
-  define: {
-    ...commonBuild.define,
-  },
+});
+const minifyBuild = (pack) => {
+  const cp = commonBuild(pack);
+  return {
+    props: {
+      ...cp.props,
+      outfile: cp.props.outfile.replace(/\.(\S?js)$/i, '.min.$1'),
+      minify: true,
+    },
+    define: {
+      ...cp.define,
+    },
+  };
 };
 
 const core = require('./tools/core');
@@ -42,25 +49,31 @@ console.log($P("MouShu's scaffold - bundle " + $T(), 'grey'));
 
 (async () => {
   let start, end;
-  console.log($P(' BUNDLE ', 'b', 'white', 'cyanbg'), '正在打包');
-  start = Date.now();
-  await core(commonBuild);
-  end = Date.now();
-  console.log(
-    $P(' SUCCED ', 'b', 'white', 'greenbg'),
-    '完成打包: ',
-    $P(outFile, 'b'),
-    $P(` ${end - start}ms`, 'grey')
-  );
+  for (const pack of packs) {
+    console.log($P(' BUNDLE ', 'b', 'white', 'cyanbg'), '正在打包');
+    start = Date.now();
+    const props = commonBuild(pack);
+    await core(props);
+    end = Date.now();
+    console.log(
+      $P(' SUCCED ', 'b', 'white', 'greenbg'),
+      '完成打包: ',
+      $P(props.props.outfile, 'b'),
+      $P(` ${end - start}ms`, 'grey')
+    );
+  }
   // ------------------------------------------------------------------------------
-  console.log($P(' BUNDLE ', 'b', 'white', 'cyanbg'), '正在打包（代码压缩）');
-  start = Date.now();
-  await core(minifyBuild);
-  end = Date.now();
-  console.log(
-    $P(' SUCCED ', 'b', 'white', 'greenbg'),
-    '完成打包（代码压缩）: ',
-    $P(outMinFile, 'b'),
-    $P(` ${end - start}ms`, 'grey')
-  );
+  for (const pack of packs) {
+    console.log($P(' BUNDLE ', 'b', 'white', 'cyanbg'), '正在打包（代码压缩）');
+    start = Date.now();
+    const props = minifyBuild(pack);
+    await core(props);
+    end = Date.now();
+    console.log(
+      $P(' SUCCED ', 'b', 'white', 'greenbg'),
+      '完成打包（代码压缩）: ',
+      $P(props.props.outfile, 'b'),
+      $P(` ${end - start}ms`, 'grey')
+    );
+  }
 })();

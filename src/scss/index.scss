@@ -22,3 +22,7 @@ body {
     --bg-color-2: #{$light2};
   }
 }
+
+.span-btn {
+  @include msButton;
+}

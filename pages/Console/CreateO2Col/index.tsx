@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-04-07 15:57:12
+ * @LastEditTime: 2023-06-12 10:00:25
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Col\index.tsx
@@ -11,7 +11,6 @@ import React, { useReducer } from 'react';
 import { read, write } from 'Utils/localStorage';
 import { copy } from 'Utils/utils';
 import { o2ColGen } from './utils';
-import styles from './index.mod.scss';
 
 const storageKey = 'CreateO2Col';
 const defaultDescTable = read(
@@ -94,7 +93,7 @@ export default () => {
           <Field>
             <label>
               生成代码
-              <span className={styles['span-btn']} onClick={() => copy(output)} title="复制">
+              <span className="span-btn" onClick={() => copy(output)} title="复制">
                 📋复制
               </span>
             </label>

@@ -10,7 +10,7 @@
     position: relative;
     width: $w + $border * 2;
     height: $h + $border * 2;
-    border-radius: $h / 2 + $border;
+    border-radius: calc($h / 2) + $border;
     box-shadow: inset 0 0 4px #999;
     transition: all 120ms;
     &::after {

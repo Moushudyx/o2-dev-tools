@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 15:58:41
- * @LastEditTime: 2023-06-09 09:51:28
+ * @LastEditTime: 2023-06-12 10:01:46
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\CodeTextarea.tsx
@@ -11,7 +11,6 @@ import { read, write } from 'salt-lib';
 import { Para, Field } from 'Components/Typo';
 import { copy } from 'Utils/utils';
 import { codeConvert } from './codeConvert';
-import styles from './index.mod.scss';
 
 const storageKey = 'PlatformApi';
 const CodeTextarea = () => {
@@ -38,7 +37,7 @@ const CodeTextarea = () => {
         />
         <label>
           执行结果（控制台可以看到执行记录）
-          <span className={styles['span-btn']} onClick={() => copy(convert)} title="复制">
+          <span className="span-btn" onClick={() => copy(convert)} title="复制">
             📋复制
           </span>
         </label>

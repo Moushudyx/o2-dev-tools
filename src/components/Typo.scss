@@ -9,7 +9,7 @@ $font-size: 16px;
 }
 .demo-typo-collapse {
   &-header {
-    padding: 8px 16px;
+    padding: 4px 8px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -43,7 +43,7 @@ $font-size: 16px;
   }
   &.hide {
     .demo-typo-collapse-body-container {
-      transform-origin: center 0;
+      transform-origin: center center;
       transform: scaleY(0);
       opacity: 0;
       max-height: 0 !important;

@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 15:02:13
- * @LastEditTime: 2023-04-23 16:47:57
+ * @LastEditTime: 2023-06-12 14:05:01
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\CopyList.tsx
@@ -66,7 +66,7 @@ const { isUserTenant } = O2ColumnSource;`,
   },
 ];
 export const CopyList = copyList.map(({ text, title, code }) => (
-  <Para key={code} className={styles['copy-list-item']} onClick={() => copy(code)} title={title}>
+  <Para key={code} className={styles['copy-list-item']} onClick={() => copy(code)} title={`${title}\n\n${code}`}>
     <small className={styles['copy-list-item-right']}>📋点击复制</small>{text}
   </Para>
 ));

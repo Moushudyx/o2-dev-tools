@@ -1,7 +1,7 @@
 {
-  "name": "ms-esbuild-react-scaffold",
+  "name": "o2-dev-tools",
   "version": "1.0.0",
-  "description": "自用的使用 esbuild 为打包工具的 react 网页应用模板",
+  "description": "O2 开发工具",
   "main": "src/index.tsx",
   "scripts": {
     "test": "",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitee.com:moushu/ms-esbuild-react-scaffold.git"
+    "url": "git@github.com:Moushudyx/o2-dev-tools.git"
   },
   "keywords": [
     "react",

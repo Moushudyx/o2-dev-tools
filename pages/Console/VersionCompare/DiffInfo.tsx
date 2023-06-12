@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-05-31 17:57:20
- * @LastEditTime: 2023-06-01 10:06:36
+ * @LastEditTime: 2023-06-12 10:17:14
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\VersionCompare\DiffInfo.tsx
@@ -9,7 +9,6 @@
 import React from 'react';
 import { Collapse, Field, Para, SubLine } from 'Components/Typo';
 import { CompareResult } from './utils';
-import styles from './index.mod.scss';
 import { copy } from 'Utils/utils';
 
 function Info(props: { text: string; className: string }) {
@@ -18,7 +17,7 @@ function Info(props: { text: string; className: string }) {
     <div className={className}>
       <span>{text}</span>
       <span
-        className={styles['pack-ver-item-btn']}
+        className="span-btn pack-ver-item-btn"
         onClick={() => {
           copy(text);
         }}
@@ -43,9 +42,9 @@ export function DiffInfo(props: { code: string; info: CompareResult }) {
           }
         >
           {Object.keys(info.remove).map((name) => (
-            <Field className={styles['pack-ver-item']}>
-              <Info className={styles['pack-ver-item-name']} text={name} />
-              <Info className={styles['pack-ver-item-info']} text={info.remove[name]} />
+            <Field className="pack-ver-item">
+              <Info className="pack-ver-item-name" text={name} />
+              <Info className="pack-ver-item-info" text={info.remove[name]} />
             </Field>
           ))}
         </Collapse>
@@ -59,9 +58,9 @@ export function DiffInfo(props: { code: string; info: CompareResult }) {
           }
         >
           {Object.keys(info.add).map((name) => (
-            <Field className={styles['pack-ver-item']}>
-              <Info className={styles['pack-ver-item-name']} text={name} />
-              <Info className={styles['pack-ver-item-info']} text={info.add[name]} />
+            <Field className="pack-ver-item">
+              <Info className="pack-ver-item-name" text={name} />
+              <Info className="pack-ver-item-info" text={info.add[name]} />
             </Field>
           ))}
         </Collapse>
@@ -69,10 +68,10 @@ export function DiffInfo(props: { code: string; info: CompareResult }) {
       {Object.keys(info.change).length ? (
         <Collapse header={<>以下依赖在两个包信息中版本不一致</>}>
           {Object.keys(info.change).map((name) => (
-            <Field className={styles['pack-ver-item']}>
-              <Info className={styles['pack-ver-item-name']} text={name} />
-              <Info className={styles['pack-ver-item-info']} text={info.change[name][0]} />
-              <Info className={styles['pack-ver-item-info']} text={info.change[name][1]} />
+            <Field className="pack-ver-item">
+              <Info className="pack-ver-item-name" text={name} />
+              <Info className="pack-ver-item-info" text={info.change[name][0]} />
+              <Info className="pack-ver-item-info" text={info.change[name][1]} />
             </Field>
           ))}
         </Collapse>

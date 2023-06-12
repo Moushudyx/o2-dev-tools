@@ -1,13 +1,13 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-06-09 09:28:21
+ * @LastEditTime: 2023-06-12 09:57:26
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\index.tsx
  */
 import React, { useReducer, useState } from 'react';
-import { Collapse, Container, Field, Para, SubLine, SubTitle } from 'Components/Typo';
+import { Collapse, Container, Field, Para, SubTitle } from 'Components/Typo';
 import { read, write } from 'Utils/localStorage';
 import { readFieldProp } from './utils';
 import { intelligentHeadRead } from './intelligent';
@@ -101,7 +101,7 @@ export default () => {
     <>
       <Container className="link-create-field">
         <SubTitle>生成 Link 字段代码</SubTitle>
-        <Collapse header={<SubLine>点击右侧按钮展开详细说明</SubLine>} defaultCollapse>
+        <Collapse header={<b>使用说明（点击右侧按钮展开详细说明）：</b>} defaultCollapse>
           <Para>
             具体操作：
             <ol>

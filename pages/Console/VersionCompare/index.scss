@@ -29,7 +29,8 @@
     }
   }
   &-name {
-    min-width: 300px;
+    min-width: 320px;
+    flex-shrink: 0;
   }
   &-info {
     width: 100%;

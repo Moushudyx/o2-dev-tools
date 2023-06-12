@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-05-31 11:40:42
- * @LastEditTime: 2023-05-31 18:15:14
+ * @LastEditTime: 2023-06-12 10:06:20
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\VersionCompare\index.tsx
@@ -12,7 +12,7 @@ import { debounce } from 'Utils/utils';
 import { CompareResult, depCompare } from './utils';
 import { read, write } from 'Utils/sessionStorage';
 import { DiffInfo } from './DiffInfo';
-// import styles from './index.mod.scss';
+import './index.scss';
 
 const storageKey = 'VersionCompare';
 

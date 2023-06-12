@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-04-10 18:12:06
- * @LastEditTime: 2023-04-23 11:20:23
+ * @LastEditTime: 2023-06-12 10:01:39
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\BatchConvert.tsx
@@ -11,8 +11,8 @@ import { Para, Field } from 'Components/Typo';
 import { defer } from 'salt-lib';
 import { codeConvert, needConvert } from './codeConvert';
 import { copy } from 'Utils/utils';
-import styles from './index.mod.scss';
 import { FileData, FileTree, convertFileTree, convertZipFile, saveZip } from './fileUtils';
+import styles from './index.mod.scss';
 
 const validFileReg = /\.([tj]sx?|m[tj]s)$/i;
 
@@ -147,7 +147,7 @@ const BatchConvert = () => {
         <Field>
           <label>
             {name}
-            <span className={styles['span-btn']} onClick={() => copy(txt)} title="复制">
+            <span className="span-btn" onClick={() => copy(txt)} title="复制">
               📋复制
             </span>
           </label>
