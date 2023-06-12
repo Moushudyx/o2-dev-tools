@@ -1,13 +1,13 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-05-31 11:40:42
- * @LastEditTime: 2023-06-12 10:06:20
+ * @LastEditTime: 2023-06-12 14:51:47
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\VersionCompare\index.tsx
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Container, SubTitle, Field, Para } from 'Components/Typo';
+import { Container, SubTitle, Field, Para, Collapse } from 'Components/Typo';
 import { debounce } from 'Utils/utils';
 import { CompareResult, depCompare } from './utils';
 import { read, write } from 'Utils/sessionStorage';
@@ -87,6 +87,14 @@ export default function VersionCompare() {
     <>
       <Container>
         <SubTitle>比对依赖版本</SubTitle>
+        <Collapse header={<b>使用说明（点击右侧按钮展开详细说明）：</b>} defaultCollapse>
+          <Para>
+            将两个工程的 package.json 分别粘贴在左右两个文本框里
+            <br />
+            本工具会自动比对<code>dependencies</code>、<code>devDependencies</code>、
+            <code>resolutions</code>中不同的依赖并显示在底部
+          </Para>
+        </Collapse>
         <Para>
           <Field>
             <label>输入 package.json</label>
