@@ -8,7 +8,8 @@
     "build": "node script/bundle.js",
     "build-hash": "node script/bundle.js --hash",
     "serve": "node script/serve.js",
-    "lint": "eslint src/** && eslint pages/**"
+    "lint": "eslint src/** && eslint pages/**",
+    "bootstrap": "yarn --registry https://registry.npmmirror.com/"
   },
   "repository": {
     "type": "git",
@@ -40,15 +41,15 @@
     "@types/wicg-file-system-access": "^2020.9.6",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
-    "esbuild": "^0.17.10",
-    "esbuild-sass-plugin": "2.6.0",
+    "esbuild": "^0.17.19",
+    "esbuild-sass-plugin": "2.9.0",
     "eslint": "^8.10.0",
     "open": "^8.4.0",
     "postcss": "^8.4.8",
     "postcss-modules": "^4.3.1",
     "prettier": "^2.5.0",
     "resolve": "^1.22.1",
-    "sass": "^1.58.3",
+    "sass": "^1.63.2",
     "serve-http": "1.0.6",
     "typescript": "^4.6.2",
     "yarn": "^1.22.17"
