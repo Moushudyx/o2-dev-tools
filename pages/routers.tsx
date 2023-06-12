@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-06-09 09:34:06
+ * @LastEditTime: 2023-06-12 14:47:02
  * @Description: 路由配置文件
  */
 
@@ -20,12 +20,17 @@ export const menus: MenuItemSetting[] = [
   //   {name: 'about', link: '/about'}
   // ] },
   {
+    name: '通用',
+    children: [
+      { name: '比对 package.json', link: '/version-compare' },
+      { name: '模板生成代码(开发中)', link: '/template-code' },
+    ],
+  },
+  {
     name: '中台',
     children: [
       // { name: '表格列代码生成器', link: '/create-o2-col' },
       { name: 'BBC 改造工具', link: '/platform-api' },
-      { name: '比对 package.json', link: '/version-compare' },
-      { name: '模板生成代码(开发中)', link: '/template-code' },
       { name: '代码处理工具(开发中)', link: '/code-tools' },
     ],
   },
@@ -35,11 +40,13 @@ export const menus: MenuItemSetting[] = [
   },
   {
     name: 'Link 电脑端(开发中)',
-    children: [{ name: '页面字段生成工具', link: '/link-create-field' }],
+    children: [{ name: '页面字段生成工具(开发中)', link: '/link-create-field' }],
   },
   {
     name: 'Link 移动端(开发中)',
-    children: [{ name: '页面字段生成工具', link: '/link-create-field' }],
+    children: [
+      // { name: '页面字段生成工具', link: '/link-create-field' }
+    ],
   },
   // { name: '关于', link: '/about' },
 ];
