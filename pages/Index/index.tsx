@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-06-08 16:49:53
+ * @LastEditTime: 2023-06-13 11:06:30
  * @Description: 演示页面
  */
 import React from 'react';
@@ -11,6 +11,8 @@ export default () => (
   <>
     <Container>
       <SubTitle>O2 开发工具</SubTitle>
+      <Para>O2 开发的前端工具集（也包含了部分 Link 开发工具）</Para>
+      <hr />
       <Para>左侧是可用的前端开发辅助工具。</Para>
       <Para>
         部分输入框有本地存储功能，可以将你的输入的内容保存在本地，刷新页面、切换工具不会丢失数据；
