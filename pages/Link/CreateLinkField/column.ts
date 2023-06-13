@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-06-08 14:17:23
+ * @LastEditTime: 2023-06-12 17:25:15
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\column.ts
@@ -70,7 +70,7 @@ function getAutoFillData(option: LinkFieldProp): string {
 export function renderLinkColumn(option: LinkFieldProp) {
   const { type, code, name, lov, require, disable } = option;
   const compName = columnType[type] || columnType.none;
-  const basicData = ` title="${name}" field="${code}"`;
+  const basicData = ` title="${name}" field="${code || 'FIXME缺少字段编码'}"`;
   const autoFillData = ` auto-fill="${getAutoFillData(option)}"`
   const lovData = type === 'lov' ? ` lov-type="${lov || 'FIXME缺少值集编码'}"` : '';
   const editData = `${require ? ' required' : ''}${disable ? ' disabled' : ''}`;

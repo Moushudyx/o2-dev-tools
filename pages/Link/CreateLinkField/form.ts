@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-06-08 14:17:21
+ * @LastEditTime: 2023-06-12 17:25:23
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\form.ts
@@ -34,8 +34,8 @@ function getExtraData(option: LinkFieldProp): string {
 export function renderLinkFormItem(option: LinkFieldProp) {
   const { type, code, name, lov, require, disable } = option;
   const compName = formItemType[type] || formItemType.none;
-  const basicData = ` label="${name}" prop="${code}"`;
-  const vModel = ` v-model="formOption.data.${code}"`
+  const basicData = ` label="${name}" prop="${code || 'FIXME缺少字段编码'}"`;
+  const vModel = ` v-model="formOption.data.${code || 'FIXME缺少字段编码'}"`
   const lovData = type === 'lov' ? ` lov-type="${lov || 'FIXME缺少值集编码'}"` : '';
   const editData = `${require ? ' required' : ''}${disable ? ' disabled' : ''}`;
   const extraData = getExtraData(option);
