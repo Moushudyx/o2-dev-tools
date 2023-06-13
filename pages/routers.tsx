@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-06-12 14:47:02
+ * @LastEditTime: 2023-06-13 09:52:46
  * @Description: 路由配置文件
  */
 
@@ -17,12 +17,13 @@ export type MenuItemSetting = {
 export const menus: MenuItemSetting[] = [
   { name: '主页', link: '/' },
   // { name: '主页', link: '/', children: [
-  //   {name: 'about', link: '/about'}
+  //   {name: '关于', link: '/about'}
   // ] },
   {
     name: '通用',
     children: [
       { name: '比对 package.json', link: '/version-compare' },
+      { name: '变量名格式转换', link: '/code-case' },
       { name: '模板生成代码(开发中)', link: '/template-code' },
     ],
   },
@@ -60,12 +61,26 @@ export const routers: MsRouteObject[] = [
         component: () => import('Pages/Index'),
       },
       {
-        path: '/create-o2-col',
-        component: () => import('Pages/Console/CreateO2Col'),
+        path: '/about',
+        component: () => import('Pages/About'),
+      },
+      // 通用
+      {
+        path: '/version-compare',
+        component: () => import('Pages/General/VersionCompare'),
+      },
+      {
+        path: '/code-case',
+        component: () => import('Pages/General/CodeCase'),
       },
       {
         path: '/template-code',
         component: () => import('Pages/Console/TemplateCode'),
+      },
+      // 中台
+      {
+        path: '/create-o2-col',
+        component: () => import('Pages/Console/CreateO2Col'),
       },
       {
         path: '/platform-api',
@@ -75,21 +90,15 @@ export const routers: MsRouteObject[] = [
         path: '/code-tools',
         component: () => import('Pages/Console/CodeTools'),
       },
-      {
-        path: '/version-compare',
-        component: () => import('Pages/Console/VersionCompare'),
-      },
+      // 商城
       {
         path: '/icon-font-tool',
         component: () => import('Pages/IconFont'),
       },
+      // link
       {
         path: '/link-create-field',
         component: () => import('Pages/Link/CreateLinkField'),
-      },
-      {
-        path: '/about',
-        component: () => import('Pages/About'),
       },
     ],
   },
