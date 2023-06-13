@@ -30,13 +30,14 @@ $fontCode: Consolas, Source Code Pro, Courier New;
   cursor: pointer;
   background-color: $bgColor;
   box-shadow: 0 0 0 0 adjust-color($bgColor, $alpha: -0.1);
-  transition: all 120ms ease;
+  transition: all 120ms ease, box-shadow 480ms ease;
   &:hover {
     background-color: $hoverBgColor;
     box-shadow: 0 0 0 3px adjust-color($hoverBgColor, $alpha: -0.05);
   }
   &:active {
     background-color: $activeBgColor;
-    box-shadow: 0 0 0 4px adjust-color($activeBgColor, $alpha: -0.1);
+    box-shadow: 0 0 0 4px adjust-color($activeBgColor, $alpha: -0.05);
+    transition: box-shadow 60ms ease;
   }
 }
