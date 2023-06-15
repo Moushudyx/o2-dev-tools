@@ -2,5 +2,9 @@
   .code-case-btn {
     min-width: 120px;
     padding: 2px 4px;
+    &-icon {
+      min-width: 1.5em;
+      text-align: center;
+    }
   }
 }

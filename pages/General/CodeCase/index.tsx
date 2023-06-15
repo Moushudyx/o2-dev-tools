@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-13 09:44:15
- * @LastEditTime: 2023-06-13 10:57:43
+ * @LastEditTime: 2023-06-13 14:32:19
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\General\CodeCase\index.tsx
@@ -10,7 +10,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { Container, SubTitle, Field, Para, Collapse } from 'Components/Typo';
 import { read, write } from 'salt-lib';
 import { debounce } from 'Utils/utils';
-import { caseConvert, splitVar } from './utils';
+import { caseConvert, splitVar, validCaseType } from './utils';
 import './index.scss';
 
 const storageKey = 'CodeCase';
@@ -18,9 +18,17 @@ const storageKey = 'CodeCase';
 const types = [
   { name: '小驼峰命名', code: 'camel' },
   { name: '大驼峰命名', code: 'pascal' },
+  {},
   { name: '串行命名法', code: 'kebab' },
+  { name: '串行命名(小驼峰)', code: 'kebab-camel' },
+  { name: '串行命名(大驼峰)', code: 'kebab-pascal' },
+  { name: '串行命名(大写)', code: 'kebab-upper' },
+  {},
   { name: '蛇形命名法', code: 'snake' },
-] as const;
+  { name: '蛇形命名(小驼峰)', code: 'snake-camel' },
+  { name: '蛇形命名(大驼峰)', code: 'snake-pascal' },
+  { name: '蛇形命名(大写)', code: 'snake-upper' },
+] as Array<{ name: string; code: validCaseType } | { name: undefined; code: undefined }>;
 
 export default function CodeCase() {
   const [code1, setCode1] = useState(
@@ -91,18 +99,24 @@ export default function CodeCase() {
             </span>
           </Field>
           <Field>
-            {types.map(({ name, code }) => (
-              <span
-                key={code}
-                onClick={() => {
-                  setType(() => code);
-                  write(`${storageKey}-type`, code);
-                }}
-                className="span-btn code-case-btn"
-              >
-                {type === code ? '📖' : '📘'} {name}
-              </span>
-            ))}
+            {/* eslint-disable-next-line no-confusing-arrow */}
+            {types.map(({ name, code }) =>
+              name ? (
+                <span
+                  key={code}
+                  onClick={() => {
+                    setType(() => code);
+                    write(`${storageKey}-type`, code);
+                  }}
+                  className="span-btn code-case-btn"
+                >
+                  <span className="code-case-btn-icon">{type === code ? '📖' : '📘'}</span>
+                  {name}
+                </span>
+              ) : (
+                <br />
+              )
+            )}
           </Field>
           <Field>
             <label>输入需要转换的变量名，按换行分割</label>

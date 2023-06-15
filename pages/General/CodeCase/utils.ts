@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-13 09:57:45
- * @LastEditTime: 2023-06-13 10:34:43
+ * @LastEditTime: 2023-06-13 14:31:42
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\General\CodeCase\utils.ts
@@ -14,7 +14,17 @@ type VarCase = {
   number?: boolean;
 };
 
-export type validCaseType = 'camel' | 'kebab' | 'pascal' | 'snake';
+export type validCaseType =
+  | 'camel'
+  | 'kebab-camel'
+  | 'kebab-pascal'
+  | 'kebab-upper'
+  | 'kebab'
+  | 'pascal'
+  | 'snake-camel'
+  | 'snake-pascal'
+  | 'snake-upper'
+  | 'snake';
 
 const isUpperCase = RegExp.prototype.test.bind(/[A-Z]/);
 const isLowerCase = RegExp.prototype.test.bind(/[a-z]/);
@@ -94,6 +104,22 @@ export function splitVar(c: string) {
   return res;
 }
 
+function camelCase(code: string, index: boolean | number) {
+  if (index) return code.slice(0, 1).toUpperCase() + code.slice(1);
+  else return code;
+}
+function pascalCase(code: string) {
+  return code.slice(0, 1).toUpperCase() + code.slice(1);
+}
+function kebabCase(code: string, index: boolean | number) {
+  if (index) return `-${code}`;
+  else return code;
+}
+function snakeCase(code: string, index: boolean | number) {
+  if (index) return `_${code}`;
+  else return code;
+}
+
 export function caseConvert(
   caseToken: VarCase[],
   type: validCaseType | string,
@@ -105,23 +131,14 @@ export function caseConvert(
     let { code } = token;
     if (token.number && ignoreNumber) return;
     if (!keepUpperCase && !token.number) code = code.toLowerCase();
-    switch (type) {
-      case 'kebab':
-        if (index) res += `-${code}`;
-        else res += code;
-        return;
-      case 'snake':
-        if (index) res += `_${code}`;
-        else res += code;
-        return;
-      case 'pascal':
-        res += code.slice(0, 1).toUpperCase() + code.slice(1);
-        return;
-      case 'camel':
-      default:
-        if (index) res += code.slice(0, 1).toUpperCase() + code.slice(1);
-        else res += code;
-    }
+    // 驼峰 / 大驼峰 / 全大写
+    if (type.includes('camel')) code = camelCase(code, index);
+    else if (type.includes('pascal')) code = pascalCase(code);
+    else if (type.includes('upper')) code = code.toUpperCase();
+    // 串行 / 蛇形
+    if (type.includes('kebab')) code = kebabCase(code, index);
+    else if (type.includes('snake')) code = snakeCase(code, index);
+    res += code;
   });
   return res;
 }
