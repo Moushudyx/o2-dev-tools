@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-06-12 17:25:15
+ * @LastEditTime: 2023-06-14 14:17:11
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\column.ts
@@ -83,7 +83,7 @@ export function renderLinkListPage(options: LinkFieldProp[], pageInfo: { name: s
   const time = new Date();
   const pad2 = (str: number | string) => padLeft(`${str}`, 2, '0');
   const ymd = `${time.getFullYear()}-${pad2(time.getMonth() + 1)}-${pad2(time.getDate())}`;
-  const hms = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+  const hms = `${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`;
   return `<!--
 简短的页面说明
 @author 建立页面的人
@@ -99,15 +99,13 @@ ${indent(options.map((option) => renderLinkColumn(option)).join('\n'), 12)}
 <script>
     export default {
         name: '${name}-list',
-        data(){
+        data() {
             const autoOption = new AutoOption({
                 context: this,
                 module: '/link/${name}',
 
             });
-            return {
-                autoOption
-            }
+            return {autoOption}
         },
         methods: {
             gotoDetail() {
@@ -117,7 +115,7 @@ ${indent(options.map((option) => renderLinkColumn(option)).join('\n'), 12)}
     };
 </script>
 <style lang="scss" scoped>
-    .${name}-list {
-    }
-</style>`;
+    // .${name}-list {
+    // }
+</style>\n`;
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-06-12 17:25:23
+ * @LastEditTime: 2023-06-15 10:30:49
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\form.ts
@@ -35,7 +35,7 @@ export function renderLinkFormItem(option: LinkFieldProp) {
   const { type, code, name, lov, require, disable } = option;
   const compName = formItemType[type] || formItemType.none;
   const basicData = ` label="${name}" prop="${code || 'FIXME缺少字段编码'}"`;
-  const vModel = ` v-model="formOption.data.${code || 'FIXME缺少字段编码'}"`
+  const vModel = ` v-model="formOption.data.${code || 'FIXME缺少字段编码'}"`;
   const lovData = type === 'lov' ? ` lov-type="${lov || 'FIXME缺少值集编码'}"` : '';
   const editData = `${require ? ' required' : ''}${disable ? ' disabled' : ''}`;
   const extraData = getExtraData(option);
@@ -49,7 +49,7 @@ export function renderLinkFormPage(options: LinkFieldProp[], pageInfo: { name: s
   const time = new Date();
   const pad2 = (str: number | string) => padLeft(`${str}`, 2, '0');
   const ymd = `${time.getFullYear()}-${pad2(time.getMonth() + 1)}-${pad2(time.getDate())}`;
-  const hms = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+  const hms = `${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`;
   return `<!--
 简短的页面说明
 @author 建立页面的人
@@ -92,31 +92,34 @@ ${indent(options.map((option) => renderLinkFormItem(option)).join('\n'), 20)}
     export default {
         name: '${name}-form',
         data(){
-            formOption: new LinkFormPanelOption({
+            const formOption = new LinkFormPanelOption({
                 context: this,
                 id: this.pageParam.id,
                 title: '表单模板',
                 module: '/link/${name}',
                 data: {}
-            }),
+            });
 
-            return {
-                formOption
-            }
+            return {formOption};
         },
-        methods: {
-
-        },
+        methods: {},
         mounted() {
             // 根据列表传参 做对应的状态切换
-            if (this.pageParam.mode === 'new') {
+            const {mode, id} = this.pageParam;
+            if (mode === 'new') {
                 this.formOption.doInsert();
+            } else if (mode === 'copy') {
+                this.formOption.doCopy(id);
+            } else if (mode ==='update') {
+                this.formOption.doUpdate(id);
+            } else {
+                this.formOption.id = id;
             }
         }
     };
 </script>
 <style lang="scss">
-    .${name}-form {
-    }
-</style>`;
+    // .${name}-form {
+    // }
+</style>\n`;
 }
