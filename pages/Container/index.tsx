@@ -24,6 +24,12 @@ const GroupItem: React.FC<{ menus: MenuItemSetting[] }> = (props) => {
 const MenuItem: React.FC<{ setting: MenuItemSetting }> = (props) => {
   const { setting } = props;
   const { name, link, options, children } = setting;
+  // 线上不再展示开发中的页面
+  if (/[\(\[\{]\s*开发中\s*[\)\]\}]/.test(name) && !/localhost/i.test(location.hostname)) {
+    if(link) console.log('菜单', name, '尚未开发完成，你可以手动访问', `#${link}`);
+    else console.log('菜单', name, '尚未开发完成，暂时无法访问');
+    return <></>;
+  }
   let el: ReactElement;
   if (link) {
     const nav = useNavigate();
@@ -44,7 +50,7 @@ const MenuItem: React.FC<{ setting: MenuItemSetting }> = (props) => {
     el = (
       <Collapse
         header={el}
-        headerContainerProps={{ style: { height: '2em', padding: link? '0' : '0 0 0 12px' } }}
+        headerContainerProps={{ style: { height: '2em', padding: link ? '0' : '0 0 0 12px' } }}
         bodyProps={{ style: { padding: '2px 0 2px 12px' } }}
       >
         <GroupItem menus={children} />
