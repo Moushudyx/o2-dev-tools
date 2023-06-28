@@ -8,8 +8,7 @@
     "build": "node script/bundle.js",
     "build-hash": "node script/bundle.js --hash",
     "serve": "node script/serve.js",
-    "lint": "eslint src/** && eslint pages/**",
-    "bootstrap": "yarn --registry https://registry.npmmirror.com/"
+    "lint": "eslint src/** && eslint pages/**"
   },
   "repository": {
     "type": "git",
@@ -32,7 +31,8 @@
     "react-dom": "^17.0.2",
     "react-router": "^6.2.2",
     "react-router-dom": "^6.2.2",
-    "salt-lib": "^0.1.5"
+    "salt-lib": "^0.1.5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/babel__traverse": "^7.20.1",

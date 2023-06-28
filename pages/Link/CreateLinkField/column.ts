@@ -1,11 +1,12 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-06-14 14:17:11
+ * @LastEditTime: 2023-06-26 14:14:56
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\column.ts
  */
+import { caseConvert, splitVar } from 'Pages/General/CodeCase/utils';
 import { LinkFieldProp, indent, padLeft } from './utils';
 
 const columnType: { [type: string]: string } = {
@@ -71,51 +72,116 @@ export function renderLinkColumn(option: LinkFieldProp) {
   const { type, code, name, lov, require, disable } = option;
   const compName = columnType[type] || columnType.none;
   const basicData = ` title="${name}" field="${code || 'FIXME缺少字段编码'}"`;
-  const autoFillData = ` auto-fill="${getAutoFillData(option)}"`
+  const autoFillData = ` auto-fill="${getAutoFillData(option)}"`;
   const lovData = type === 'lov' ? ` lov-type="${lov || 'FIXME缺少值集编码'}"` : '';
   const editData = `${require ? ' required' : ''}${disable ? ' disabled' : ''}`;
   const extraData = getExtraData(option);
   return `<${compName}${basicData}${autoFillData}${lovData}${editData}${extraData} />`;
 }
 
-export function renderLinkListPage(options: LinkFieldProp[], pageInfo: { name: string }) {
-  const { name } = pageInfo;
+export function renderLinkListPage(
+  options: LinkFieldProp[],
+  pageInfo: { pageCode: string; pageName: string; pageDesc: string; userName: string }
+) {
+  const { pageCode, pageName, pageDesc, userName } = pageInfo;
   const time = new Date();
   const pad2 = (str: number | string) => padLeft(`${str}`, 2, '0');
   const ymd = `${time.getFullYear()}-${pad2(time.getMonth() + 1)}-${pad2(time.getDate())}`;
   const hms = `${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`;
+  const pageCodeCamel = caseConvert(splitVar(pageCode), 'camel');
+  const pageCodeKebab = caseConvert(splitVar(pageCode), 'kebab');
   return `<!--
-简短的页面说明
-@author 建立页面的人
+${pageDesc || '简短的页面说明'}
+@author ${userName || '建立页面的人'}
 @date ${ymd} ${hms}
 -->
 <template>
-    <div class="${name}-list">
+    <div class="${pageCodeKebab}-list">
         <link-auto-table :option="autoOption">
 ${indent(options.map((option) => renderLinkColumn(option)).join('\n'), 12)}
+
+            <!-- 行内按钮 width: [汉字数量 / 2]-button -->
+            <!-- <link-table-column-operate :buttons="buttons" width="3-button" /> -->
+
+            <!-- 表头按钮 按钮组件文档 http://dev.linkcrm.cn/frontdoc/?id=link/button&app=doc -->
+            <!-- <template slot="button">
+                <link-button
+                    :disabled="..."
+                    @click="..."
+                    icon="link-icon-..."
+                    color="..."
+                >
+                    按钮名称
+                </link-button>
+            </template> -->
         </link-auto-table>
     </div>
 </template>
 <script>
     export default {
-        name: '${name}-list',
+        name: '${pageCodeKebab}-list',
         data() {
             const autoOption = new AutoOption({
                 context: this,
-                module: '/link/${name}',
-
+                module: '/link/${pageCodeCamel}',
+                // title: '${pageName || ''}', // 会影响导出文件的名称
+                // param: {}, // 默认查询条件
+                // insertable: false, // 新建 按钮
+                // updateable: false, // 编辑 按钮
+                // deleteable: false, // 删除 按钮
+                // importable: false, // 导入 按钮
+                // otherable: false, // 其他 按钮
+                // showMoreRowsButton: false, // 更多行数 按钮
+                // showCountsButton: false, // 记录计数 按钮
+                // showMoreButton: false, // 更多 **下拉框**
             });
-            return {autoOption}
+            // /** 行内按钮配置 */
+            // const buttons = [
+            //     {
+            //         label: '行内按钮1',
+            //         onClick: ({row}) => /* ... */
+            //     },
+            //     {
+            //         label: '行内按钮2',
+            //         disabled: ({row}) => /* ... */,
+            //         onClick: ({row}) => /* ... */
+            //     }
+            // ];
+            return {autoOption};
         },
         methods: {
-            gotoDetail() {
-                this.$nav.push('/modules/页面路径/${name}-form',params);
-            }
+            /**
+             * 跳转详情页
+             * @author ${userName || '建立页面的人'}
+             * @date ${ymd}
+             */
+            showDetail(row) {
+                const params = {id: row.id, mode: 'detail'}; // 若详情页要展示编码的话可以在这里传
+                this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
+            },
+            // /**
+            //  * 跳转新建页
+            //  * @author ${userName || '建立页面的人'}
+            //  * @date ${ymd}
+            //  */
+            // createRow(row) {
+            //     const params = {id: row.id, mode: 'new'};
+            //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
+            // },
+            // /**
+            //  * 跳转复制页，复制此行数据
+            //  * @author ${userName || '建立页面的人'}
+            //  * @date ${ymd}
+            //  */
+            // createRow(row) {
+            //     const params = {id: row.id, mode: 'copy'};
+            //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
+            // }
         }
     };
 </script>
 <style lang="scss" scoped>
-    // .${name}-list {
+    // .${pageCodeKebab}-list {
     // }
 </style>\n`;
 }

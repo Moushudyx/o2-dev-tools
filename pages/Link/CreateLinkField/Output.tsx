@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-08 15:48:10
- * @LastEditTime: 2023-06-08 17:58:02
+ * @LastEditTime: 2023-06-16 09:58:31
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\Output.tsx
@@ -14,11 +14,12 @@ import { renderLinkFormItem, renderLinkFormPage } from './form';
 import { copy } from 'Utils/utils';
 
 export function Output(props: {
-  pageCode: string;
+  pageProps: { pageCode: string; pageName: string; pageDesc: string; userName: string };
   FieldProps: LinkFieldProp[];
   ignoreNoCode: boolean;
 }) {
-  const { FieldProps, pageCode, ignoreNoCode } = props;
+  const { FieldProps, pageProps, ignoreNoCode } = props;
+  const { pageCode, pageName, pageDesc, userName } = pageProps;
   const [output, setOutput] = useState('');
   // eslint-disable-next-line no-confusing-arrow
   const getProps = () =>
@@ -54,7 +55,7 @@ export function Output(props: {
           <span
             className="span-btn"
             onClick={() => {
-              setOutput(renderLinkListPage(getProps(), { name: pageCode }));
+              setOutput(renderLinkListPage(getProps(), { pageCode, pageName, pageDesc, userName }));
             }}
           >
             📝生成列表页模板代码
@@ -62,7 +63,7 @@ export function Output(props: {
           <span
             className="span-btn"
             onClick={() => {
-              setOutput(renderLinkFormPage(getProps(), { name: pageCode }));
+              setOutput(renderLinkFormPage(getProps(), { pageCode, pageName, pageDesc, userName }));
             }}
           >
             📝生成详情页模板代码

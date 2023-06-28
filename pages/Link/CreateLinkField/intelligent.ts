@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 16:57:01
- * @LastEditTime: 2023-06-08 10:29:22
+ * @LastEditTime: 2023-06-28 10:56:47
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\intelligent.ts
@@ -10,10 +10,6 @@
 import { deepClone } from 'salt-lib';
 
 export function intelligentHeadRead(head: string) {
-  // const lines = descTable
-  //   .split('\n')
-  //   .filter((l) => !!l.trim())
-  //   .map((l) => l.split('\t'));
   const cols = head.split('\t');
   const map = {
     textColumnIndex: Array(cols.length).fill(0) as number[],
@@ -23,16 +19,19 @@ export function intelligentHeadRead(head: string) {
     requireColumnIndex: Array(cols.length).fill(0) as number[],
     disableColumnIndex: Array(cols.length).fill(0) as number[],
   };
+  let getFieldName = false;
   cols.forEach((col, index) => {
-    if (/字段名称?/.test(col)) {
+    if (/业务字段名称?/.test(col)) {
+      map.textColumnIndex[index] += 5;
+      getFieldName = true;
+    } else if (/Da?t?a?\s?Ba?s?e?字段名称?/i.test(col)) {
+      map.codeColumnIndex[index] += getFieldName ? 2 : 0;
+    } else if (/字段名称?/.test(col)) {
       map.textColumnIndex[index] += 2;
-      map.codeColumnIndex[index] += 1;
-    }
-    if (/Da?t?a?\s?Ba?s?e?字段名称?/i.test(col)) {
-      map.codeColumnIndex[index] += 2;
+      map.codeColumnIndex[index] += getFieldName ? 2 : 4;
     }
     if (/字段编[号码]?/.test(col)) {
-      map.codeColumnIndex[index] += 2;
+      map.codeColumnIndex[index] += 3;
     }
     if (/字段类型|界面类型/.test(col)) {
       map.typeColumnIndex[index] += 5;

@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2022-03-17 15:22:35
+ * @LastEditTime: 2023-06-16 11:20:46
  * @Description: 根节点
  */
 import React from 'react';
@@ -21,7 +21,7 @@ function convert2LazyElement(
 }
 
 function convertRouteObject(routeObject: MsRouteObject): RouteObject {
-  const res: RouteObject = {};
+  const res = {} as RouteObject;
   if (!isUndefined(routeObject.caseSensitive)) res.caseSensitive = routeObject.caseSensitive;
   if (!isUndefined(routeObject.index)) res.index = routeObject.index;
   if (!isUndefined(routeObject.path)) res.path = routeObject.path;

@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-06-13 09:52:46
+ * @LastEditTime: 2023-06-16 11:02:00
  * @Description: 路由配置文件
  */
 
@@ -40,8 +40,8 @@ export const menus: MenuItemSetting[] = [
     children: [{ name: 'IconFont 转换工具', link: '/icon-font-tool' }],
   },
   {
-    name: 'Link 电脑端(开发中)',
-    children: [{ name: '页面字段生成工具(开发中)', link: '/link-create-field' }],
+    name: 'Link 电脑端',
+    children: [{ name: '页面字段生成工具', link: '/link-create-field' }],
   },
   {
     name: 'Link 移动端(开发中)',

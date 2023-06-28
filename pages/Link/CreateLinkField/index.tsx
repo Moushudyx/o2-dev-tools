@@ -1,53 +1,21 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-06-12 09:57:26
+ * @LastEditTime: 2023-06-28 11:42:28
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\index.tsx
  */
 import React, { useReducer, useState } from 'react';
-import { Collapse, Container, Field, Para, SubTitle } from 'Components/Typo';
+import { Collapse, Container, Field, Para, SubLine, SubTitle } from 'Components/Typo';
 import { read, write } from 'Utils/localStorage';
-import { readFieldProp } from './utils';
+import { defaultValue, isValidSetting, readFieldProp, storageKey } from './utils';
 import { intelligentHeadRead } from './intelligent';
 import { isNumber } from 'salt-lib';
-import './index.scss';
 import { Output } from './Output';
 import Switch from 'Components/Switch';
-
-const storageKey = 'CreateLinkField';
-const defaultDescTable = read(
-  `${storageKey}-descTable`,
-  `创建时间	日期		自动生成	是	否	系统标准字段				lnk_clue	created_by
-创建人	文本		自动生成	是	否	系统标准字段				lnk_clue	created
-姓名	文本		手工录入	是	否					lnk_clue	acct_name
-手机号码	文本		手工录入	条件判断	否					lnk_clue	mobile_phone
-微信号	文本		手工录入	条件判断	否					lnk_clue	wx_num
-家庭成员	lov		手工选择	否	是		FAMILY_MEMBERS	单身：single ，二人世界：twoPersons，三口之家：threePersons ，二孩家庭：twoChild ，三代同堂：threeGenerations ，其他：other		lnk_clue	family_members
-有无宠物	lov		手工选择	否	是		IS_FLAG	有：Y、无：N		lnk_clue	pet_flag
-来源渠道	lov		手工选择	是	条件判断		SOURCE_CHANNEL	商场活动、异业联盟（上下游品牌）、自然客流、门店签约设计公司、老客户复购、老客户转介绍、关系户（内部+外部）、渠道部-独立渠道、渠道部-战略渠道、小区团购	自然客流	lnk_clue	source_channel
-空间需求	lov		手工选择	否	否		SPACING_REQUIREMENT	厨房、客厅、餐厅、卫浴、卧室、书房、影音室、衣帽间、茶室、休闲娱乐空间、其他		lnk_clue	space_requirement
-空间需求数量	数值		手工录入	否	否					lnk_clue	space_require_num
-预计出图时间	日期		自动生成	否	否					lnk_clue	scheduled_time
-`
-);
-const defaultValue = {
-  descTable: defaultDescTable,
-  textColumnIndex: read(`${storageKey}-textColumnIndex`, '0'),
-  codeColumnIndex: read(`${storageKey}-codeColumnIndex`, '11'),
-  typeColumnIndex: read(`${storageKey}-typeColumnIndex`, '1'),
-  lovColumnIndex: read(`${storageKey}-lovColumnIndex`, '7'),
-  requireColumnIndex: read(`${storageKey}-requireColumnIndex`, '4'),
-  disableColumnIndex: read(`${storageKey}-disableColumnIndex`, '5'),
-
-  tableHead: read(
-    `${storageKey}-tableHead`,
-    '业务字段名	字段类型	字段长度	录入方式	是否必需	是否可编辑	业务含义／规则	值列表类型	值列表可选值	默认值	DB表名	DB字段名称'
-  ),
-  pageCode: read(`${storageKey}-pageCode`, 'clue'),
-  ignoreNoCode: read(`${storageKey}-ignoreNoCode`, true),
-};
+import { readLines, readXlsx } from './xlsx';
+import './index.scss';
 
 export default () => {
   const [state, dispatch] = useReducer(
@@ -77,51 +45,84 @@ export default () => {
       },
     };
   };
-  const computedProps =
-    state.descTable &&
-    isFinite(+state.textColumnIndex) &&
-    isFinite(+state.codeColumnIndex) &&
-    isFinite(+state.typeColumnIndex) &&
-    isFinite(+state.lovColumnIndex) &&
-    isFinite(+state.requireColumnIndex) &&
-    isFinite(+state.disableColumnIndex)
-      ? readFieldProp({
-          descTable: state.descTable,
-          textColumnIndex: +state.textColumnIndex,
-          codeColumnIndex: +state.codeColumnIndex,
-          typeColumnIndex: +state.typeColumnIndex,
-          lovColumnIndex: +state.lovColumnIndex,
-          requireColumnIndex: +state.requireColumnIndex,
-          disableColumnIndex: +state.disableColumnIndex,
-          isEditable,
-        })
-      : [];
+  const validSetting = isValidSetting(state, { isEditable });
+  const computedProps = validSetting ? readFieldProp(validSetting) : [];
   // console.log(computedProps);
+  /** 使用`intelligentHeadRead`读取后`dispatch`到头数据里 */
+  const dispatchHead = (a: Partial<ReturnType<typeof intelligentHeadRead>>) => {
+    const readRes = {} as { [key: string]: string };
+    (Object.keys(a) as Array<keyof typeof a>).forEach((key) => {
+      if (isNumber(a[key])) readRes[key] = String(a[key]);
+    });
+    dispatch(readRes as unknown as typeof defaultValue);
+  };
+  /** 读取 excel */
+  const readFile = async (file: File) => {
+    const wb = await readXlsx(file);
+    if (!wb.SheetNames[0]) return;
+    const { head, body } = await readLines(wb, wb.SheetNames[0]);
+    const tableHead = head.join('\t');
+    dispatchHead(intelligentHeadRead(tableHead));
+    dispatch({ tableHead, descTable: body.map((l) => l.join('\t')).join('\n') });
+  };
   return (
     <>
       <Container className="link-create-field">
         <SubTitle>生成 Link 字段代码</SubTitle>
         <Collapse header={<b>使用说明（点击右侧按钮展开详细说明）：</b>} defaultCollapse>
           <Para>
-            具体操作：
+            手动操作：
             <ol>
-              <li>在大输入框中粘贴从 Excel 表格中复制而来的内容</li>
-              <li>在上面的输入框里输入对应的数据在哪一列</li>
+              <li>
+                在大输入框中粘贴从 Excel 表格中复制而来的内容
+                <ul>
+                  <li>
+                    根据制表符<code>\t</code>区分列，因此必须是从 Excel
+                    之类的软件里复制出来的；否则你需要手动处理格式
+                  </li>
+                </ul>
+              </li>
+              <li>
+                在上面的输入框里输入对应的数据在哪一列
+                <ul>
+                  <li>按行分析，因此一个字段的所有数据必须写在一行里</li>
+                </ul>
+              </li>
               <li>如果实在分不清哪一列是哪一列，可以试试🕒智能读取</li>
               <li>生成的代码会放在页面最下方</li>
             </ol>
           </Para>
           <Para>
-            本工具原理：
+            自动操作：
             <ol>
               <li>
-                根据制表符<code>\t</code>区分列，因此必须是从 Excel
-                之类的软件里复制出来的；否则你需要手动处理格式
+                将导出的<code>csx</code>或<code>xlsx</code>拖拽到上传框处
               </li>
-              <li>按行分析，因此一个字段的所有数据必须写在一行里</li>
+              <li>检查大输入框中读取的数据是否正确</li>
+              <li>生成的代码会放在页面最下方</li>
             </ol>
           </Para>
         </Collapse>
+        <hr />
+        <SubLine>自动操作</SubLine>
+        <hr />
+        <Para>
+          <Field>
+            <label>将 Excel 文件上传到这里</label>
+            <input
+              type="file"
+              name="Excel Upload"
+              accept=".csv, .xls, .xlsx, .xlsm, .xlsb"
+              onChange={(ev) => {
+                const list = Array.from((ev.target as HTMLInputElement).files || []);
+                if (!list[0]) return;
+                void readFile(list[0]);
+              }}
+            />
+          </Field>
+        </Para>
+        <hr />
+        <SubLine>手动操作</SubLine>
         <hr />
         <Para>
           <Field>
@@ -130,15 +131,7 @@ export default () => {
               <span
                 className="span-btn"
                 onClick={() => {
-                  const readI = intelligentHeadRead(state.tableHead);
-                  // console.log(readI);
-                  const readRes = {} as Partial<typeof defaultValue>;
-                  Object.keys(readI).forEach((key) => {
-                    if (isNumber(readI[key as keyof typeof readI])) {
-                      readRes[key as keyof typeof readI] = String(readI[key as keyof typeof readI]);
-                    }
-                  });
-                  dispatch(readRes);
+                  dispatchHead(intelligentHeadRead(state.tableHead));
                 }}
                 title="复制"
               >
@@ -226,14 +219,22 @@ export default () => {
             <input {...bindValue('pageCode')}></input>
           </Field>
           <Field className="half-field">
+            <label>页面名称</label>
+            <input {...bindValue('pageName')}></input>
+          </Field>
+          <Field className="half-field">
+            <label>页面说明</label>
+            <input {...bindValue('pageDesc')}></input>
+          </Field>
+          <Field className="half-field">
+            <label>开发人员名称</label>
+            <input {...bindValue('userName')}></input>
+          </Field>
+          <Field className="half-field">
             <label>忽略没有获取到编码的字段</label>
             <Switch {...bindValue('ignoreNoCode')}></Switch>
           </Field>
-          <Output
-            pageCode={state.pageCode}
-            FieldProps={computedProps}
-            ignoreNoCode={state.ignoreNoCode}
-          />
+          <Output pageProps={state} FieldProps={computedProps} ignoreNoCode={state.ignoreNoCode} />
         </Para>
       </Container>
     </>

@@ -1,5 +1,6 @@
+/// <reference path="./globalPolyfill.d.ts" />
 /*
- * @LastEditTime: 2022-03-16 16:26:46
+ * @LastEditTime: 2023-06-16 11:32:32
  * @Description: file content
  */
 declare module '*.module.scss' {
@@ -47,10 +48,3 @@ interface MsRouteObject {
   /** 路径 */
   path?: string;
 }
-
-declare const process: {
-  env: {
-    NODE_ENV: 'development' | 'production';
-    HISTORY: 'browser' | 'hash';
-  };
-};
