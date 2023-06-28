@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-13 09:57:45
- * @LastEditTime: 2023-06-13 14:31:42
+ * @LastEditTime: 2023-06-28 10:34:46
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\General\CodeCase\utils.ts
@@ -30,7 +30,7 @@ const isUpperCase = RegExp.prototype.test.bind(/[A-Z]/);
 const isLowerCase = RegExp.prototype.test.bind(/[a-z]/);
 const isNumberCase = RegExp.prototype.test.bind(/[0-9]/);
 const isSymbolCase = RegExp.prototype.test.bind(/[^a-z0-9A-Z]/);
-
+/** 使用后可以用`caseConvert`组合为适合的格式 */
 export function splitVar(c: string) {
   const res = [] as VarCase[];
   // 拆分逻辑：
@@ -119,7 +119,7 @@ function snakeCase(code: string, index: boolean | number) {
   if (index) return `_${code}`;
   else return code;
 }
-
+/** 使用前需要用`splitVar`分割字符串 */
 export function caseConvert(
   caseToken: VarCase[],
   type: validCaseType | string,
