@@ -251,6 +251,22 @@ ${Jp(e.map(m=>CS(m)).join(`
                 // showMoreRowsButton: false, // \u66F4\u591A\u884C\u6570 \u6309\u94AE
                 // showCountsButton: false, // \u8BB0\u5F55\u8BA1\u6570 \u6309\u94AE
                 // showMoreButton: false, // \u66F4\u591A **\u4E0B\u62C9\u6846**
+                // buttons: [
+                //     {
+                //         label: '',
+                //         handler: () => /* ... */,
+                //         disabled: () => /* ... */,
+                //         // order: 100,
+                //         inner: false
+                //     },
+                //     {
+                //         label: '',
+                //         handler: ({row}) => /* ... */,
+                //         disabled: ({row}) => /* ... */,
+                //         // order: 100,
+                //         inner: true
+                //     }
+                // ]
             });
             // /** \u884C\u5185\u6309\u94AE\u914D\u7F6E */
             // const buttons = [
@@ -290,14 +306,14 @@ ${Jp(e.map(m=>CS(m)).join(`
             //  * @author ${s||"\u5EFA\u7ACB\u9875\u9762\u7684\u4EBA"}
             //  * @date ${l}
             //  */
-            // createRow(row) {
+            // copyRow(row) {
             //     const params = {id: row.id, mode: 'copy'};
             //     this.$nav.push('/modules/\u9875\u9762\u8DEF\u5F84/${f}-form.vue', params);
             // }
         }
     };
 <\/script>
-<style lang="scss" scoped>
+<style lang="scss">
     // .${f}-list {
     // }
 </style>
@@ -311,6 +327,9 @@ ${i||"\u7B80\u77ED\u7684\u9875\u9762\u8BF4\u660E"}
 <template>
     <div class="${f}-form">
         <link-form-panel :option="formOption">
+            <!-- <template slot="header-left">
+                <span>${n}</span>
+            </template> -->
             <template slot="header-right-readonly">
                 <!-- \u53EA\u8BFB\u72B6\u6001\u4E0B\u7684\u53F3\u4E0A\u89D2\u6309\u94AE -->
                 <link-button label="\u65B0\u5EFA" @click="formOption.doInsert" v-if="pageSecurity.addFlag === 'Y'"/>

@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-06-26 14:14:56
+ * @LastEditTime: 2023-07-03 11:39:42
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\column.ts
@@ -134,6 +134,22 @@ ${indent(options.map((option) => renderLinkColumn(option)).join('\n'), 12)}
                 // showMoreRowsButton: false, // 更多行数 按钮
                 // showCountsButton: false, // 记录计数 按钮
                 // showMoreButton: false, // 更多 **下拉框**
+                // buttons: [
+                //     {
+                //         label: '',
+                //         handler: () => /* ... */,
+                //         disabled: () => /* ... */,
+                //         // order: 100,
+                //         inner: false
+                //     },
+                //     {
+                //         label: '',
+                //         handler: ({row}) => /* ... */,
+                //         disabled: ({row}) => /* ... */,
+                //         // order: 100,
+                //         inner: true
+                //     }
+                // ]
             });
             // /** 行内按钮配置 */
             // const buttons = [
@@ -173,14 +189,14 @@ ${indent(options.map((option) => renderLinkColumn(option)).join('\n'), 12)}
             //  * @author ${userName || '建立页面的人'}
             //  * @date ${ymd}
             //  */
-            // createRow(row) {
+            // copyRow(row) {
             //     const params = {id: row.id, mode: 'copy'};
             //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
             // }
         }
     };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
     // .${pageCodeKebab}-list {
     // }
 </style>\n`;

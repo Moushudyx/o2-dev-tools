@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-06-26 14:16:11
+ * @LastEditTime: 2023-07-03 11:37:05
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\form.ts
@@ -65,6 +65,9 @@ ${pageDesc || '简短的页面说明'}
 <template>
     <div class="${pageCodeKebab}-form">
         <link-form-panel :option="formOption">
+            <!-- <template slot="header-left">
+                <span>${pageName}</span>
+            </template> -->
             <template slot="header-right-readonly">
                 <!-- 只读状态下的右上角按钮 -->
                 <link-button label="新建" @click="formOption.doInsert" v-if="pageSecurity.addFlag === 'Y'"/>
