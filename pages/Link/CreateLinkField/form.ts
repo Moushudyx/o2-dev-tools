@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-07-03 11:37:05
+ * @LastEditTime: 2023-07-18 11:21:13
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\form.ts
@@ -21,10 +21,10 @@ const formItemType: { [type: string]: string } = {
   none: 'link-input',
 };
 function getExtraData(option: LinkFieldProp): string {
-  const { type } = option;
+  const { type, code } = option;
   switch (type) {
     case 'lovView':
-      return ` :option="填写PickList的Option" showKey="填写PickList的展示字段" :map="填写PickList的字段 Map"`;
+      return ` :row="formOption.data" :option="填写PickList的Option" showKey="填写PickList的展示字段" :map="{${code}: '${code}'}"`;
     case 'address':
       return ` :types="['这里填写层级']" :map="{province:'province',city:'city',district:'district'}"`;
     default:
@@ -36,7 +36,7 @@ export function renderLinkFormItem(option: LinkFieldProp) {
   const { type, code, name, lov, require, disable } = option;
   const compName = formItemType[type] || formItemType.none;
   const basicData = ` label="${name}" prop="${code || 'FIXME缺少字段编码'}"`;
-  const vModel = ` v-model="formOption.data.${code || 'FIXME缺少字段编码'}"`;
+  const vModel = type === 'lovView' ? '' : ` v-model="formOption.data.${code || 'FIXME缺少字段编码'}"`;
   const lovData = type === 'lov' ? ` lov-type="${lov || 'FIXME缺少值集编码'}"` : '';
   const requireData = require ? ' required' : '';
   const disableData = disable ? ' disabled' : '';
