@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-07-03 11:39:42
+ * @LastEditTime: 2023-08-08 14:54:41
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\column.ts
@@ -105,12 +105,7 @@ ${indent(options.map((option) => renderLinkColumn(option)).join('\n'), 12)}
 
             <!-- 表头按钮 按钮组件文档 http://dev.linkcrm.cn/frontdoc/?id=link/button&app=doc -->
             <!-- <template slot="button">
-                <link-button
-                    :disabled="..."
-                    @click="..."
-                    icon="link-icon-..."
-                    color="..."
-                >
+                <link-button :disabled="..." @click="..." icon="link-icon-..." color="...">
                     按钮名称
                 </link-button>
             </template> -->
@@ -118,83 +113,79 @@ ${indent(options.map((option) => renderLinkColumn(option)).join('\n'), 12)}
     </div>
 </template>
 <script>
-    export default {
-        name: '${pageCodeKebab}-list',
-        data() {
-            const autoOption = new AutoOption({
-                context: this,
-                module: '/link/${pageCodeCamel}',
-                // title: '${pageName || ''}', // 会影响导出文件的名称
-                // param: {}, // 默认查询条件
-                // insertable: false, // 新建 按钮
-                // updateable: false, // 编辑 按钮
-                // deleteable: false, // 删除 按钮
-                // importable: false, // 导入 按钮
-                // otherable: false, // 其他 按钮
-                // showMoreRowsButton: false, // 更多行数 按钮
-                // showCountsButton: false, // 记录计数 按钮
-                // showMoreButton: false, // 更多 **下拉框**
-                // buttons: [
-                //     {
-                //         label: '',
-                //         handler: () => /* ... */,
-                //         disabled: () => /* ... */,
-                //         // order: 100,
-                //         inner: false
-                //     },
-                //     {
-                //         label: '',
-                //         handler: ({row}) => /* ... */,
-                //         disabled: ({row}) => /* ... */,
-                //         // order: 100,
-                //         inner: true
-                //     }
-                // ]
-            });
-            // /** 行内按钮配置 */
-            // const buttons = [
+import {globalPublicMixin} from '@/modules/common/js/mixin';
+
+export default {
+    name: '${pageCodeKebab}-list',
+    mixins: [globalPublicMixin],
+    data() {
+        const autoOption = new AutoOption({
+            context: this,
+            module: '/link/${pageCodeCamel}',
+            // title: '${pageName || ''}', // 会影响导出文件的名称
+            // param: {}, // 默认查询条件
+            // insertable: false, // 新建 按钮
+            // updateable: false, // 编辑 按钮
+            // deleteable: false, // 删除 按钮
+            // importable: false, // 导入 按钮
+            // otherable: false, // 其他 按钮
+            // showMoreRowsButton: false, // 更多行数 按钮
+            // showCountsButton: false, // 记录计数 按钮
+            // showMoreButton: false, // 更多 **下拉框**
+            // buttons: [
             //     {
-            //         label: '行内按钮1',
-            //         onClick: ({row}) => /* ... */
-            //     },
-            //     {
-            //         label: '行内按钮2',
-            //         disabled: ({row}) => /* ... */,
-            //         onClick: ({row}) => /* ... */
+            //         label: '',
+            //         handler: () => /* ... */,
+            //         disabled: () => /* ... */,
+            //         // order: 100,
+            //         inner: false
             //     }
-            // ];
-            return {autoOption};
-        },
-        methods: {
-            /**
-             * 跳转详情页
-             * @author ${userName || '建立页面的人'}
-             * @date ${ymd}
-             */
-            showDetail(row) {
-                const params = {id: row.id, mode: 'detail'}; // 若详情页要展示编码的话可以在这里传
-                this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
-            },
-            // /**
-            //  * 跳转新建页
-            //  * @author ${userName || '建立页面的人'}
-            //  * @date ${ymd}
-            //  */
-            // createRow(row) {
-            //     const params = {id: row.id, mode: 'new'};
-            //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
-            // },
-            // /**
-            //  * 跳转复制页，复制此行数据
-            //  * @author ${userName || '建立页面的人'}
-            //  * @date ${ymd}
-            //  */
-            // copyRow(row) {
-            //     const params = {id: row.id, mode: 'copy'};
-            //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
-            // }
+            // ]
+        });
+        // const buttons = [
+        //     {
+        //         label: '行内按钮',
+        //         disabled: ({row}) => /* ... */,
+        //         onClick: ({row}) => /* ... */
+        //     }
+        // ];
+        return {
+          /** 列表 option */
+          autoOption,
+          // /** 行内按钮配置 */
+          // buttons
+        };
+    },
+    methods: {
+        /**
+         * 跳转详情页
+         * @author ${userName || '建立页面的人'}
+         * @date ${ymd}
+         */
+        showDetail(row) {
+            const params = {id: row.id, mode: 'detail'}; // 若详情页要展示编码的话可以在这里传
+            this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
         }
-    };
+        // /**
+        //  * 跳转新建页
+        //  * @author ${userName || '建立页面的人'}
+        //  * @date ${ymd}
+        //  */
+        // createRow(row) {
+        //     const params = {id: row.id, mode: 'new'};
+        //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
+        // },
+        // /**
+        //  * 跳转复制页，复制此行数据
+        //  * @author ${userName || '建立页面的人'}
+        //  * @date ${ymd}
+        //  */
+        // copyRow(row) {
+        //     const params = {id: row.id, mode: 'copy'};
+        //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
+        // }
+    }
+};
 </script>
 <style lang="scss">
     // .${pageCodeKebab}-list {

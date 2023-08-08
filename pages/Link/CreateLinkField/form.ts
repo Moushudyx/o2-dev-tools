@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-07-18 11:21:13
+ * @LastEditTime: 2023-08-08 14:58:03
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\form.ts
@@ -102,33 +102,38 @@ ${indent(options.map((option) => renderLinkFormItem(option)).join('\n'), 20)}
     </div>
 </template>
 <script>
-    export default {
-        name: '${pageCodeKebab}-form',
-        data(){
-            const formOption = new LinkFormPanelOption({
-                context: this,
-                id: this.pageParam.id,
-                title: '${pageName}',
-                module: '/link/${pageCodeCamel}',
-                // dataDefault: {}, // 新建时的默认值
-                data: {}
-            });
+import {globalPublicMixin} from '@/modules/common/js/mixin';
 
-            return {formOption};
-        },
-        methods: {},
-        mounted() {
-            // 根据列表传参 做对应的状态切换
-            const {mode, id} = this.pageParam;
-            if (mode === 'new') {
-                this.formOption.doInsert();
-            } else if (mode === 'copy') {
-                this.formOption.doCopy(id);
-            } else if (mode ==='update') {
-                this.formOption.doUpdate(id);
-            }
+export default {
+    name: '${pageCodeKebab}-form',
+    mixins: [globalPublicMixin],
+    data() {
+        const formOption = new LinkFormPanelOption({
+            context: this,
+            id: this.pageParam.id,
+            title: '${pageName}',
+            module: '/link/${pageCodeCamel}',
+            // dataDefault: {}, // 新建时的默认值
+            data: {}
+        });
+        return {
+          /** 表单 option */
+          formOption
+        };
+    },
+    methods: {},
+    mounted() {
+        // 根据列表传参 做对应的状态切换
+        const {mode, id} = this.pageParam;
+        if (mode === 'new') {
+            this.formOption.doInsert();
+        } else if (mode === 'copy') {
+            this.formOption.doCopy(id);
+        } else if (mode ==='update') {
+            this.formOption.doUpdate(id);
         }
-    };
+    }
+};
 </script>
 <style lang="scss">
     // .${pageCodeKebab}-form {
