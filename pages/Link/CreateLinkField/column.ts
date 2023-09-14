@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-08-08 14:54:41
+ * @LastEditTime: 2023-09-14 11:37:46
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\column.ts
@@ -24,9 +24,9 @@ function getExtraData(option: LinkFieldProp): string {
   const { type } = option;
   switch (type) {
     case 'lovView':
-      return ` :option="填写PickList的Option" showKey="填写PickList的展示字段" :map="填写PickList的字段 Map"`;
+      return ` :option="填写PickList的Option" showKey="填写PickList的展示字段" :map="填写PickList的字段Map"`;
     case 'address':
-      return ` :types="['这里填写层级']" :map="{province:'province',city:'city',district:'district'}"`;
+      return ` :types="['这里填写层级']" :map="{province: 'province', city: 'city', district: 'district'}"`;
     default:
       return '';
   }
@@ -165,14 +165,14 @@ export default {
         showDetail(row) {
             const params = {id: row.id, mode: 'detail'}; // 若详情页要展示编码的话可以在这里传
             this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
-        }
+        },
         // /**
         //  * 跳转新建页
         //  * @author ${userName || '建立页面的人'}
         //  * @date ${ymd}
         //  */
-        // createRow(row) {
-        //     const params = {id: row.id, mode: 'new'};
+        // createRow() {
+        //     const params = {mode: 'new'};
         //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
         // },
         // /**
@@ -184,11 +184,19 @@ export default {
         //     const params = {id: row.id, mode: 'copy'};
         //     this.$nav.push('/modules/页面路径/${pageCodeKebab}-form.vue', params);
         // }
+        /**
+         * 回到列表页时刷新数据
+         * @author ${userName || '建立页面的人'}
+         * @date ${ymd}
+         */
+        onBack() {
+            this.autoOption.load();
+        }
     }
 };
 </script>
 <style lang="scss">
-    // .${pageCodeKebab}-list {
-    // }
+// .${pageCodeKebab}-list {
+// }
 </style>\n`;
 }
