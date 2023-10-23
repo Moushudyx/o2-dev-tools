@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-06-16 11:02:00
+ * @LastEditTime: 2023-10-23 10:53:06
  * @Description: 路由配置文件
  */
 
@@ -30,9 +30,9 @@ export const menus: MenuItemSetting[] = [
   {
     name: '中台',
     children: [
-      // { name: '表格列代码生成器', link: '/create-o2-col' },
+      { name: '页面字段生成工具(开发中)', link: '/create-o2-field' },
       { name: 'BBC 改造工具', link: '/platform-api' },
-      { name: '代码处理工具(开发中)', link: '/code-tools' },
+      // { name: '代码处理工具(开发中)', link: '/code-tools' },
     ],
   },
   {
@@ -79,9 +79,13 @@ export const routers: MsRouteObject[] = [
       },
       // 中台
       {
-        path: '/create-o2-col',
-        component: () => import('Pages/Console/CreateO2Col'),
+        path: '/create-o2-field',
+        component: () => import('Pages/Console/CreateO2Field'),
       },
+      // {
+      //   path: '/create-o2-col',
+      //   component: () => import('Pages/Console/CreateO2Col'),
+      // },
       {
         path: '/platform-api',
         component: () => import('Pages/Console/PlatformApi'),

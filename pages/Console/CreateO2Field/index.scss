@@ -1,0 +1,14 @@
+.link-create-field {
+  .half-field {
+    display: inline-flex;
+    width: 50%;
+    padding: 0 4px;
+    label {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    input {
+      width: 100%;
+    }
+  }
+}
