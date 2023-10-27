@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-10-23 15:53:56
+ * @LastEditTime: 2023-10-27 11:19:17
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
@@ -19,6 +19,7 @@ const columnType: { [type: string]: string } = {
   datetime: 'O2ColumnDatePicker',
   time: 'O2ColumnDatePicker',
   address: 'O2ColumnAddress',
+  image: 'O2ColumnImage',
   none: 'O2Column',
 };
 function getExtraData(option: LinkFieldProp): string {
@@ -56,7 +57,7 @@ export function renderLinkColumn(
     ? ` lovCode="${lov || 'FIXME缺少值集编码'}"`
     : '';
   const extraData = getExtraData(option);
-  const editData = `${require ? ' required' : ''}${disable ? ' disabled' : ''}`;
+  const editData = `${require ? ' required' : ''}${disable ? ' editable={false}' : ''}`;
   return `<${compName}${basicData}${lovData}${editData}${extraData} />`;
 }
 
@@ -76,18 +77,18 @@ export function renderLinkListPage(
   const ymd = `${time.getFullYear()}-${pad2(time.getMonth() + 1)}-${pad2(time.getDate())}`;
   const hms = `${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`;
   const pageCodeCamel = caseConvert(splitVar(pageCode), 'camel');
-  const pageCodePascal = caseConvert(splitVar(pageCode), 'pascal');
+  // const pageCodePascal = caseConvert(splitVar(pageCode), 'pascal');
   const pageCodeKebab = caseConvert(splitVar(pageCode), 'kebab');
   const serverCode = `${pageService.toUpperCase()}_M`;
   const langCode = `o2.${pageService.toLowerCase().replace('o2', '')}.${pageCodeCamel}`;
   return `/*
-* @Author: ${userName}
-* @Date: ${ymd} ${hms}
-* @LastEditTime: ${ymd} ${hms}
-* @LastEditors: ${userName}
-* @Description: ${pageName || ''} - ${pageDesc || '列表页'}
-* @FilePath: \\o2-console-front\\packages\\
-*/
+ * @Author: ${userName}
+ * @Date: ${ymd} ${hms}
+ * @LastEditTime: ${ymd} ${hms}
+ * @LastEditors: ${userName}
+ * @Description: ${pageName || ''} - ${pageDesc || '列表页'}
+ * @FilePath: \\o2-console-front\\packages\\
+ */
 import React, { Component } from 'react';
 import {
   createRenderHook,
@@ -110,13 +111,13 @@ import { ${serverCode} } from 'o2Utils/config'; // TODO 请检查这里的服务
 const prefix = \`\${${serverCode}}\`;
 const organizationId = getCurrentOrganizationId();
 // TODO 请检查这里的值集/值集视图编码
-// const { ${pageCodePascal}: { CODE = 'CODE' } = {} } = codeConfig;
+// const { ${pageCodeCamel}: { CODE = 'CODE' } = {} } = codeConfig;
 
 const Page = designO2Page(({ history }) => {
   // TODO 这里的多语言前缀由脚本自动生成，请检查
   usePageTitle(() => intl.get('${langCode}.view.title.list').d('${
     pageName || ''
-  }'));
+  }列表'));
 
   usePageOperator((prev) => (
     <>

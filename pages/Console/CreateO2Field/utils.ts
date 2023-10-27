@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2023-10-23 11:31:36
+ * @LastEditTime: 2023-10-25 16:35:00
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\utils.ts
@@ -67,7 +67,7 @@ export const defaultValue = {
     '字段名称	字段类型	字段编码	录入方式	是否必需	是否可编辑	业务含义／规则	值集编码'
   ),
   pageCode: read(`${storageKey}-pageCode`, 'product-group'),
-  pageService: read(`${storageKey}-service`, 'o2pcm'),
+  pageService: read(`${storageKey}-pageService`, 'o2pcm'),
   pageName: read(`${storageKey}-pageName`, '商品分组'),
   pageDesc: read(`${storageKey}-pageDesc`, '商品分组列表页'),
   userName: read(`${storageKey}-userName`, '@hand-china.com'),
@@ -80,9 +80,11 @@ const InputTypeRegExp = {
   lovView: /lovView|pick\s?List|object|l?o?v?值?集?(?:视图|弹出?框)/i,
   lov: /lov|值集?/i,
   select: /select|下拉选?择?框?/i,
+  switch: /switch|开关|是否选?择?框?/i,
   datetime: /Date(?:Time|Pick?e?r?)?|(?:日[期历])选?择?组?件?/i,
   time: /time(?:Pick?e?r?)?|(?:时间)选?择?组?件?/i,
   address: /address|地址/,
+  image: /ima?ge?|图/,
   none: /^(?:无|none)?$/i,
 } as const;
 /** 根据描述确定使用何种组件 */
@@ -167,7 +169,10 @@ export function readFieldProp(props: CreateLinkFieldProp): LinkFieldProp[] {
   // 按行拆分
   const lines = descTable
     .split('\n')
-    .filter((l) => !!l.trim())
+    .filter((l) => {
+      const s = l.trim();
+      return !!s && !s.startsWith('//');
+    })
     .map((l) => l.split('\t').map((s) => s.trim()));
   return genProps(lines, props);
 }

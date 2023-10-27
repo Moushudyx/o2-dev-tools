@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-10-23 15:54:03
+ * @LastEditTime: 2023-10-27 11:27:16
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
@@ -19,6 +19,7 @@ const formItemType: { [type: string]: string } = {
   datetime: 'O2FormDatepicker',
   time: 'O2FormDatepicker',
   address: 'O2FormAddress',
+  image: 'O2FormImageUpload',
   none: 'O2FormInput',
 };
 function getExtraData(option: LinkFieldProp): string {
@@ -30,6 +31,8 @@ function getExtraData(option: LinkFieldProp): string {
       return `region city district\n  valueField="${
         code || 'FIXME缺少字段编码'
       }"\n  parentValue="父级字段编码"`;
+    case 'image':
+      return 'listType="picture-card"\n  // urlPrefix={ }\n  // directory="package"'
     default:
       return '';
   }
@@ -85,7 +88,7 @@ export function renderBaseFormPage(pageInfo: {
   const ymd = `${time.getFullYear()}-${pad2(time.getMonth() + 1)}-${pad2(time.getDate())}`;
   const hms = `${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`;
   const pageCodeCamel = caseConvert(splitVar(pageCode), 'camel');
-  const pageCodePascal = caseConvert(splitVar(pageCode), 'pascal');
+  // const pageCodePascal = caseConvert(splitVar(pageCode), 'pascal');
   const pageCodeKebab = caseConvert(splitVar(pageCode), 'kebab');
   const serverCode = `${pageService.toUpperCase()}_M`;
   const langCode = `o2.${pageService.toLowerCase().replace('o2', '')}.${pageCodeCamel}.`;
@@ -98,8 +101,11 @@ export function renderBaseFormPage(pageInfo: {
 * @FilePath: \\o2-console-front\\packages\\
 */
 import React, { Component } from 'react';
+// import { Anchor, Row, Col } from 'choerodon-ui'; // 部分页面会要求在详情页右侧展示目录
 import {
   designO2Page,
+  // onMounted,
+  // reactive,
   useFormOption,
   useHttp,
 } from 'o2-design';
@@ -107,7 +113,7 @@ import formatterCollections from 'utils/intl/formatterCollections';
 import intl from 'utils/intl';
 import { getCurrentOrganizationId } from 'utils/utils';
 import { ${serverCode} } from 'o2Utils/config'; // TODO 请检查这里的服务编码
-import { useFormOptionSetup } from 'o2Utils';
+import { useFormOptionSetup /* , useTabs */ } from 'o2Utils';
 // import codeConfig from 'o2Utils/codeConfig/o2-xxx'; // TODO 请检查这里的值集/值集视图编码
 // import { useBaseInfo } from './BaseInfo';
 
@@ -115,7 +121,7 @@ import { useFormOptionSetup } from 'o2Utils';
 const prefix = \`\${${serverCode}}\`;
 const organizationId = getCurrentOrganizationId();
 // TODO 请检查这里的值集/值集视图编码
-// const { ${pageCodePascal}: { CODE = 'CODE' } = {} } = codeConfig;
+// const { ${pageCodeCamel}: { CODE = 'CODE' } = {} } = codeConfig;
 
 const Page = designO2Page((props) => {
   // const searchParams = new URLSearchParams(props.location.search); // 页面路由的查询参数，一般页面用不上
@@ -176,11 +182,41 @@ const Page = designO2Page((props) => {
   });
   setup(formOption);
 
-  const methods = {};
+  const methods = {
+    // handleRelease() {
+    //   //
+    // },
+  };
 
-  // useBaseInfo({ useCollapse, formOption, methods });
+  // const state = reactive({});
 
-  return () => <>{renderCollapses()}</>;
+  // 部分页面会要求在详情页右侧展示目录
+  // const { use: _useAnchor, render: renderAnchor } = createRenderHook();
+  // const useAnchor = ({ title, key }) =>
+  //   _useAnchor(() => <Anchor.Link key={key} href={\`#\${key}\`} title={title} />);
+
+  // useBaseInfo({ useCollapse, /* useAnchor, */ formOption, methods /* , state */ });
+
+  // const { useTabPane, renderTabs } = useTabs();
+
+  // useLineTab({ useTabPane, formOption, methods /* , state */ })
+
+  return () => <>{renderCollapses()}{/* renderTabs() */}</>;
+  // 部分页面会要求在详情页右侧展示目录
+  // return () => (
+  //   <div className="${pageCodeKebab}-detail">
+  //     <Row>
+  //       <Col span={21}>{renderCollapses()}{/* renderTabs() */}</Col>
+  //       <Col span={2} offset={1} style={{ position: 'fixed', right: 32 }}>
+  //         <Anchor
+  //           getContainer={() => document.querySelector('.${pageCodeKebab}-detail').parentElement}
+  //         >
+  //           {renderAnchor()}
+  //         </Anchor>
+  //       </Col>
+  //     </Row>
+  //   </div>
+  // );
 });
 // TODO 这里的多语言前缀由脚本自动生成，请检查
 @formatterCollections({ code: ['${langCode}'] })

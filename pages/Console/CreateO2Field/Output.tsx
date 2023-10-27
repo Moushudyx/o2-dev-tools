@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-08 15:48:10
- * @LastEditTime: 2023-10-23 15:52:54
+ * @LastEditTime: 2023-10-27 11:34:29
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\Output.tsx
@@ -12,6 +12,8 @@ import { LinkFieldProp } from './utils';
 import { renderLinkColumn, renderLinkListPage } from './column';
 import { renderBaseFormPage, renderLinkFormItem } from './form';
 import { copy } from 'Utils/utils';
+import { renderRouters } from './router';
+import { renderFormCollapsePage } from './collapse';
 
 export function Output(props: {
   pageProps: {
@@ -37,17 +39,18 @@ export function Output(props: {
           <span
             className="span-btn"
             onClick={() => {
-              // setOutput(
-              //   renderLinkFormPage(getProps(), {
-              //     pageCode,
-              //     pageName,
-              //     pageDesc,
-              //     userName,
-              //   })
-              // );
+              setOutput(
+                renderRouters({
+                  pageCode,
+                  pageService,
+                  pageName,
+                  pageDesc,
+                  userName,
+                })
+              );
             }}
           >
-            🚚(开发中)生成路由代码
+            🚚生成路由代码
           </span>
           <span
             className="span-btn"
@@ -124,17 +127,18 @@ export function Output(props: {
           <span
             className="span-btn"
             onClick={() => {
-              // setOutput(
-              //   renderLinkFormPage(getProps(), {
-              //     pageCode,
-              //     pageName,
-              //     pageDesc,
-              //     userName,
-              //   })
-              // );
+              setOutput(
+                renderFormCollapsePage(getProps(), {
+                  pageCode,
+                  pageService,
+                  pageName,
+                  pageDesc,
+                  userName,
+                })
+              );
             }}
           >
-            📝(开发中)生成折叠表单代码
+            📝生成折叠表单代码
           </span>
           <span className="span-btn" onClick={() => copy(output)} title="复制">
             📋复制
