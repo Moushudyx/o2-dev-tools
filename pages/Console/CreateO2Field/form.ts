@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-10-27 11:27:16
+ * @LastEditTime: 2023-10-30 11:30:19
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
@@ -20,6 +20,7 @@ const formItemType: { [type: string]: string } = {
   time: 'O2FormDatepicker',
   address: 'O2FormAddress',
   image: 'O2FormImageUpload',
+  upload: 'O2FormUpload',
   none: 'O2FormInput',
 };
 function getExtraData(option: LinkFieldProp): string {
@@ -141,8 +142,8 @@ const Page = designO2Page((props) => {
     keyField: '${pageCodeCamel}Id', // 主键
     paramIdField: 'id', // 页面路由参数上的 id，根据这个设置 configs.state.status
     // TODO 这里的多语言前缀由脚本自动生成，请检查
-    title: intl.get('${langCode}.title.detail').d('商品搭配详情'), // 页面标题
-    insertTitle: intl.get('${langCode}.title.insert').d('新建商品搭配'), // 新建时的页面标题
+    title: intl.get('${langCode}.title.detail').d('${pageName || ''}详情'), // 页面标题
+    insertTitle: intl.get('${langCode}.title.insert').d('新建${pageName || ''}'), // 新建时的页面标题
     // defaultNewRow: {}, // 推荐写在这里，会自动带入 configs.defaultNewRow 和 configs.state.formData 中
   });
 

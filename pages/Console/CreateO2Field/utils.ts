@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2023-10-30 10:51:18
+ * @LastEditTime: 2023-10-30 11:09:07
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\utils.ts
@@ -88,6 +88,7 @@ const InputTypeRegExp = {
   time: /time(?:Pick?e?r?)?|(?:时间)选?择?组?件?/i,
   address: /address|地址/,
   image: /ima?ge?|图/,
+  upload: /upload?e?r?|上传|文件/,
   none: /^(?:无|none)?$/i,
 } as const;
 /** 根据描述确定使用何种组件 */
