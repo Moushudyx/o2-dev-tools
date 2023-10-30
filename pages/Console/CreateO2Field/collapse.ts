@@ -5,7 +5,7 @@ import { LinkFieldProp, indent, padLeft } from "./utils";
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-10-27 11:14:26
- * @LastEditTime: 2023-10-27 11:34:08
+ * @LastEditTime: 2023-10-30 11:03:36
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\collapse.ts
@@ -57,7 +57,7 @@ export function useBaseInfo({ useCollapse, /* useAnchor, */ formOption /* , meth
   // TODO 这里的多语言前缀由脚本自动生成，请检查
   const title = intl.get('${langCode}.panelTitle.baseInfo').d('基本信息');
 
-  // useAnchor({ key, title }); //
+  // useAnchor({ key, title }); // 这里可以实现页面右侧展示目录的需求
   useCollapse({
     key,
     title,
@@ -66,6 +66,7 @@ export function useBaseInfo({ useCollapse, /* useAnchor, */ formOption /* , meth
 ${indent(options.map((option) => renderLinkFormItem(option, pageInfo)).join('\n'), 8)}
       </O2Form>
     ),
+    // isShow: () => formOption.status !== 'insert', // 这里可以配置新建时是否展示
   });
 
   // return {}; // 如果想传什么东西回去就在这里写

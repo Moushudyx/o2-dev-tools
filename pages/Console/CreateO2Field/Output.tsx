@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-08 15:48:10
- * @LastEditTime: 2023-10-27 11:34:29
+ * @LastEditTime: 2023-10-30 10:44:22
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\Output.tsx
@@ -32,6 +32,13 @@ export function Output(props: {
   // eslint-disable-next-line no-confusing-arrow
   const getProps = () =>
     ignoreNoCode ? FieldProps.filter(({ code }) => !!code) : FieldProps.slice();
+  const getPageConfig = () => ({
+    pageCode,
+    pageService,
+    pageName,
+    pageDesc,
+    userName,
+  });
   return (
     <>
       <Field>
@@ -39,15 +46,7 @@ export function Output(props: {
           <span
             className="span-btn"
             onClick={() => {
-              setOutput(
-                renderRouters({
-                  pageCode,
-                  pageService,
-                  pageName,
-                  pageDesc,
-                  userName,
-                })
-              );
+              setOutput(renderRouters(getPageConfig()));
             }}
           >
             🚚生成路由代码
@@ -57,15 +56,7 @@ export function Output(props: {
             onClick={() => {
               setOutput(
                 getProps()
-                  .map((prop) =>
-                    renderLinkColumn(prop, {
-                      pageCode,
-                      pageService,
-                      pageName,
-                      pageDesc,
-                      userName,
-                    })
-                  )
+                  .map((prop) => renderLinkColumn(prop, getPageConfig()))
                   .join('\n')
               );
             }}
@@ -77,15 +68,7 @@ export function Output(props: {
             onClick={() => {
               setOutput(
                 getProps()
-                  .map((prop) =>
-                    renderLinkFormItem(prop, {
-                      pageCode,
-                      pageService,
-                      pageName,
-                      pageDesc,
-                      userName,
-                    })
-                  )
+                  .map((prop) => renderLinkFormItem(prop, getPageConfig()))
                   .join('\n')
               );
             }}
@@ -95,15 +78,7 @@ export function Output(props: {
           <span
             className="span-btn"
             onClick={() => {
-              setOutput(
-                renderLinkListPage(getProps(), {
-                  pageCode,
-                  pageService,
-                  pageName,
-                  pageDesc,
-                  userName,
-                })
-              );
+              setOutput(renderLinkListPage(getProps(), getPageConfig()));
             }}
           >
             📝生成列表页模板代码
@@ -111,15 +86,7 @@ export function Output(props: {
           <span
             className="span-btn"
             onClick={() => {
-              setOutput(
-                renderBaseFormPage({
-                  pageCode,
-                  pageService,
-                  pageName,
-                  pageDesc,
-                  userName,
-                })
-              );
+              setOutput(renderBaseFormPage(getPageConfig()));
             }}
           >
             🚚生成详情页主页
@@ -127,15 +94,7 @@ export function Output(props: {
           <span
             className="span-btn"
             onClick={() => {
-              setOutput(
-                renderFormCollapsePage(getProps(), {
-                  pageCode,
-                  pageService,
-                  pageName,
-                  pageDesc,
-                  userName,
-                })
-              );
+              setOutput(renderFormCollapsePage(getProps(), getPageConfig()));
             }}
           >
             📝生成折叠表单代码
