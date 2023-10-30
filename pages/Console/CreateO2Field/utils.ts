@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2023-10-25 16:35:00
+ * @LastEditTime: 2023-10-30 10:51:18
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\utils.ts
@@ -53,26 +53,29 @@ export const defaultDescTable = read(
 预计出图时间	日期	scheduled_time	自动生成	否	否
 `
 );
-export const defaultValue = {
-  descTable: defaultDescTable,
-  textColumnIndex: read(`${storageKey}-textColumnIndex`, '0'),
-  codeColumnIndex: read(`${storageKey}-codeColumnIndex`, '2'),
-  typeColumnIndex: read(`${storageKey}-typeColumnIndex`, '1'),
-  lovColumnIndex: read(`${storageKey}-lovColumnIndex`, '7'),
-  requireColumnIndex: read(`${storageKey}-requireColumnIndex`, '4'),
-  disableColumnIndex: read(`${storageKey}-disableColumnIndex`, '5'),
 
-  tableHead: read(
-    `${storageKey}-tableHead`,
-    '字段名称	字段类型	字段编码	录入方式	是否必需	是否可编辑	业务含义／规则	值集编码'
-  ),
-  pageCode: read(`${storageKey}-pageCode`, 'product-group'),
-  pageService: read(`${storageKey}-pageService`, 'o2pcm'),
-  pageName: read(`${storageKey}-pageName`, '商品分组'),
-  pageDesc: read(`${storageKey}-pageDesc`, '商品分组列表页'),
-  userName: read(`${storageKey}-userName`, '@hand-china.com'),
-  ignoreNoCode: read(`${storageKey}-ignoreNoCode`, true),
-};
+export function getDefaultValue() {
+  return {
+    descTable: defaultDescTable,
+    textColumnIndex: read(`${storageKey}-textColumnIndex`, '0'),
+    codeColumnIndex: read(`${storageKey}-codeColumnIndex`, '2'),
+    typeColumnIndex: read(`${storageKey}-typeColumnIndex`, '1'),
+    lovColumnIndex: read(`${storageKey}-lovColumnIndex`, '7'),
+    requireColumnIndex: read(`${storageKey}-requireColumnIndex`, '4'),
+    disableColumnIndex: read(`${storageKey}-disableColumnIndex`, '5'),
+
+    tableHead: read(
+      `${storageKey}-tableHead`,
+      '字段名称	字段类型	字段编码	录入方式	是否必需	是否可编辑	业务含义／规则	值集编码'
+    ),
+    pageCode: read(`${storageKey}-pageCode`, 'product-group'),
+    pageService: read(`${storageKey}-pageService`, 'o2pcm'),
+    pageName: read(`${storageKey}-pageName`, '商品分组'),
+    pageDesc: read(`${storageKey}-pageDesc`, '商品分组列表页'),
+    userName: read(`${storageKey}-userName`, '@hand-china.com'),
+    ignoreNoCode: read(`${storageKey}-ignoreNoCode`, true),
+  };
+}
 
 const InputTypeRegExp = {
   text: /varchar|文本框?/i,
@@ -137,7 +140,10 @@ const getBoolean = (desc: string): boolean | undefined => {
 // `;
 // };
 
-export function isValidSetting<T extends typeof defaultValue>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ReturnType<T> = T extends (...args: any[]) => infer P ? P: never;
+
+export function isValidSetting<T extends ReturnType<typeof getDefaultValue>>(
   state: T,
   others: { isEditable: boolean }
 ): CreateLinkFieldProp | null {

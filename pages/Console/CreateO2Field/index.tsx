@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-10-23 11:47:59
+ * @LastEditTime: 2023-10-30 10:51:08
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\index.tsx
@@ -9,7 +9,7 @@
 import React, { useReducer, useState } from 'react';
 import { Collapse, Container, Field, Para, SubLine, SubTitle } from 'Components/Typo';
 import { read, write } from 'Utils/localStorage';
-import { defaultValue, isValidSetting, readFieldProp, storageKey } from './utils';
+import { getDefaultValue, isValidSetting, readFieldProp, storageKey } from './utils';
 import { intelligentHeadRead } from './intelligent';
 import { isNumber } from 'salt-lib';
 import { Output } from './Output';
@@ -17,20 +17,22 @@ import Switch from 'Components/Switch';
 import { readLines, readXlsx } from './xlsx';
 import './index.scss';
 
+type DefaultValueType = ReturnType<typeof getDefaultValue>
+
 export default () => {
   const [state, dispatch] = useReducer(
-    (preState: typeof defaultValue, action: Partial<typeof defaultValue>) => {
+    (preState: DefaultValueType, action: Partial<DefaultValueType>) => {
       for (const key of Object.keys(action)) {
-        write(`${storageKey}-${key}`, action[key as keyof typeof defaultValue]);
+        write(`${storageKey}-${key}`, action[key as keyof DefaultValueType]);
       }
       return { ...preState, ...action };
     },
-    { ...defaultValue }
+    { ...getDefaultValue() }
   );
   const [isEditable, setIsEditable] = useState(read(`${storageKey}-isEditable`, true));
-  const bindValue: <T extends keyof typeof defaultValue>(
+  const bindValue: <T extends keyof DefaultValueType>(
     key: T
-  ) => { value: (typeof defaultValue)[T] } = (key) => {
+  ) => { value: (DefaultValueType)[T] } = (key) => {
     const _type = typeof state[key] as 'boolean' | 'string';
     const defaultValue = ((type) => {
       if (type === 'boolean') return false;
@@ -54,7 +56,7 @@ export default () => {
     (Object.keys(a) as Array<keyof typeof a>).forEach((key) => {
       if (isNumber(a[key])) readRes[key] = String(a[key]);
     });
-    dispatch(readRes as unknown as typeof defaultValue);
+    dispatch(readRes as unknown as DefaultValueType);
   };
   /** 读取 excel */
   const readFile = async (file: File) => {
