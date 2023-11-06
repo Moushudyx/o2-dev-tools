@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-08 15:48:10
- * @LastEditTime: 2023-10-30 10:44:22
+ * @LastEditTime: 2023-11-06 10:09:00
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\Output.tsx
@@ -81,7 +81,7 @@ export function Output(props: {
               setOutput(renderLinkListPage(getProps(), getPageConfig()));
             }}
           >
-            📝生成列表页模板代码
+            📝生成列表页模板
           </span>
           <span
             className="span-btn"
@@ -97,7 +97,7 @@ export function Output(props: {
               setOutput(renderFormCollapsePage(getProps(), getPageConfig()));
             }}
           >
-            📝生成折叠表单代码
+            📝生成折叠表单
           </span>
           <span className="span-btn" onClick={() => copy(output)} title="复制">
             📋复制
