@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-10-23 10:53:06
+ * @LastEditTime: 2023-11-06 10:11:38
  * @Description: 路由配置文件
  */
 
@@ -30,7 +30,7 @@ export const menus: MenuItemSetting[] = [
   {
     name: '中台',
     children: [
-      { name: '页面字段生成工具(开发中)', link: '/create-o2-field' },
+      { name: '页面字段生成工具', link: '/create-o2-field' },
       { name: 'BBC 改造工具', link: '/platform-api' },
       // { name: '代码处理工具(开发中)', link: '/code-tools' },
     ],
