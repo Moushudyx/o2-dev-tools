@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2023-10-30 11:09:07
+ * @LastEditTime: 2023-11-10 11:07:26
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\utils.ts
@@ -42,15 +42,16 @@ export interface LinkFieldProp {
 export const storageKey = 'CreateO2Field';
 export const defaultDescTable = read(
   `${storageKey}-descTable`,
-  `姓名	文本	name	手工录入	是	否
-手机号码	文本	mobilePhone	手工录入	条件判断	否
-微信号	文本	wxCode	手工录入	条件判断	否
-家庭成员	lov	familyMember	手工选择	否	是		FAMILY_MEMBERS
-有无宠物	lov	petFlag	手工选择	否	是		IS_FLAG
-来源渠道	lov	sourceChannel	手工选择	是	条件判断		SOURCE_CHANNEL
-空间需求	lov	space	手工选择	否	否		SPACING_REQUIREMENT
-空间需求数	数值	space-require-num	手工录入	否	否
-预计出图时间	日期	scheduled_time	自动生成	否	否
+  `网店商品编码	platformProductCode	文本	是	否
+网店商品名称	title	文本	是	否
+网店	catalogVersionName	值集视图	是	否	O2MD.ALL_ONLINE_SHOP
+MDM编码	mdmCode	文本	是	否
+网店商品状态	activeFlag	开关	是	否
+原价	price	数字	是	否
+发布状态	postStatusCode	值集	是	否	O2PCM.SHELF_STATUS
+上下架状态	shelfStatusCode	值集	是	否	O2PCM.ATTRIBUTE_SALE
+定时上架时间	autoOnlineDate	时间	是	否
+定时下架时间	autoOfflineDate	时间	是	否
 `
 );
 
@@ -58,22 +59,22 @@ export function getDefaultValue() {
   return {
     descTable: defaultDescTable,
     textColumnIndex: read(`${storageKey}-textColumnIndex`, '0'),
-    codeColumnIndex: read(`${storageKey}-codeColumnIndex`, '2'),
-    typeColumnIndex: read(`${storageKey}-typeColumnIndex`, '1'),
-    lovColumnIndex: read(`${storageKey}-lovColumnIndex`, '7'),
+    codeColumnIndex: read(`${storageKey}-codeColumnIndex`, '1'),
+    typeColumnIndex: read(`${storageKey}-typeColumnIndex`, '2'),
+    lovColumnIndex: read(`${storageKey}-lovColumnIndex`, '5'),
     requireColumnIndex: read(`${storageKey}-requireColumnIndex`, '4'),
-    disableColumnIndex: read(`${storageKey}-disableColumnIndex`, '5'),
+    disableColumnIndex: read(`${storageKey}-disableColumnIndex`, '3'),
 
     tableHead: read(
       `${storageKey}-tableHead`,
-      '字段名称	字段类型	字段编码	录入方式	是否必需	是否可编辑	业务含义／规则	值集编码'
+      '字段名称	字段编码	字段类型	是否可编辑	是否必填	值集编码	字段逻辑'
     ),
-    pageCode: read(`${storageKey}-pageCode`, 'product-group'),
+    pageCode: read(`${storageKey}-pageCode`, 'platform product'),
     pageService: read(`${storageKey}-pageService`, 'o2pcm'),
-    pageName: read(`${storageKey}-pageName`, '商品分组'),
-    pageDesc: read(`${storageKey}-pageDesc`, '商品分组列表页'),
-    userName: read(`${storageKey}-userName`, '@hand-china.com'),
-    ignoreNoCode: read(`${storageKey}-ignoreNoCode`, true),
+    pageName: read(`${storageKey}-pageName`, '网店商品管理'),
+    pageDesc: read(`${storageKey}-pageDesc`, '网店商品管理列表页'),
+    userName: read(`${storageKey}-userName`, 'xxx.xxx@hand-china.com'),
+    ignoreNoCode: read(`${storageKey}-ignoreNoCode`, false),
   };
 }
 

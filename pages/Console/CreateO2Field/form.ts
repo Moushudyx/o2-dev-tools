@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-10-30 11:30:19
+ * @LastEditTime: 2023-11-10 11:55:42
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
@@ -27,18 +27,25 @@ function getExtraData(option: LinkFieldProp): string {
   const { type, code } = option;
   switch (type) {
     case 'lovView':
-      return `showKey="${code || '填写值集视图的展示字段'}"\n  map={填写值集视图的字段Map}`;
+      return `\n  showKey="${code || '填写值集视图的展示字段'}"\n  map={填写值集视图的字段Map}`;
     case 'address':
-      return `region city district\n  valueField="${
-        code || 'FIXME缺少字段编码'
-      }"\n  parentValue="父级字段编码"`;
+      return `
+  region city district
+  valueField="${code || 'FIXME缺少字段编码'}"
+  parentValue="父级字段编码"`;
     case 'image':
-      return 'listType="picture-card"\n  // urlPrefix={ }\n  // directory="package"'
+      return '\n  listType="picture-card"\n  // urlPrefix={ }\n  // directory="package"';
+    case 'datetime':
+    case 'time':
+      return `
+  datetime // 展示日期+时间
+  // range // 范围模式，此时 field 要写成 field={[字段1, 字段2]}
+  // v-model-start={} v-model-end={} // 范围模式下数据要绑定到这两个参数上`;
     default:
       return '';
   }
 }
-/** 生成单个列组件的代码 */
+/** 生成单个表单组件的代码 */
 export function renderLinkFormItem(
   option: LinkFieldProp,
   pageInfo: {
@@ -54,28 +61,28 @@ export function renderLinkFormItem(
   const langCode = `o2.${pageService.toLowerCase().replace('o2', '')}.${pageCodeCamel}.model.`;
   const { type, code, name, lov, require, disable } = option;
   const compName = formItemType[type] || formItemType.none;
-  const basicData = `label={intl.get('${langCode}${code || ''}').d('${name}')}\n  field="${
+  const basicData = `\n  label={intl.get('${langCode}${code || ''}').d('${name}')}\n  field="${
     code || 'FIXME缺少字段编码'
   }"`;
   const vModel =
     type === 'lovView'
-      ? 'row={formOption.formData}'
-      : `v-model={formOption.formData.${code || 'FIXME缺少字段编码'}}`;
+      ? '\n  row={formOption.formData}'
+      : `\n  v-model={formOption.formData.${code || 'FIXME缺少字段编码'}}`;
   const lovData = ['lovView', 'lov'].includes(type)
-    ? `lovCode="${lov || 'FIXME缺少值集编码'}"`
+    ? `\n  lovCode="${lov || 'FIXME缺少值集编码'}"`
     : '';
-  const requireData = require ? 'required' : '';
-  const disableData = disable ? 'disabled' : '';
+  const requireData = require ? '\n  required' : '';
+  const disableData = disable ? '\n  disabled' : '';
   const extraData = getExtraData(option);
-  return `<${compName}
-  ${basicData}
-  ${vModel}
-  ${lovData}
-  ${requireData}${disableData}
-  ${extraData}
+  return `<${compName}${basicData}${vModel}${lovData}${requireData}${disableData}${extraData}
 />`.replace(/\n\s+\n/g, '\n');
 }
-
+/** 获取所有需要的表单组件 */
+export function getFormComponents(options: LinkFieldProp[]) {
+  const comps = options.map((o) => formItemType[o.type] || formItemType.none);
+  comps.sort();
+  return Array.from(new Set(comps));
+}
 export function renderBaseFormPage(pageInfo: {
   pageCode: string;
   pageService: string;
@@ -92,15 +99,15 @@ export function renderBaseFormPage(pageInfo: {
   // const pageCodePascal = caseConvert(splitVar(pageCode), 'pascal');
   const pageCodeKebab = caseConvert(splitVar(pageCode), 'kebab');
   const serverCode = `${pageService.toUpperCase()}_M`;
-  const langCode = `o2.${pageService.toLowerCase().replace('o2', '')}.${pageCodeCamel}.`;
+  const langCode = `o2.${pageService.toLowerCase().replace('o2', '')}.${pageCodeCamel}`;
   return `/*
-* @Author: ${userName}
-* @Date: ${ymd} ${hms}
-* @LastEditTime: ${ymd} ${hms}
-* @LastEditors: ${userName}
-* @Description: ${pageName || ''} - ${pageDesc || '详情页'}
-* @FilePath: \\o2-console-front\\packages\\
-*/
+ * @Author: ${userName}
+ * @Date: ${ymd} ${hms}
+ * @LastEditTime: ${ymd} ${hms}
+ * @LastEditors: ${userName}
+ * @Description: ${pageName || ''} - ${pageDesc || '详情页'}
+ * @FilePath: \\o2-console-front\\packages\\
+ */
 import React, { Component } from 'react';
 // import { Anchor, Row, Col } from 'choerodon-ui'; // 部分页面会要求在详情页右侧展示目录
 import {
@@ -143,7 +150,9 @@ const Page = designO2Page((props) => {
     paramIdField: 'id', // 页面路由参数上的 id，根据这个设置 configs.state.status
     // TODO 这里的多语言前缀由脚本自动生成，请检查
     title: intl.get('${langCode}.title.detail').d('${pageName || ''}详情'), // 页面标题
-    insertTitle: intl.get('${langCode}.title.insert').d('新建${pageName || ''}'), // 新建时的页面标题
+    insertTitle: intl.get('${langCode}.title.insert').d('新建${
+    pageName || ''
+  }'), // 新建时的页面标题
     // defaultNewRow: {}, // 推荐写在这里，会自动带入 configs.defaultNewRow 和 configs.state.formData 中
   });
 

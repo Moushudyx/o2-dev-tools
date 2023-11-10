@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-10-30 10:51:08
+ * @LastEditTime: 2023-11-10 09:44:02
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\index.tsx
@@ -17,7 +17,7 @@ import Switch from 'Components/Switch';
 import { readLines, readXlsx } from './xlsx';
 import './index.scss';
 
-type DefaultValueType = ReturnType<typeof getDefaultValue>
+type DefaultValueType = ReturnType<typeof getDefaultValue>;
 
 export default () => {
   const [state, dispatch] = useReducer(
@@ -30,9 +30,9 @@ export default () => {
     { ...getDefaultValue() }
   );
   const [isEditable, setIsEditable] = useState(read(`${storageKey}-isEditable`, true));
-  const bindValue: <T extends keyof DefaultValueType>(
-    key: T
-  ) => { value: (DefaultValueType)[T] } = (key) => {
+  const bindValue: <T extends keyof DefaultValueType>(key: T) => { value: DefaultValueType[T] } = (
+    key
+  ) => {
     const _type = typeof state[key] as 'boolean' | 'string';
     const defaultValue = ((type) => {
       if (type === 'boolean') return false;
@@ -91,7 +91,7 @@ export default () => {
                 </ul>
               </li>
               <li>如果实在分不清哪一列是哪一列，可以试试🕒智能读取</li>
-              <li>生成的代码会放在页面最下方</li>
+              <li>在页面最下方选择想要生成的代码</li>
             </ol>
           </Para>
           <Para>
@@ -100,121 +100,130 @@ export default () => {
               <li>
                 将导出的<code>csx</code>或<code>xlsx</code>拖拽到上传框处
               </li>
-              <li>检查大输入框中读取的数据是否正确</li>
-              <li>生成的代码会放在页面最下方</li>
+              <li>检查“手动操作”栏的输入框中读取的数据是否正确</li>
+              <li>在页面最下方选择想要生成的代码</li>
             </ol>
           </Para>
         </Collapse>
+
         <hr />
-        <SubLine>自动操作</SubLine>
+
+        <Collapse header={<SubLine>手动操作</SubLine>} defaultCollapse>
+          <Para>
+            <Field>
+              <label>
+                将 Excel 的表头粘贴在这里
+                <span
+                  className="span-btn"
+                  onClick={() => {
+                    dispatchHead(intelligentHeadRead(state.tableHead));
+                  }}
+                  title="复制"
+                >
+                  🕒智能读取
+                </span>
+              </label>
+              <input {...bindValue('tableHead')} style={{ width: '100%', padding: '4px 4px' }} />
+            </Field>
+          </Para>
+          <hr />
+          <Para>
+            <Field>
+              <label>
+                在下面的表单中填写应该从第几列读取指定数据（或者点击上面的“智能读取”按钮自动填写）
+              </label>
+            </Field>
+            <Field className="half-field">
+              <label>字段名称</label>
+              <input {...bindValue('textColumnIndex')}></input>
+            </Field>
+            <Field className="half-field">
+              <label>
+                字段编码
+                <span title="会自动转换为驼峰格式" style={{ textDecoration: 'underline dashed' }}>
+                  ?
+                </span>
+              </label>
+              <input {...bindValue('codeColumnIndex')}></input>
+            </Field>
+            <Field className="half-field">
+              <label>
+                字段类型
+                <span
+                  title="可以识别“日期”“address”“数字”“pickList”等文字"
+                  style={{ textDecoration: 'underline dashed' }}
+                >
+                  ?
+                </span>
+              </label>
+              <input {...bindValue('typeColumnIndex')}></input>
+            </Field>
+            <Field className="half-field">
+              <label>
+                值集编码
+                <span
+                  title="也叫 Lov 编码，包括值集视图编码"
+                  style={{ textDecoration: 'underline dashed' }}
+                >
+                  ?
+                </span>
+              </label>
+              <input {...bindValue('lovColumnIndex')}></input>
+            </Field>
+            <Field className="half-field">
+              <label>是否必填</label>
+              <input {...bindValue('requireColumnIndex')}></input>
+            </Field>
+            <Field className="half-field">
+              <label>
+                是否{isEditable ? '可编辑' : '禁用'}
+                <button
+                  title="有的文档写的是“是否可编辑”，有的文档写的是“是否禁用”"
+                  style={{ padding: 0, margin: 0 }}
+                  onClick={() => {
+                    setIsEditable((v) => {
+                      write(`${storageKey}-isEditable`, !v);
+                      return !v;
+                    });
+                  }}
+                >
+                  🔄
+                </button>
+              </label>
+              <input {...bindValue('disableColumnIndex')}></input>
+            </Field>
+          </Para>
+          <hr />
+          <Para>
+            <Field>
+              <label>复制文档中描述字段的表格（以制表符分割的模式）</label>
+              <textarea {...bindValue('descTable')} style={{ whiteSpace: 'pre' }}></textarea>
+            </Field>
+          </Para>
+        </Collapse>
+
         <hr />
-        <Para>
-          <Field>
-            <label>将 Excel 文件上传到这里</label>
-            <input
-              type="file"
-              name="Excel Upload"
-              accept=".csv, .xls, .xlsx, .xlsm, .xlsb"
-              onChange={(ev) => {
-                const list = Array.from((ev.target as HTMLInputElement).files || []);
-                if (!list[0]) return;
-                void readFile(list[0]);
-              }}
-            />
-          </Field>
-        </Para>
-        <hr />
-        <SubLine>手动操作</SubLine>
-        <hr />
-        <Para>
-          <Field>
-            <label>
-              将 Excel 的表头粘贴在这里
-              <span
-                className="span-btn"
-                onClick={() => {
-                  dispatchHead(intelligentHeadRead(state.tableHead));
+
+        <Collapse header={<SubLine>自动操作</SubLine>}>
+          <Para>
+            <Field>
+              <label>将 Excel 文件上传到这里</label>
+              <input
+                type="file"
+                name="Excel Upload"
+                accept=".csv, .xls, .xlsx, .xlsm, .xlsb"
+                onChange={(ev) => {
+                  const list = Array.from((ev.target as HTMLInputElement).files || []);
+                  if (!list[0]) return;
+                  void readFile(list[0]);
                 }}
-                title="复制"
-              >
-                🕒智能读取
-              </span>
-            </label>
-            <input {...bindValue('tableHead')} style={{ width: '100%', padding: '4px 4px' }} />
-          </Field>
-        </Para>
+              />
+            </Field>
+          </Para>
+        </Collapse>
+
         <hr />
-        <Para>
-          <Field>
-            <label>
-              在下面的表单中填写应该从第几列读取指定数据（或者点击上面的“智能读取”按钮自动填写）
-            </label>
-          </Field>
-          <Field className="half-field">
-            <label>字段名称</label>
-            <input {...bindValue('textColumnIndex')}></input>
-          </Field>
-          <Field className="half-field">
-            <label>
-              字段编码
-              <span title="会自动转换为驼峰格式" style={{ textDecoration: 'underline dashed' }}>
-                ?
-              </span>
-            </label>
-            <input {...bindValue('codeColumnIndex')}></input>
-          </Field>
-          <Field className="half-field">
-            <label>
-              字段类型
-              <span
-                title="可以识别“日期”“address”“数字”“pickList”等文字"
-                style={{ textDecoration: 'underline dashed' }}
-              >
-                ?
-              </span>
-            </label>
-            <input {...bindValue('typeColumnIndex')}></input>
-          </Field>
-          <Field className="half-field">
-            <label>
-              值集编码
-              <span title="也叫 Lov 编码，包括值集视图编码" style={{ textDecoration: 'underline dashed' }}>
-                ?
-              </span>
-            </label>
-            <input {...bindValue('lovColumnIndex')}></input>
-          </Field>
-          <Field className="half-field">
-            <label>是否必填</label>
-            <input {...bindValue('requireColumnIndex')}></input>
-          </Field>
-          <Field className="half-field">
-            <label>
-              是否{isEditable ? '可编辑' : '禁用'}
-              <button
-                title="有的文档写的是“是否可编辑”，有的文档写的是“是否禁用”"
-                style={{ padding: 0, margin: 0 }}
-                onClick={() => {
-                  setIsEditable((v) => {
-                    write(`${storageKey}-isEditable`, !v);
-                    return !v;
-                  });
-                }}
-              >
-                🔄
-              </button>
-            </label>
-            <input {...bindValue('disableColumnIndex')}></input>
-          </Field>
-        </Para>
-        <hr />
-        <Para>
-          <Field>
-            <label>复制文档中描述字段的表格（以制表符分割的模式）</label>
-            <textarea {...bindValue('descTable')} style={{ whiteSpace: 'pre' }}></textarea>
-          </Field>
-        </Para>
-        <hr />
+        <SubLine>页面配置</SubLine>
         <Para>
           <Field className="half-field">
             <label>页面编码</label>

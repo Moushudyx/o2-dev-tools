@@ -1,7 +1,7 @@
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-10-27 11:19:17
+ * @LastEditTime: 2023-11-10 11:40:15
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
@@ -26,17 +26,30 @@ function getExtraData(option: LinkFieldProp): string {
   const { type, code } = option;
   switch (type) {
     case 'lovView':
-      return ` showKey="${code || '填写值集视图的展示字段'}" map={填写值集视图的字段Map}`;
+      return `\n  showKey="${code || '填写值集视图的展示字段'}"\n  map={填写值集视图的字段Map}`;
     case 'address':
-      return ` region city district valueField="${
+      return `\n  region city district valueField="${
         code || 'FIXME缺少字段编码'
-      }" parentValue="父级字段编码"`;
+      }"\n  parentValue="父级字段编码"`;
+    case 'switch':
+      return `\n  // yesNoMode // 展示为“是”“否”`;
+    case 'datetime':
+    case 'time':
+      return `
+  datetime // 展示日期+时间
+  // filterConfig={{
+  //   start: '${caseConvert(splitVar(`${code}-from`), 'camel')}',
+  //   end: '${caseConvert(splitVar(`${code}-to`), 'camel')}',
+  //   nativeAttrs: {
+  //     defaultTime: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],
+  //   },
+  // }}`;
     default:
       return '';
   }
 }
 /** 生成单个列组件的代码 */
-export function renderLinkColumn(
+export function renderO2Column(
   option: LinkFieldProp,
   pageInfo: {
     pageCode: string;
@@ -44,24 +57,34 @@ export function renderLinkColumn(
     pageName: string;
     pageDesc: string;
     userName: string;
-  }
+  },
+  fieldCount = 1
 ) {
-  const {pageCode, pageService} = pageInfo;
+  const { pageCode, pageService } = pageInfo;
   const pageCodeCamel = caseConvert(splitVar(pageCode), 'camel');
   const langCode = `o2.${pageService.toLowerCase().replace('o2', '')}.${pageCodeCamel}.model.`;
   const { type, code, name, lov, require, disable } = option;
   const compName = columnType[type] || columnType.none;
-  const basicData = ` title={intl.get('${langCode}${code || ''}').d('${name}')} field="${code || 'FIXME缺少字段编码'}"`;
+  const basicData = `\n  title={intl.get('${langCode}${code || ''}').d('${name}')}\n  field="${
+    code || 'FIXME缺少字段编码'
+  }"`;
   // const autoFillData = ` auto-fill="${getAutoFillData(option)}"`;
   const lovData = ['lovView', 'lov'].includes(type)
-    ? ` lovCode="${lov || 'FIXME缺少值集编码'}"`
+    ? `\n  lovCode="${lov || 'FIXME缺少值集编码'}"`
     : '';
   const extraData = getExtraData(option);
-  const editData = `${require ? ' required' : ''}${disable ? ' editable={false}' : ''}`;
-  return `<${compName}${basicData}${lovData}${editData}${extraData} />`;
+  const editData = `${require ? '\n  required' : ''}${disable ? '\n  editable={false}' : ''}`;
+  return `<${compName}${basicData}${lovData}${editData}${extraData}
+  // formFilter${fieldCount > 6 ? '' : '\n  fit // 字段过少时自动占满页面宽度'}
+/>`;
 }
-
-export function renderLinkListPage(
+/** 获取所有需要的列组件 */
+function getColumnComponents(options: LinkFieldProp[]) {
+  const comps = options.map((o) => columnType[o.type] || columnType.none);
+  comps.sort();
+  return Array.from(new Set(comps));
+}
+export function renderO2ListPage(
   options: LinkFieldProp[],
   pageInfo: {
     pageCode: string;
@@ -94,6 +117,12 @@ import {
   createRenderHook,
   designO2Page,
   O2Table,
+${indent(
+  getColumnComponents(options)
+    .map((s) => `${s},`)
+    .join('\n'),
+  2
+)}
   useHttp,
   usePageOperator,
   usePageTitle,
@@ -115,9 +144,7 @@ const organizationId = getCurrentOrganizationId();
 
 const Page = designO2Page(({ history }) => {
   // TODO 这里的多语言前缀由脚本自动生成，请检查
-  usePageTitle(() => intl.get('${langCode}.view.title.list').d('${
-    pageName || ''
-  }列表'));
+  usePageTitle(() => intl.get('${langCode}.view.title.list').d('${pageName || ''}列表'));
 
   usePageOperator((prev) => (
     <>
@@ -189,7 +216,7 @@ const Page = designO2Page(({ history }) => {
   return () => (
     <>
       <O2Table option={state.option}>
-${indent(options.map((option) => renderLinkColumn(option, pageInfo)).join('\n'), 8)}
+${indent(options.map((option) => renderO2Column(option, pageInfo, options.length)).join('\n'), 8)}
       </O2Table>
     </>
   );

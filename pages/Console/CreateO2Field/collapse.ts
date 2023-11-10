@@ -1,11 +1,11 @@
 import { caseConvert, splitVar } from "Pages/General/CodeCase/utils";
-import { renderLinkFormItem } from "./form";
+import { getFormComponents, renderLinkFormItem } from "./form";
 import { LinkFieldProp, indent, padLeft } from "./utils";
 
 /*
  * @Author: shuyan.yin@hand-china.com
  * @Date: 2023-10-27 11:14:26
- * @LastEditTime: 2023-10-30 11:03:36
+ * @LastEditTime: 2023-11-10 11:38:17
  * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\collapse.ts
@@ -39,7 +39,15 @@ export function renderFormCollapsePage(
  * @FilePath: \\o2-console-front\\packages\\
  */
 import React from 'react';
-import { O2Form, O2FormInput, O2FormLovView, O2FormSwitch } from 'o2-design';
+import {
+  O2Form,
+${indent(
+  getFormComponents(options)
+    .map((s) => `${s},`)
+    .join('\n'),
+  2
+)}
+} from 'o2-design';
 import intl from 'utils/intl';
 // import { getCurrentOrganizationId } from 'utils/utils';
 // import { ${serverCode} } from 'o2Utils/config'; // TODO 请检查这里的服务编码
