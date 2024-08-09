@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-06-12 11:49:58
+ * @LastEditTime: 2024-08-09 15:53:46
  * @Description: 本地热更新服务
  */
 const port = 5000;
@@ -47,6 +47,7 @@ console.log($P("MouShu's scaffold - serve " + $T(), 'grey'));
     pubdir: path.resolve(__dirname, '../docs'),
     quiet: false,
     livereload: true,
+    dirlist: true,
   });
   open(url);
   console.log($P(' SERVE ', 'b', 'white', 'greenbg'), '服务开启, 见:', $P(url, 'b'));

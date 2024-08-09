@@ -1,8 +1,7 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-06-13 09:44:15
  * @LastEditTime: 2023-06-13 14:32:19
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\General\CodeCase\index.tsx
  */

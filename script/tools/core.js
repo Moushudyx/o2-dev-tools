@@ -1,7 +1,9 @@
 /*
- * @LastEditTime: 2023-06-12 13:41:28
+ * @LastEditTime: 2024-08-09 15:34:38
  * @Description: file content
  */
+const fs = require('fs');
+const url = require('url');
 const { build, context } = require('esbuild');
 const { sassPlugin, postcssModules } = require('esbuild-sass-plugin');
 
@@ -47,6 +49,7 @@ module.exports = async ({ props, define }) => {
           'process.env.NODE_ENV': '"development"',
           'process.env.HISTORY': '"browser"',
           'process.env.BABEL_TYPES_8_BREAKING': 'false',
+          'import.meta.url': '$$ImportMetaUrl',
           ...define,
         };
   // 构建参数
