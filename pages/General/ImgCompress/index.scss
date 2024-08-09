@@ -1,0 +1,53 @@
+@import '../../../src/scss/constant.scss';
+
+.img-compress {
+  .size-radio {
+    &.small {
+      color: #183;
+      &.very-small {
+        color: #1a1;
+        font-weight: bold;
+      }
+    }
+    &.normal {
+      color: #446;
+    }
+    &.big {
+      color: #831;
+      &.very-big {
+        color: #a11;
+        font-weight: bold;
+      }
+    }
+  }
+  .img-compare {
+    position: relative;
+    width: 100%;
+    height: auto;
+    .origin-img,
+    .minify-img {
+      max-width: 100%;
+      max-height: 100vh;
+    }
+    .origin-img {
+      height: auto;
+    }
+    .minify-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+  .type-btn {
+    @include msButton;
+    min-width: 60px;
+    padding: 2px 4px;
+    &-icon {
+      min-width: 1.5em;
+      text-align: center;
+    }
+  }
+  .download-btn {
+    @include msButton;
+  }
+}

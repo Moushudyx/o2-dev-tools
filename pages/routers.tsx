@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-11-06 10:11:38
+ * @LastEditTime: 2024-08-09 16:56:09
  * @Description: 路由配置文件
  */
 
@@ -24,6 +24,7 @@ export const menus: MenuItemSetting[] = [
     children: [
       { name: '比对 package.json', link: '/version-compare' },
       { name: '变量名格式转换', link: '/code-case' },
+      { name: '图片转换/压缩', link: '/img-compress' },
       { name: '模板生成代码(开发中)', link: '/template-code' },
     ],
   },
@@ -72,6 +73,10 @@ export const routers: MsRouteObject[] = [
       {
         path: '/code-case',
         component: () => import('Pages/General/CodeCase'),
+      },
+      {
+        path: '/img-compress',
+        component: () => import('Pages/General/ImgCompress'),
       },
       {
         path: '/template-code',
