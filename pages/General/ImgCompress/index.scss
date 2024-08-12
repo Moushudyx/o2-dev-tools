@@ -20,24 +20,6 @@
       }
     }
   }
-  .img-compare {
-    position: relative;
-    width: 100%;
-    height: auto;
-    .origin-img,
-    .minify-img {
-      max-width: 100%;
-      max-height: 100vh;
-    }
-    .origin-img {
-      height: auto;
-    }
-    .minify-img {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-  }
   .type-btn {
     @include msButton;
     min-width: 60px;

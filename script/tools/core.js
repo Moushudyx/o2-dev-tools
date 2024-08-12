@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024-08-09 15:34:38
+ * @LastEditTime: 2024-08-12 09:35:07
  * @Description: file content
  */
 const fs = require('fs');
@@ -47,7 +47,8 @@ module.exports = async ({ props, define }) => {
       : {
           __DEV__: 'true',
           'process.env.NODE_ENV': '"development"',
-          'process.env.HISTORY': '"browser"',
+          // 'process.env.HISTORY': '"browser"',
+          'process.env.HISTORY': '"hash"',
           'process.env.BABEL_TYPES_8_BREAKING': 'false',
           'import.meta.url': '$$ImportMetaUrl',
           ...define,

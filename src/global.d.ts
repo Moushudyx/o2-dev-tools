@@ -1,6 +1,6 @@
 /// <reference path="./globalPolyfill.d.ts" />
 /*
- * @LastEditTime: 2023-06-16 11:32:32
+ * @LastEditTime: 2024-08-12 09:33:16
  * @Description: file content
  */
 declare module '*.module.scss' {
@@ -35,6 +35,8 @@ declare module '*.scss';
 // }
 
 declare module '*.css';
+
+declare const $$ImportMetaUrl: string;
 
 interface MsRouteObject {
   /** 大小写敏感 */

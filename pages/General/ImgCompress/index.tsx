@@ -1,11 +1,11 @@
 /*
  * @Author: moushu
  * @Date: 2024-08-09 10:13:09
- * @LastEditTime: 2024-08-09 17:13:32
+ * @LastEditTime: 2024-08-12 10:22:27
  * @Description: 图片压缩工具
  * @FilePath: \o2-dev-tools\pages\General\ImgCompress\index.tsx
  */
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { $error, sleep } from 'salt-lib';
 import { Container, SubTitle, Field, Para, Collapse } from 'Components/Typo';
 // import { debounce } from 'Utils/utils';
@@ -21,6 +21,7 @@ import {
   showByte,
 } from './utils';
 import './index.scss';
+import ImgCompare from './ImgCompare';
 
 const storageKey = 'ImgCompress';
 /** 就绪 */
@@ -34,7 +35,7 @@ const LOADING_DECODE = '解析中';
 /** 编码中 */
 const LOADING_ENCODE = '编码中';
 
-const availableType = [{ type: 'jpeg' }, { type: 'png' }, { type: 'webp' }];
+const availableType = [{ type: 'avif' }, { type: 'jpeg' }, { type: 'png' }, { type: 'webp' }];
 
 export default function ImgCompress() {
   const [originFile, setOriginFile] = useState<FileReport | null>(null);
@@ -94,7 +95,8 @@ export default function ImgCompress() {
     if (originFile) return process(originFile, type);
   };
   const downloadFile = () => {
-    if (minifyFile) download(`a.${minifyFile.fileType}`, minifyFile.fileBuffer);
+    if (minifyFile)
+      download(`${minifyFile.fileName}.${minifyFile.fileType}`, minifyFile.fileBuffer);
   };
   const sizeRadio =
     originFile && minifyFile
@@ -165,10 +167,16 @@ export default function ImgCompress() {
               </span>
             </Field>
           )}
-          <Field className="img-compare">
+          <ImgCompare
+            storageKey={storageKey}
+            originSrc={originFile ? originFile.src : ''}
+            minifySrc={minifyFile ? minifyFile.src : ''}
+            title="左边为处理前的图片，右边为处理后的图片"
+          />
+          {/* <Field className="img-compare">
             <img className="origin-img" src={originFile ? originFile.src : ''}></img>
             <img className="minify-img" src={minifyFile ? minifyFile.src : ''}></img>
-          </Field>
+          </Field> */}
           本工具不会像其他工具一样缓存数据，关闭页面前请手动转移数据
         </Para>
       </Container>
