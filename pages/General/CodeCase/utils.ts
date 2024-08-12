@@ -1,9 +1,8 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-06-13 09:57:45
  * @LastEditTime: 2023-06-28 10:34:46
- * @LastEditors: shuyan.yin@hand-china.com
- * @Description: file content
+ * @Description: 变量名转换相关方法
  * @FilePath: \o2-dev-tools\pages\General\CodeCase\utils.ts
  */
 type VarCase = {

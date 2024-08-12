@@ -1,9 +1,8 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-06-04 16:58:58
  * @LastEditTime: 2023-06-06 09:37:16
- * @LastEditors: shuyan.yin@hand-china.com
- * @Description: file content
+ * @Description: 中台 intl 对象处理工具
  * @FilePath: \o2-dev-tools\pages\Console\CodeTools\settings\consoleIntlUtils.ts
  */
 import {

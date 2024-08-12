@@ -1,8 +1,7 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-06-04 20:47:06
  * @LastEditTime: 2023-06-04 20:58:06
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CodeTools\settings\visitor.ts
  */

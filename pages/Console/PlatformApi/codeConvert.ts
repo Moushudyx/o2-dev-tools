@@ -1,8 +1,7 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-04-10 13:34:39
  * @LastEditTime: 2023-05-25 16:03:53
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\codeConvert.ts
  */

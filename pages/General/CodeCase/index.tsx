@@ -2,7 +2,7 @@
  * @Author: moushu
  * @Date: 2023-06-13 09:44:15
  * @LastEditTime: 2023-06-13 14:32:19
- * @Description: file content
+ * @Description: 变量名转换
  * @FilePath: \o2-dev-tools\pages\General\CodeCase\index.tsx
  */
 import React, { useMemo, useRef, useState } from 'react';

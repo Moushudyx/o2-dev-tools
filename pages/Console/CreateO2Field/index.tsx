@@ -1,8 +1,7 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2022-09-30 15:05:27
  * @LastEditTime: 2023-11-10 09:44:02
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\index.tsx
  */

@@ -1,9 +1,8 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-05-31 17:37:07
  * @LastEditTime: 2023-05-31 17:37:08
- * @LastEditors: shuyan.yin@hand-china.com
- * @Description: file content
+ * @Description: sessionStorage 操作方法
  * @FilePath: \o2-dev-tools\src\utils\sessionStorage.ts
  */
 function parse<T>(str: string | null): T | null {

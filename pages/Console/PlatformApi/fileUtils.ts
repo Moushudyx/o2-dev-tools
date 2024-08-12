@@ -2,10 +2,9 @@ import { download } from 'Utils/utils';
 import JSZip from 'jszip';
 
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-04-23 10:43:39
  * @LastEditTime: 2023-04-23 11:19:35
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\PlatformApi\fileUtils.ts
  */

@@ -1,9 +1,8 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2022-09-30 15:05:27
  * @LastEditTime: 2023-06-12 10:00:25
- * @LastEditors: shuyan.yin@hand-china.com
- * @Description: file content
+ * @Description: 生成 O2 Table 代码
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Col\index.tsx
  */
 import { Container, Field, Para, SubTitle } from 'Components/Typo';

@@ -1,9 +1,8 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-06-04 16:10:03
  * @LastEditTime: 2023-06-21 10:26:54
- * @LastEditors: shuyan.yin@hand-china.com
- * @Description: file content
+ * @Description: 预置功能
  * @FilePath: \o2-dev-tools\src\polyfill.ts
  */
 import { Buffer } from 'buffer';

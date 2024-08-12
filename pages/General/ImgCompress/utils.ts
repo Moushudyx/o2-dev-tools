@@ -1,8 +1,7 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2024-08-09 13:47:50
  * @LastEditTime: 2024-08-09 16:48:03
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\General\ImgCompress\utils.ts
  */

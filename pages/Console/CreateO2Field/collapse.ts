@@ -3,10 +3,9 @@ import { getFormComponents, renderLinkFormItem } from "./form";
 import { LinkFieldProp, indent, padLeft } from "./utils";
 
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-10-27 11:14:26
  * @LastEditTime: 2023-11-10 11:38:17
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\collapse.ts
  */

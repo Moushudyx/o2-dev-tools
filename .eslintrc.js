@@ -1,6 +1,6 @@
 /*
  * @LastEditTime: 2022-01-13 17:33:19
- * @Description: file content
+ * @Description: ESLint 配置文件
  */
 // 使用说明：
 // 1、规则都放在 settings 文件夹里

@@ -1,8 +1,8 @@
 /*
- * @Author: yin shuyan
+ * @Author: moushu
  * @Date: 2024-08-12 09:48:50
  * @LastEditTime: 2024-08-12 11:15:20
- * @Description: file content
+ * @Description: 图片对比组件
  * @FilePath: \o2-dev-tools\pages\General\ImgCompress\ImgCompare.tsx
  */
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';

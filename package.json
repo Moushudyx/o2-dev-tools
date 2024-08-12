@@ -1,6 +1,6 @@
 {
   "name": "o2-dev-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "O2 开发工具",
   "main": "src/index.tsx",
   "scripts": {

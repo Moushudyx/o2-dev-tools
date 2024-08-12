@@ -1,8 +1,7 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-05-31 17:57:20
  * @LastEditTime: 2023-06-12 10:17:14
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\VersionCompare\DiffInfo.tsx
  */

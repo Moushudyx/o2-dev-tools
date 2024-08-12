@@ -1,8 +1,7 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-06-02 17:49:37
  * @LastEditTime: 2023-06-06 20:30:54
- * @LastEditors: shuyan.yin@hand-china.com
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\TemplateCode\TemplateConvert.tsx
  */

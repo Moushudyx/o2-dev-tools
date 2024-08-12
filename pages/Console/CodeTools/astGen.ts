@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-06-04 14:44:22
  * @LastEditTime: 2023-06-04 22:29:43
- * @LastEditors: shuyan.yin@hand-china.com
- * @Description: file content
+ * @Description: 生成 AST 的方法
  * @FilePath: \o2-dev-tools\pages\Console\CodeTools\astGen.ts
  */
 import { ParserOptions, parse } from '@babel/parser';

@@ -1,9 +1,8 @@
 /*
- * @Author: shuyan.yin@hand-china.com
+ * @Author: moushu
  * @Date: 2023-06-08 17:19:14
  * @LastEditTime: 2023-06-08 18:08:12
- * @LastEditors: shuyan.yin@hand-china.com
- * @Description: file content
+ * @Description: 开关组件
  * @FilePath: \o2-dev-tools\src\components\Switch.tsx
  */
 import React, { FC, HTMLAttributes } from 'react';
