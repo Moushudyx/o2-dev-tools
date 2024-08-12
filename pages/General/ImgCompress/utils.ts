@@ -1,20 +1,31 @@
 /*
  * @Author: moushu
  * @Date: 2024-08-09 13:47:50
- * @LastEditTime: 2024-08-09 16:48:03
+ * @LastEditTime: 2024-08-12 15:24:03
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\General\ImgCompress\utils.ts
  */
-import { encode as avifEncode, decode as avifDecode } from '@jsquash/avif';
+// import { encode as avifEncode, decode as avifDecode } from '@jsquash/avif';
 import { EncodeOptions as AvifEncodeOptions } from '@jsquash/avif/meta';
-import { encode as jpegEncode, decode as jpegDecode } from '@jsquash/jpeg';
+// import { encode as jpegEncode, decode as jpegDecode } from '@jsquash/jpeg';
 import { EncodeOptions as JpegEncodeOptions } from '@jsquash/jpeg/meta';
-import { encode as jxlEncode, decode as jxlDecode } from '@jsquash/jxl';
+// import { encode as jxlEncode, decode as jxlDecode } from '@jsquash/jxl';
 import { EncodeOptions as JxlEncodeOptions } from '@jsquash/jxl/meta';
-import { encode as pngEncode, decode as pngDecode } from '@jsquash/png';
-import { encode as webpEncode, decode as webpDecode } from '@jsquash/webp';
+// import { encode as pngEncode, decode as pngDecode } from '@jsquash/png';
+// import { encode as webpEncode, decode as webpDecode } from '@jsquash/webp';
 import { EncodeOptions as WebpEncodeOptions } from '@jsquash/webp/meta';
-import { isNumber } from 'salt-lib';
+import { $error, defer, isNumber, uuidV4 } from 'salt-lib';
+import { getFileType } from './fileTypeUtils';
+
+// let PublicWorker: Worker | null = null;
+
+function getWorker() {
+  return new Worker(new URL('ImgCompress.js', $$ImportMetaUrl));
+}
+
+// function initWorker() {
+//   PublicWorker = getWorker();
+// }
 
 // decode 和 encode 因为库本身的写法有问题
 // 所以这里需要做复杂的类型体操来处理 ts 报错问题
@@ -25,29 +36,52 @@ export type ImageType = string | 'avif' | 'jpeg' | 'jxl' | 'png' | 'webp';
 //                     decode 方法
 // ==================================================
 
-type decodeFn = (buffer: ArrayBuffer) => Promise<ImageData>;
+// type decodeFn = (buffer: ArrayBuffer) => Promise<ImageData>;
 
 export async function decode(sourceType: ImageType, fileBuffer: ArrayBuffer): Promise<ImageData> {
+  // if (!PublicWorker) initWorker();
+  const worker = getWorker();
+  const { promise, resolve, reject } = defer<ImageData>();
+  const id = uuidV4();
   switch (sourceType) {
     case 'avif':
-      return (avifDecode as decodeFn)(fileBuffer);
     case 'jpeg':
-      return (jpegDecode as decodeFn)(fileBuffer);
     case 'jxl':
-      return (jxlDecode as decodeFn)(fileBuffer);
     case 'png':
-      return (pngDecode as decodeFn)(fileBuffer);
     case 'webp':
-      return (webpDecode as decodeFn)(fileBuffer);
+      worker.postMessage({ type: 'decode', sourceType, fileBuffer, id });
+      worker.onmessage = ({ data }) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (data.res) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          resolve(data.res as unknown as ImageData);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          reject(data.err);
+        }
+        setTimeout(() => worker.terminate(), 0);
+      };
+      worker.onmessageerror = (err) => {
+        void $error(err);
+        reject(err);
+        setTimeout(() => worker.terminate(), 0);
+      };
+      worker.onerror = (err) => {
+        void $error(err);
+        reject(err);
+        setTimeout(() => worker.terminate(), 0);
+      };
+      break;
     default:
-      throw new Error(`不支持此文件类型: ${sourceType}`);
+      reject(new Error(`不支持此文件类型: ${sourceType}`));
   }
+  return promise;
 }
 
 // ==================================================
 //                     encode 方法
 // ==================================================
-type encodeFn = (data: ImageData) => Promise<ArrayBuffer>;
+// type encodeFn = (data: ImageData) => Promise<ArrayBuffer>;
 
 type EncodeOptions = AvifEncodeOptions | JpegEncodeOptions | JxlEncodeOptions | WebpEncodeOptions;
 /**
@@ -103,37 +137,43 @@ export async function encode(
   imageData: ImageData,
   options?: EncodeOptions
 ): Promise<ArrayBuffer> {
+  // if (!PublicWorker) initWorker();
+  const worker = getWorker();
+  const { promise, resolve, reject } = defer<ArrayBuffer>();
+  const id = uuidV4();
   switch (outputType) {
     case 'avif':
-      return (
-        avifEncode as (
-          data: ImageData,
-          options?: Partial<AvifEncodeOptions>
-        ) => Promise<ArrayBuffer>
-      )(imageData, options as AvifEncodeOptions);
     case 'jpeg':
-      return (
-        jpegEncode as (
-          data: ImageData,
-          options?: Partial<JpegEncodeOptions>
-        ) => Promise<ArrayBuffer>
-      )(imageData, options as JpegEncodeOptions);
     case 'jxl':
-      return (
-        jxlEncode as (data: ImageData, options?: Partial<JxlEncodeOptions>) => Promise<ArrayBuffer>
-      )(imageData, options as JxlEncodeOptions);
     case 'png':
-      return (pngEncode as encodeFn)(imageData);
     case 'webp':
-      return (
-        webpEncode as (
-          data: ImageData,
-          options?: Partial<WebpEncodeOptions>
-        ) => Promise<ArrayBuffer>
-      )(imageData, options as WebpEncodeOptions);
+      worker.postMessage({ type: 'encode', outputType, imageData, options, id });
+      worker.onmessage = ({ data }) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (data.res) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          resolve(data.res as unknown as ArrayBuffer);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          reject(data.err);
+        }
+        setTimeout(() => worker.terminate(), 0);
+      };
+      worker.onmessageerror = (err) => {
+        void $error(err);
+        reject(err);
+        setTimeout(() => worker.terminate(), 0);
+      };
+      worker.onerror = (err) => {
+        void $error(err);
+        reject(err);
+        setTimeout(() => worker.terminate(), 0);
+      };
+      break;
     default:
-      throw new Error(`不支持此文件类型: ${outputType}`);
+      reject(new Error(`不支持此文件类型: ${outputType}`));
   }
+  return promise;
 }
 
 // ==================================================
@@ -158,30 +198,6 @@ export type FileReport = {
   fileSize: number;
   src: string;
 };
-
-function checkType(buffer: ArrayBuffer, headers: number[], offset = 0) {
-  const bf = new Uint8Array(buffer);
-  for (const [index, header] of headers.entries()) {
-    if (header !== bf[index + offset]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-/** 防止有小天才把后缀名改了上传上来 */
-function getFileType(fileBuffer: ArrayBuffer, fileName: string, fileType: string) {
-  // if (checkType(fileBuffer, [])) return 'avif';
-  if (checkType(fileBuffer, [0xff, 0xd8, 0xff])) return 'jpeg';
-  if (
-    checkType(fileBuffer, [0xff, 0x0a]) ||
-    checkType(fileBuffer, [0x00, 0x00, 0x00, 0x0c, 0x4a, 0x58, 0x4c, 0x20, 0x0d, 0x0a, 0x87, 0x0a])
-  )
-    return 'jxl';
-  if (checkType(fileBuffer, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])) return 'png';
-  if (checkType(fileBuffer, [0x57, 0x45, 0x42, 0x50], 8)) return 'webp';
-  return fileName.endsWith('jxl') ? 'jxl' : fileType.replace('image/', '');
-}
 
 export async function analyzeFile(file: File): Promise<FileReport> {
   const fileBuffer = await file.arrayBuffer();
