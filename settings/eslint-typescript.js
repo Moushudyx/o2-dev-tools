@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2022-01-15 14:28:08
+ * @LastEditTime: 2024-08-15 10:32:51
  * @Description: typescript 常见问题
  */
 const 报错 = 'error';
@@ -48,6 +48,6 @@ module.exports = {
   '@typescript-eslint/prefer-optional-chain': 警告, // 推荐使用可选链而不是成吨的条件判断
   // '@typescript-eslint/restrict-plus-operands': 警告, // 加号两边需要类型一致
   // '@typescript-eslint/restrict-template-expressions': 警告, // 模板字符串的表达式类型限制
-  '@typescript-eslint/sort-type-union-intersection-members': 警告, // 类型/接口的参数名按字母排序
+  '@typescript-eslint/sort-type-constituents': 警告, // 类型/接口的参数名按字母排序
   ...overrides,
 };

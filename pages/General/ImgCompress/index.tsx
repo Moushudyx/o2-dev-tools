@@ -1,12 +1,13 @@
+/* eslint-disable complexity */
 /*
  * @Author: moushu
  * @Date: 2024-08-09 10:13:09
- * @LastEditTime: 2024-08-12 16:19:24
+ * @LastEditTime: 2024-08-13 16:37:30
  * @Description: 图片压缩工具
  * @FilePath: \o2-dev-tools\pages\General\ImgCompress\index.tsx
  */
 import React, { useRef, useState } from 'react';
-import { $error, sleep } from 'salt-lib';
+import { $error, $log, sleep } from 'salt-lib';
 import { Container, SubTitle, Field, Para, Collapse } from 'Components/Typo';
 // import { debounce } from 'Utils/utils';
 import { read, write } from 'Utils/sessionStorage';
@@ -19,10 +20,14 @@ import {
   previewImage,
   download,
   showByte,
+  StateCurrent,
 } from './utils';
 import './index.scss';
 import ImgCompare from './ImgCompare';
 import ImgInput from './ImgInput';
+import type { EncodeOptions } from 'src/workers/ImgCompress';
+import PngOptions from './components/PngOptions';
+import JpegOptions from './components/JpegOptions';
 
 const storageKey = 'ImgCompress';
 /** 就绪 */
@@ -44,6 +49,7 @@ export default function ImgCompress() {
   const [targetType, setTargetType] = useState<ImageType>(read(`${storageKey}-targetType`, 'png'));
   const [loadingType, setLoadingType] = useState<string>(LOADING_READY);
   const loading = useRef(false);
+  const options = useRef({} as StateCurrent);
 
   const readFile = async (file: File) => {
     if (loading.current) return;
@@ -73,7 +79,12 @@ export default function ImgCompress() {
       await sleep(33); // 防止白屏卡死
       setLoadingType(LOADING_ENCODE);
       await sleep(33); // 等页面展示文字
-      const newFile = await encode(tType, imgData);
+      void $log('类型:', tType, '\n参数:\n', { ...options.current[tType as keyof StateCurrent] });
+      const newFile = await encode(
+        tType,
+        imgData,
+        options.current[tType as keyof StateCurrent] as EncodeOptions
+      );
       setMinifyFile({
         fileBuffer: newFile,
         fileName: `${fr.fileName || '压缩文件'}`,
@@ -167,6 +178,16 @@ export default function ImgCompress() {
             ))}
           </Field>
         </Para>
+        <JpegOptions
+          storageKey={storageKey}
+          options={options}
+          style={{ display: targetType === 'jpeg' ? 'flex' : 'none' }}
+        />
+        <PngOptions
+          storageKey={storageKey}
+          options={options}
+          style={{ display: targetType === 'png' ? 'flex' : 'none' }}
+        />
         <Para>
           {originFile && minifyFile && (
             <Field>
@@ -197,10 +218,6 @@ export default function ImgCompress() {
             minifySrc={minifyFile ? minifyFile.src : ''}
             title="左边为处理前的图片，右边为处理后的图片"
           />
-          {/* <Field className="img-compare">
-            <img className="origin-img" src={originFile ? originFile.src : ''}></img>
-            <img className="minify-img" src={minifyFile ? minifyFile.src : ''}></img>
-          </Field> */}
           本工具不会像其他工具一样缓存数据，关闭页面前请手动转移数据
         </Para>
       </Container>

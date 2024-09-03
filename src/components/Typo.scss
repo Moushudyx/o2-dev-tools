@@ -73,6 +73,36 @@ $font-size: 16px;
 }
 .demo-typo-text {
   font-size: $font-size;
+  &.form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    .demo-typo-field {
+      display: flex;
+      align-items: center;
+      input {
+        min-width: 8em;
+      }
+    }
+  }
+  &.col-2 {
+    .demo-typo-field {
+      width: calc(50% - 24px);
+      margin: 6px 12px;
+    }
+  }
+  &.col-3 {
+    .demo-typo-field {
+      width: calc(33.33% - 20px);
+      margin: 5px 10px;
+    }
+  }
+  &.col-4 {
+    .demo-typo-field {
+      width: calc(25% - 16px);
+      margin: 4px 8px;
+    }
+  }
   code,
   input,
   select,

@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2023-05-31 16:12:16
+ * @LastEditTime: 2024-08-13 11:14:07
  * @Description: file content
  */
 export {
@@ -97,4 +97,12 @@ export function debounce<T>(
       }, delay);
     };
   }
+}
+
+export function clamp(value: unknown, min: number, max: number) {
+  if (typeof value === 'string') value = Number(value);
+  if (value == null || typeof value !== 'number' || isNaN(value)) return min;
+  if (value < min) return min;
+  if (value > max) return max;
+  return value;
 }

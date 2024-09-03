@@ -1,21 +1,31 @@
 /*
  * @Author: moushu
  * @Date: 2024-08-09 13:47:50
- * @LastEditTime: 2024-08-12 15:24:03
+ * @LastEditTime: 2024-08-15 10:25:56
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\General\ImgCompress\utils.ts
  */
-// import { encode as avifEncode, decode as avifDecode } from '@jsquash/avif';
-import { EncodeOptions as AvifEncodeOptions } from '@jsquash/avif/meta';
-// import { encode as jpegEncode, decode as jpegDecode } from '@jsquash/jpeg';
-import { EncodeOptions as JpegEncodeOptions } from '@jsquash/jpeg/meta';
-// import { encode as jxlEncode, decode as jxlDecode } from '@jsquash/jxl';
-import { EncodeOptions as JxlEncodeOptions } from '@jsquash/jxl/meta';
-// import { encode as pngEncode, decode as pngDecode } from '@jsquash/png';
-// import { encode as webpEncode, decode as webpDecode } from '@jsquash/webp';
-import { EncodeOptions as WebpEncodeOptions } from '@jsquash/webp/meta';
 import { $error, defer, isNumber, uuidV4 } from 'salt-lib';
 import { getFileType } from './fileTypeUtils';
+import type {
+  AvifEncodeOptions,
+  EncodeOptions,
+  ImageType,
+  JpegEncodeOptions,
+  JxlEncodeOptions,
+  PngEncodeOptions,
+  WebpEncodeOptions,
+} from 'src/workers/ImgCompress';
+
+export { ImageType };
+
+export type StateCurrent = {
+  avif: Partial<AvifEncodeOptions>,
+  jpeg: Partial<JpegEncodeOptions>,
+  jxl: Partial<JxlEncodeOptions>,
+  png: Partial<PngEncodeOptions>,
+  webp: Partial<WebpEncodeOptions>,
+}
 
 // let PublicWorker: Worker | null = null;
 
@@ -29,8 +39,6 @@ function getWorker() {
 
 // decode 和 encode 因为库本身的写法有问题
 // 所以这里需要做复杂的类型体操来处理 ts 报错问题
-
-export type ImageType = string | 'avif' | 'jpeg' | 'jxl' | 'png' | 'webp';
 
 // ==================================================
 //                     decode 方法
@@ -83,7 +91,6 @@ export async function decode(sourceType: ImageType, fileBuffer: ArrayBuffer): Pr
 // ==================================================
 // type encodeFn = (data: ImageData) => Promise<ArrayBuffer>;
 
-type EncodeOptions = AvifEncodeOptions | JpegEncodeOptions | JxlEncodeOptions | WebpEncodeOptions;
 /**
  * 将图片转换为`avif`格式
  * @param imageData `decode`方法返回的`ImageData`对象
@@ -92,7 +99,7 @@ type EncodeOptions = AvifEncodeOptions | JpegEncodeOptions | JxlEncodeOptions | 
 export async function encode(
   outputType: 'avif',
   imageData: ImageData,
-  options?: AvifEncodeOptions
+  options?: Partial<AvifEncodeOptions>
 ): Promise<ArrayBuffer>;
 /**
  * 将图片转换为`jpeg`格式
@@ -102,7 +109,7 @@ export async function encode(
 export async function encode(
   outputType: 'jpeg',
   imageData: ImageData,
-  options?: JpegEncodeOptions
+  options?: Partial<JpegEncodeOptions>
 ): Promise<ArrayBuffer>;
 /**
  * 将图片转换为`jxl`格式
@@ -112,14 +119,18 @@ export async function encode(
 export async function encode(
   outputType: 'jxl',
   imageData: ImageData,
-  options?: JxlEncodeOptions
+  options?: Partial<JxlEncodeOptions>
 ): Promise<ArrayBuffer>;
 /**
  * 将图片转换为`png`格式
  * @param imageData `decode`方法返回的`ImageData`对象
  * @param options TODO 待补充
  */
-export async function encode(outputType: 'png', imageData: ImageData): Promise<ArrayBuffer>;
+export async function encode(
+  outputType: 'png',
+  imageData: ImageData,
+  options?: Partial<PngEncodeOptions>
+): Promise<ArrayBuffer>;
 /**
  * 将图片转换为`webp`格式
  * @param imageData `decode`方法返回的`ImageData`对象
@@ -128,14 +139,18 @@ export async function encode(outputType: 'png', imageData: ImageData): Promise<A
 export async function encode(
   outputType: 'webp',
   imageData: ImageData,
-  options?: WebpEncodeOptions
+  options?: Partial<WebpEncodeOptions>
 ): Promise<ArrayBuffer>;
 /** 将图片转换为指定格式 */
-export async function encode(outputType: string, imageData: ImageData): Promise<ArrayBuffer>;
+export async function encode(
+  outputType: string,
+  imageData: ImageData,
+  options?: Partial<EncodeOptions>
+): Promise<ArrayBuffer>;
 export async function encode(
   outputType: ImageType,
   imageData: ImageData,
-  options?: EncodeOptions
+  options?: Partial<EncodeOptions>
 ): Promise<ArrayBuffer> {
   // if (!PublicWorker) initWorker();
   const worker = getWorker();
