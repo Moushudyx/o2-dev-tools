@@ -1,15 +1,17 @@
 /*
  * @Author: moushu
  * @Date: 2023-03-30 16:59:03
- * @LastEditTime: 2023-06-12 10:00:04
+ * @LastEditTime: 2024-09-03 15:16:05
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\IconFont\index.tsx
  */
 import { Collapse, Container, Field, Para, SubTitle } from 'Components/Typo';
-import React, { useMemo, useReducer } from 'react';
-import { defer } from 'salt-lib';
+import React, { useMemo, useReducer, useState } from 'react';
+import { defer, read, write } from 'salt-lib';
 import { loadAsync } from 'jszip';
 import { copy } from 'Utils/utils';
+
+const storageKey = 'IconFont';
 /** 截取 CSS 中配置部分 */
 const cutCss = (css: string) => css.slice(Math.max(0, css.indexOf('.iconfont')));
 
@@ -65,23 +67,36 @@ const defaultValue = {
   base: '',
   out: '',
 };
+const presetFontName = 'iconfont';
+const defaultFontName = read(`${storageKey}-fontName`, presetFontName);
+const presetClassName = 'iconfont';
+const defaultClassName = read(`${storageKey}-className`, presetClassName);
 
 /** 合并 CSS 和 BASE64 为最终 CSS */
-const getFinalCss = (ttfBase64: string, css: string) => `@font-face {
-  font-family: 'iconfont';
+const getFinalCss = (
+  ttfBase64: string,
+  css: string,
+  fontName: string,
+  className: string
+) => `@font-face {
+  font-family: '${fontName}';
   src: url('${ttfBase64}') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-${css}`;
+${css
+  .replace(new RegExp(`:\\s?["']${presetFontName}["']`), `: "${fontName}"`)
+  .replace(new RegExp(`\\.${presetClassName}\\s?{`), `.${className} {`)}`;
 
 const IconFont = () => {
+  const [fontName, setFontName] = useState(defaultFontName);
+  const [className, setClassName] = useState(defaultClassName);
   const [state, dispatch] = useReducer(
     (preState: typeof defaultValue, action: Partial<typeof defaultValue>) => {
       const res = { ...preState, ...action };
-      if (res.css && res.base) res.out = getFinalCss(res.base, res.css);
+      if (res.css && res.base) res.out = getFinalCss(res.base, res.css, fontName, className);
       return res;
     },
     { ...defaultValue }
@@ -121,8 +136,30 @@ const IconFont = () => {
           <Para>最下面的文本框中的内容就是拼接后的样式表</Para>
         </Collapse>
         <hr />
-        <Para>
-          <Field>
+        <Para style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <Field style={{ width: '50%', display: 'flex' }}>
+            <label>字体名</label>
+            <input
+              onInput={(ev) => {
+                const s = (ev.target as HTMLInputElement).value || '';
+                setFontName(s);
+                write(`${storageKey}-fontName`, s);
+              }}
+              value={fontName}
+            />
+          </Field>
+          <Field style={{ width: '50%', display: 'flex' }}>
+            <label>类名</label>
+            <input
+              onInput={(ev) => {
+                const s = (ev.target as HTMLInputElement).value || '';
+                setClassName(s);
+                write(`${storageKey}-className`, s);
+              }}
+              value={className}
+            />
+          </Field>
+          <Field style={{ width: '50%', display: 'flex' }}>
             <label>上传 download.zip</label>
             <input
               type="file"
@@ -135,6 +172,8 @@ const IconFont = () => {
               }}
             />
           </Field>
+        </Para>
+        <Para>
           <Field>
             <label>IconFont 的 CSS</label>
             <textarea value={state.css}></textarea>
