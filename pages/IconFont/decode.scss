@@ -1,0 +1,32 @@
+@import '../../src/scss/constant.scss';
+
+.icon-font-decode {
+  .decode-icon-list {
+    display: flex;
+    flex-wrap: wrap;
+    .decode-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 128px;
+      padding: 12px 4px;
+      overflow: hidden;
+      box-sizing: border-box;
+      @include msButton;
+      // 图标
+      .decode-icon-item-icon {
+        font-size: 24px;
+        margin-bottom: 12px;
+      }
+      // 图标名称
+      .decode-icon-item-name {
+        max-width: 100%;
+        font-size: 16px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+}

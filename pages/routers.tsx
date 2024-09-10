@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024-08-09 16:56:09
+ * @LastEditTime: 2024-09-03 16:34:59
  * @Description: 路由配置文件
  */
 
@@ -38,7 +38,10 @@ export const menus: MenuItemSetting[] = [
   },
   {
     name: '商城',
-    children: [{ name: 'IconFont 转换工具', link: '/icon-font-tool' }],
+    children: [
+      { name: 'IconFont 转换工具', link: '/icon-font-tool' },
+      { name: 'IconFont 解析工具', link: '/icon-font-decode' },
+    ],
   },
   {
     name: 'Link 电脑端',
@@ -103,6 +106,10 @@ export const routers: MsRouteObject[] = [
       {
         path: '/icon-font-tool',
         component: () => import('Pages/IconFont'),
+      },
+      {
+        path: '/icon-font-decode',
+        component: () => import('Pages/IconFont/decode'),
       },
       // link
       {
