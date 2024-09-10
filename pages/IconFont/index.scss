@@ -1,1 +1,13 @@
+@import '../../src/scss/constant.scss';
 
+.icon-font-tool {
+  .type-btn {
+    @include msButton;
+    min-width: 60px;
+    padding: 2px 4px;
+    &-icon {
+      min-width: 1.5em;
+      text-align: center;
+    }
+  }
+}
