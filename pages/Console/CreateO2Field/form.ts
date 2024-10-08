@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-11-10 11:55:42
+ * @LastEditTime: 2024-10-08 14:57:30
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
  */
@@ -15,8 +15,8 @@ const formItemType: { [type: string]: string } = {
   lov: 'O2FormLov',
   switch: 'O2FormSwitch',
   select: 'O2FormSelect',
-  datetime: 'O2FormDatepicker',
-  time: 'O2FormDatepicker',
+  datetime: 'O2FormDatePicker',
+  time: 'O2FormDatePicker',
   address: 'O2FormAddress',
   image: 'O2FormImageUpload',
   upload: 'O2FormUpload',

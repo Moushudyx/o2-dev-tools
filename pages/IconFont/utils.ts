@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2024-09-10 13:49:08
- * @LastEditTime: 2024-09-10 15:51:53
+ * @LastEditTime: 2024-10-08 15:06:57
  * @Description: iconfont 相关方法
  * @FilePath: \o2-dev-tools\pages\IconFont\utils.ts
  */
@@ -131,7 +131,7 @@ export function getFinalCss(options: {
   if (fontName && fontName !== presetFontName)
     c = c.replace(new RegExp(`:\\s?["']${presetFontName}["']`), `: '${fontName}'`);
   if (className && className !== presetClassName)
-    c = c.replace(new RegExp(`:\\s?["']${presetFontName}["']`), `: '${fontName}'`);
+    c = c.replace(new RegExp(`\\.${presetClassName}\\s*\\{`), `.${className} {`);
   return `@font-face {
   font-family: '${fontName}';
   src: url('${base}') format('${format}');
