@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-11-10 11:40:15
+ * @LastEditTime: 2024-10-24 16:50:37
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
  */
@@ -74,7 +74,7 @@ export function renderO2Column(
   const extraData = getExtraData(option);
   const editData = `${require ? '\n  required' : ''}${disable ? '\n  editable={false}' : ''}`;
   return `<${compName}${basicData}${lovData}${editData}${extraData}
-  // formFilter${fieldCount > 6 ? '' : '\n  fit // 字段过少时自动占满页面宽度'}
+  // formFilter${fieldCount > 8 ? '' : '\n  fit // 字段过少时自动占满页面宽度'}
 />`;
 }
 /** 获取所有需要的列组件 */
@@ -113,8 +113,9 @@ export function renderO2ListPage(
  */
 import React, { Component } from 'react';
 import {
-  createRenderHook,
-  designO2Page,
+  createHookForRender, // TODO 1.8.0 以前是 createRenderHook
+  // designO2Page, // TODO 1.8.0 以前是 designO2Page + usePersistState
+  designKeepAlivePage, // TODO 1.8.0 以前是 designO2Page + usePersistState
   O2Table,
 ${indent(
   getColumnComponents(options)
@@ -125,7 +126,7 @@ ${indent(
   useHttp,
   usePageOperator,
   usePageTitle,
-  usePersistState,
+  // usePersistState, // TODO 1.8.0 以前是 designO2Page + usePersistState
   useTableOption,
 } from 'o2-design';
 import formatterCollections from 'utils/intl/formatterCollections';
@@ -141,7 +142,8 @@ const organizationId = getCurrentOrganizationId();
 // TODO 请检查这里的值集/值集视图编码
 // const { ${pageCodeCamel}: { CODE = 'CODE' } = {} } = codeConfig;
 
-const Page = designO2Page(({ history }) => {
+// TODO 1.8.0 以前是 designO2Page + usePersistState
+const Page = designKeepAlivePage(({ history }) => {
   // TODO 这里的多语言前缀由脚本自动生成，请检查
   usePageTitle(() => intl.get('${langCode}.view.title.list').d('${pageName || ''}列表'));
 
@@ -153,7 +155,7 @@ const Page = designO2Page(({ history }) => {
   ));
 
   const http = useHttp();
-  const state = usePersistState(() => {
+  const state = (() => { // TODO 1.8.0 以前是 designO2Page + usePersistState
     const option = useTableOption({
       // TODO 这里的权限编码由脚本自动生成，请检查
       permission: 'o2.${pageService.toLowerCase()}.${pageCodeKebab}.ps.button',
@@ -193,7 +195,7 @@ const Page = designO2Page(({ history }) => {
       // ],
     });
     return { option };
-  });
+  })();
 
   const methods = {
     /** 跳转到新建页面 */
@@ -209,7 +211,7 @@ const Page = designO2Page(({ history }) => {
     },
   };
 
-  const { render: getButtonRender, use: usePageButton } = createRenderHook();
+  const { render: getButtonRender, use: usePageButton } = createHookForRender();  // TODO 1.8.0 以前是 createRenderHook
   // useXXXButton({ usePageButton, state, methods });
 
   return () => (

@@ -200,7 +200,7 @@ const Page = designO2Page((props) => {
   // const state = reactive({});
 
   // 部分页面会要求在详情页右侧展示目录
-  // const { use: _useAnchor, render: renderAnchor } = createRenderHook();
+  // const { use: _useAnchor, render: renderAnchor } = createHookForRender();
   // const useAnchor = ({ title, key }) =>
   //   _useAnchor(() => <Anchor.Link key={key} href={\`#\${key}\`} title={title} />);
 
