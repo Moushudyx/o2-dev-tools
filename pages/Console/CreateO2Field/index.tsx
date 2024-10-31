@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2023-11-10 09:44:02
+ * @LastEditTime: 2024-10-31 10:34:38
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\index.tsx
  */
@@ -107,7 +107,7 @@ export default () => {
 
         <hr />
 
-        <Collapse header={<SubLine>手动操作</SubLine>} defaultCollapse>
+        <Collapse header={<SubLine>手动操作（不推荐）</SubLine>} defaultCollapse>
           <Para>
             <Field>
               <label>
@@ -203,7 +203,7 @@ export default () => {
 
         <hr />
 
-        <Collapse header={<SubLine>自动操作</SubLine>}>
+        <Collapse header={<SubLine>自动操作（推荐）</SubLine>}>
           <Para>
             <Field>
               <label>将 Excel 文件上传到这里</label>

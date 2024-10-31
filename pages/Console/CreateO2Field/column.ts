@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2024-10-24 16:50:37
+ * @LastEditTime: 2024-10-31 10:28:17
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
  */
@@ -27,7 +27,7 @@ function getExtraData(option: LinkFieldProp): string {
     case 'lovView':
       return `\n  showKey="${code || '填写值集视图的展示字段'}"\n  map={填写值集视图的字段Map}`;
     case 'address':
-      return `\n  region city district valueField="${
+      return `\n  region city district // 三选一\n  valueField="${
         code || 'FIXME缺少字段编码'
       }"\n  parentValue="父级字段编码"`;
     case 'switch':
@@ -73,7 +73,7 @@ export function renderO2Column(
     : '';
   const extraData = getExtraData(option);
   const editData = `${require ? '\n  required' : ''}${disable ? '\n  editable={false}' : ''}`;
-  return `<${compName}${basicData}${lovData}${editData}${extraData}
+  return `<${compName}${basicData}${lovData}${extraData}${editData}
   // formFilter${fieldCount > 8 ? '' : '\n  fit // 字段过少时自动占满页面宽度'}
 />`;
 }
@@ -113,7 +113,7 @@ export function renderO2ListPage(
  */
 import React, { Component } from 'react';
 import {
-  createHookForRender, // TODO 1.8.0 以前是 createRenderHook
+  // createHookForRender, // TODO 1.8.0 以前是 createRenderHook
   // designO2Page, // TODO 1.8.0 以前是 designO2Page + usePersistState
   designKeepAlivePage, // TODO 1.8.0 以前是 designO2Page + usePersistState
   O2Table,
@@ -124,15 +124,16 @@ ${indent(
   2
 )}
   useHttp,
-  usePageOperator,
+  // usePageOperator, // 渲染在页面顶部的按钮
   usePageTitle,
   // usePersistState, // TODO 1.8.0 以前是 designO2Page + usePersistState
   useTableOption,
 } from 'o2-design';
+// O2ButtonCollapse 用于实现超过 5 个按钮时折叠多于按钮的逻辑
+// import O2ButtonCollapse from 'o2Components/O2ButtonCollapse';
 import formatterCollections from 'utils/intl/formatterCollections';
-import { getCurrentOrganizationId } from 'utils/utils';
 import intl from 'utils/intl';
-import O2ButtonCollapse from 'o2Components/O2ButtonCollapse';
+import { getCurrentOrganizationId } from 'utils/utils';
 import { ${serverCode} } from 'o2Utils/config'; // TODO 请检查这里的服务编码
 // import codeConfig from 'o2Utils/codeConfig/o2-xxx'; // TODO 请检查这里的值集/值集视图编码
 
@@ -147,12 +148,12 @@ const Page = designKeepAlivePage(({ history }) => {
   // TODO 这里的多语言前缀由脚本自动生成，请检查
   usePageTitle(() => intl.get('${langCode}.view.title.list').d('${pageName || ''}列表'));
 
-  usePageOperator((prev) => (
-    <>
-      {prev}
-      <O2ButtonCollapse reverse>{getButtonRender()}</O2ButtonCollapse>
-    </>
-  ));
+  // usePageOperator((prev) => (
+  //   <>
+  //     {prev}
+  //     <O2ButtonCollapse reverse>{getButtonRender()}</O2ButtonCollapse>
+  //   </>
+  // ));
 
   const http = useHttp();
   const state = (() => { // TODO 1.8.0 以前是 designO2Page + usePersistState
@@ -187,8 +188,8 @@ const Page = designKeepAlivePage(({ history }) => {
       //     code: 'detail',
       //     position: 'in',
       //     label: '详情',
-      //     handler: (record) => {
-      //       methods.handleDetail(record);
+      //     handler: ({ data }) => {
+      //       methods.handleDetail(data);
       //     },
       //     // disabled: () => {},
       //   },
@@ -211,7 +212,8 @@ const Page = designKeepAlivePage(({ history }) => {
     },
   };
 
-  const { render: getButtonRender, use: usePageButton } = createHookForRender();  // TODO 1.8.0 以前是 createRenderHook
+  // createHookForRender 用于收集渲染 hooks
+  // const { render: getButtonRender, use: usePageButton } = createHookForRender();  // TODO 1.8.0 以前是 createRenderHook
   // useXXXButton({ usePageButton, state, methods });
 
   return () => (
