@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2024-10-08 14:57:30
+ * @LastEditTime: 2024-11-18 13:44:29
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
  */
@@ -22,16 +22,30 @@ const formItemType: { [type: string]: string } = {
   upload: 'O2FormUpload',
   none: 'O2FormInput',
 };
+function getAddressExtraData(option: LinkFieldProp): string {
+  const { name, code } = option;
+  const valueField = code || 'FIXME缺少字段编码';
+  const nameField = code ? `${code.replace(/code$/i, '')}Name` : 'FIXME缺少字段编码';
+  const regionType = (() => {
+    if (/country/i.test(code) || name.includes('国')) return 'country';
+    if (/province/i.test(code) || name.includes('省')) return 'region';
+    if (/district/i.test(code) || name.includes('县')) return 'district'; // 先判断县
+    if (/city/i.test(code) || name.includes('市')) return 'city';
+    return 'region city district';
+  })();
+  return `
+  parentValue={formOption.formData.父级字段编码}
+  v-model-name={formOption.formData.${nameField}}
+  v-model-value={formOption.formData.${valueField}}
+  ${regionType}`;
+}
 function getExtraData(option: LinkFieldProp): string {
   const { type, code } = option;
   switch (type) {
     case 'lovView':
       return `\n  showKey="${code || '填写值集视图的展示字段'}"\n  map={填写值集视图的字段Map}`;
     case 'address':
-      return `
-  region city district
-  valueField="${code || 'FIXME缺少字段编码'}"
-  parentValue="父级字段编码"`;
+      return getAddressExtraData(option);
     case 'image':
       return '\n  listType="picture-card"\n  // urlPrefix={ }\n  // directory="package"';
     case 'datetime':
@@ -66,6 +80,8 @@ export function renderLinkFormItem(
   const vModel =
     type === 'lovView'
       ? '\n  row={formOption.formData}'
+      : type === 'address'
+      ? ``
       : `\n  v-model={formOption.formData.${code || 'FIXME缺少字段编码'}}`;
   const lovData = ['lovView', 'lov'].includes(type)
     ? `\n  lovCode="${lov || 'FIXME缺少值集编码'}"`
