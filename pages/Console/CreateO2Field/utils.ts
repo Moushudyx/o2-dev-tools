@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2023-11-10 11:07:26
+ * @LastEditTime: 2025-03-13 14:13:47
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\utils.ts
  */
@@ -78,10 +78,11 @@ export function getDefaultValue() {
 }
 
 const InputTypeRegExp = {
-  text: /varchar|文本框?/i,
+  text: /varchar|文[本字]框?/i,
   number: /number|数[字值]输?入?框?/i,
+  currency: /currency|(?:金额|货币)输?入?框?/i,
   lovView: /lovView|pick\s?List|object|l?o?v?值?集?(?:视图|弹出?框)/i,
-  lov: /lov|值集?/i,
+  lov: /lov|值(?:集|列表)/i,
   select: /select|下拉选?择?框?/i,
   switch: /switch|开关|是否选?择?框?/i,
   datetime: /Date(?:Time|Pick?e?r?)?|(?:日[期历])选?择?组?件?/i,

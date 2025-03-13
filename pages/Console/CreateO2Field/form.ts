@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2024-11-18 13:44:29
+ * @LastEditTime: 2025-03-13 14:30:51
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
  */
@@ -11,6 +11,7 @@ import { LinkFieldProp, padLeft } from './utils';
 const formItemType: { [type: string]: string } = {
   text: 'O2FormInput',
   number: 'O2FormInputNumber',
+  currency: 'O2FormCurrency',
   lovView: 'O2FormLovView',
   lov: 'O2FormLov',
   switch: 'O2FormSwitch',
@@ -42,6 +43,8 @@ function getAddressExtraData(option: LinkFieldProp): string {
 function getExtraData(option: LinkFieldProp): string {
   const { type, code } = option;
   switch (type) {
+    case 'currency':
+      return `\n  precision={2}`;
     case 'lovView':
       return `\n  showKey="${code || '填写值集视图的展示字段'}"\n  map={填写值集视图的字段Map}`;
     case 'address':
@@ -89,7 +92,7 @@ export function renderLinkFormItem(
   const requireData = require ? '\n  required' : '';
   const disableData = disable ? '\n  disabled' : '';
   const extraData = getExtraData(option);
-  return `<${compName}${basicData}${vModel}${lovData}${requireData}${disableData}${extraData}
+  return `<${compName}${basicData}${vModel}${lovData}${extraData}${requireData}${disableData}
 />`.replace(/\n\s+\n/g, '\n');
 }
 /** 获取所有需要的表单组件 */
@@ -244,11 +247,6 @@ const Page = designO2Page((props) => {
   // );
 });
 // TODO 这里的多语言前缀由脚本自动生成，请检查
-@formatterCollections({ code: ['${langCode}'] })
-export default class extends Component {
-  render() {
-    return <Page {...this.props} />;
-  }
-}
+@formatterCollections({ code: ['${langCode}'] })(Page)
 `;
 }

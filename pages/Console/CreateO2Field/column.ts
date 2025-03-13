@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2024-10-31 10:28:17
+ * @LastEditTime: 2025-03-13 14:11:25
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
  */
@@ -11,6 +11,7 @@ import { LinkFieldProp, indent, padLeft } from './utils';
 const columnType: { [type: string]: string } = {
   text: 'O2ColumnInput',
   number: 'O2ColumnInputNumber',
+  currency: 'O2ColumnCurrency',
   lovView: 'O2ColumnLovView',
   lov: 'O2ColumnLov',
   switch: 'O2ColumnSwitch',
@@ -24,6 +25,8 @@ const columnType: { [type: string]: string } = {
 function getExtraData(option: LinkFieldProp): string {
   const { type, code } = option;
   switch (type) {
+    case 'currency':
+      return `\n  precision={2}`;
     case 'lovView':
       return `\n  showKey="${code || '填写值集视图的展示字段'}"\n  map={填写值集视图的字段Map}`;
     case 'address':
@@ -112,6 +115,7 @@ export function renderO2ListPage(
  * @FilePath: \\o2-console-front\\packages\\
  */
 import React, { Component } from 'react';
+// import { moment } from 'moment'; // O2DatePicker 可能需要用到
 import {
   // createHookForRender, // TODO 1.8.0 以前是 createRenderHook
   // designO2Page, // TODO 1.8.0 以前是 designO2Page + usePersistState
@@ -225,11 +229,6 @@ ${indent(options.map((option) => renderO2Column(option, pageInfo, options.length
   );
 });
 // TODO 这里的多语言前缀由脚本自动生成，请检查
-@formatterCollections({ code: ['${langCode}'] })
-export default class extends Component {
-  render() {
-    return <Page {...this.props} />;
-  }
-}
+@formatterCollections({ code: ['${langCode}'] })(Page)
 `;
 }
