@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2025-03-25 11:59:23
+ * @LastEditTime: 2025-03-25 15:25:43
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
  */
@@ -117,12 +117,12 @@ export function renderO2ListPage(
  * @Description: ${pageName || ''} - ${pageDesc || '列表页'}
  * @FilePath: \\o2-console-front\\packages\\
  */
-import React, { Component } from 'react';
+import React from 'react';
 // import { moment } from 'moment'; // O2DatePicker 可能需要用到
 import {
   // createHookForRender, // TODO 1.8.0 以前是 createRenderHook
   // designO2Page, // TODO 1.8.0 以前是 designO2Page + usePersistState
-  designKeepAlivePage, // TODO 1.8.0 以前是 designO2Page + usePersistState
+  designKeepAlivePage,
   O2Table,
 ${indent(
   getColumnComponents(options)
@@ -163,47 +163,46 @@ const Page = designKeepAlivePage(({ history }) => {
   // ));
 
   const http = useHttp();
-  const state = (() => { // TODO 1.8.0 以前是 designO2Page + usePersistState
-    const option = useTableOption({
-      // TODO 这里的权限编码由脚本自动生成，请检查
-      permission: 'o2.${pageService.toLowerCase()}.${pageCodeKebab}.ps.button',
-      // TODO 这里的 URL 由脚本自动生成，请检查
-      url: \`\${prefix}/v1/\${organizationId}/${pageCodeCamel}\`,
-      // keyField: '${pageCodeCamel}Id', // TODO 这里的 keyField 由脚本自动生成，请检查
-      // hideButton: {
-      //   insert: true, // 默认新建按钮
-      //   update: true, // 默认编辑按钮
-      //   delete: true, // 默认删除按钮
-      // },
-      // buttons: [
-      //   // 页面顶部的新建按钮
-      //   {
-      //     type: 'other',
-      //     code: 'create',
-      //     position: 'out',
-      //     icon: 'add',
-      //     color: 'primary', // default: 默认颜色; primary: 主要按钮颜色
-      //     label: '新建',
-      //     handler: () => {
-      //       methods.handleCreate();
-      //     },
-      //     // disabled: () => {},
-      //   },
-      //   // 行上的详情按钮
-      //   {
-      //     type: 'other',
-      //     code: 'detail',
-      //     position: 'in',
-      //     label: '详情',
-      //     handler: ({ data }) => {
-      //       methods.handleDetail(data);
-      //     },
-      //     // disabled: () => {},
-      //   },
-      // ],
-    });
-    return { option };
-  })();
+  // TODO 1.8.0 以前是 designO2Page + usePersistState(() => { /* ... */ })
+  // const state = reactive({});
+  const option = useTableOption({
+    // TODO 这里的权限编码由脚本自动生成，请检查
+    permission: 'o2.${pageService.toLowerCase()}.${pageCodeKebab}.ps.button',
+    // TODO 这里的 URL 由脚本自动生成，请检查
+    url: \`\${prefix}/v1/\${organizationId}/${pageCodeCamel}\`,
+    // keyField: '${pageCodeCamel}Id', // TODO 这里的 keyField 由脚本自动生成，请检查
+    // hideButton: {
+    //   insert: true, // 默认新建按钮
+    //   update: true, // 默认编辑按钮
+    //   delete: true, // 默认删除按钮
+    // },
+    // buttons: [
+    //   // 页面顶部的新建按钮
+    //   {
+    //     type: 'other',
+    //     code: 'create',
+    //     position: 'out',
+    //     icon: 'add',
+    //     color: 'primary', // default: 默认颜色; primary: 主要按钮颜色
+    //     label: '新建',
+    //     handler: () => {
+    //       methods.handleCreate();
+    //     },
+    //     // disabled: () => {},
+    //   },
+    //   // 行上的详情按钮
+    //   {
+    //     type: 'other',
+    //     code: 'detail',
+    //     position: 'in',
+    //     label: '详情',
+    //     handler: ({ data }) => {
+    //       methods.handleDetail(data);
+    //     },
+    //     // disabled: () => {},
+    //   },
+    // ],
+  });
 
   const methods = {
     /** 跳转到新建页面 */
@@ -225,13 +224,13 @@ const Page = designKeepAlivePage(({ history }) => {
 
   return () => (
     <>
-      <O2Table option={state.option}>
+      <O2Table option={option}>
 ${indent(options.map((option) => renderO2Column(option, pageInfo, options.length)).join('\n'), 8)}
       </O2Table>
     </>
   );
 });
 // TODO 这里的多语言前缀由脚本自动生成，请检查
-@formatterCollections({ code: ['${langCode}'] })(Page)
+formatterCollections({ code: ['${langCode}'] })(Page);
 `;
 }

@@ -61,12 +61,12 @@ MDM\u7F16\u7801	mdmCode	\u6587\u672C	\u662F	\u5426		\u5426	\u5426
  * @Description: ${i||""} - ${s||"\u5217\u8868\u9875"}
  * @FilePath: \\o2-console-front\\packages\\
  */
-import React, { Component } from 'react';
+import React from 'react';
 // import { moment } from 'moment'; // O2DatePicker \u53EF\u80FD\u9700\u8981\u7528\u5230
 import {
   // createHookForRender, // TODO 1.8.0 \u4EE5\u524D\u662F createRenderHook
   // designO2Page, // TODO 1.8.0 \u4EE5\u524D\u662F designO2Page + usePersistState
-  designKeepAlivePage, // TODO 1.8.0 \u4EE5\u524D\u662F designO2Page + usePersistState
+  designKeepAlivePage,
   O2Table,
 ${qa(o3(e).map(y=>`${y},`).join(`
 `),2)}
@@ -103,47 +103,46 @@ const Page = designKeepAlivePage(({ history }) => {
   // ));
 
   const http = useHttp();
-  const state = (() => { // TODO 1.8.0 \u4EE5\u524D\u662F designO2Page + usePersistState
-    const option = useTableOption({
-      // TODO \u8FD9\u91CC\u7684\u6743\u9650\u7F16\u7801\u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
-      permission: 'o2.${n.toLowerCase()}.${d}.ps.button',
-      // TODO \u8FD9\u91CC\u7684 URL \u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
-      url: \`\${prefix}/v1/\${organizationId}/${f}\`,
-      // keyField: '${f}Id', // TODO \u8FD9\u91CC\u7684 keyField \u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
-      // hideButton: {
-      //   insert: true, // \u9ED8\u8BA4\u65B0\u5EFA\u6309\u94AE
-      //   update: true, // \u9ED8\u8BA4\u7F16\u8F91\u6309\u94AE
-      //   delete: true, // \u9ED8\u8BA4\u5220\u9664\u6309\u94AE
-      // },
-      // buttons: [
-      //   // \u9875\u9762\u9876\u90E8\u7684\u65B0\u5EFA\u6309\u94AE
-      //   {
-      //     type: 'other',
-      //     code: 'create',
-      //     position: 'out',
-      //     icon: 'add',
-      //     color: 'primary', // default: \u9ED8\u8BA4\u989C\u8272; primary: \u4E3B\u8981\u6309\u94AE\u989C\u8272
-      //     label: '\u65B0\u5EFA',
-      //     handler: () => {
-      //       methods.handleCreate();
-      //     },
-      //     // disabled: () => {},
-      //   },
-      //   // \u884C\u4E0A\u7684\u8BE6\u60C5\u6309\u94AE
-      //   {
-      //     type: 'other',
-      //     code: 'detail',
-      //     position: 'in',
-      //     label: '\u8BE6\u60C5',
-      //     handler: ({ data }) => {
-      //       methods.handleDetail(data);
-      //     },
-      //     // disabled: () => {},
-      //   },
-      // ],
-    });
-    return { option };
-  })();
+  // TODO 1.8.0 \u4EE5\u524D\u662F designO2Page + usePersistState(() => { /* ... */ })
+  // const state = reactive({});
+  const option = useTableOption({
+    // TODO \u8FD9\u91CC\u7684\u6743\u9650\u7F16\u7801\u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
+    permission: 'o2.${n.toLowerCase()}.${d}.ps.button',
+    // TODO \u8FD9\u91CC\u7684 URL \u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
+    url: \`\${prefix}/v1/\${organizationId}/${f}\`,
+    // keyField: '${f}Id', // TODO \u8FD9\u91CC\u7684 keyField \u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
+    // hideButton: {
+    //   insert: true, // \u9ED8\u8BA4\u65B0\u5EFA\u6309\u94AE
+    //   update: true, // \u9ED8\u8BA4\u7F16\u8F91\u6309\u94AE
+    //   delete: true, // \u9ED8\u8BA4\u5220\u9664\u6309\u94AE
+    // },
+    // buttons: [
+    //   // \u9875\u9762\u9876\u90E8\u7684\u65B0\u5EFA\u6309\u94AE
+    //   {
+    //     type: 'other',
+    //     code: 'create',
+    //     position: 'out',
+    //     icon: 'add',
+    //     color: 'primary', // default: \u9ED8\u8BA4\u989C\u8272; primary: \u4E3B\u8981\u6309\u94AE\u989C\u8272
+    //     label: '\u65B0\u5EFA',
+    //     handler: () => {
+    //       methods.handleCreate();
+    //     },
+    //     // disabled: () => {},
+    //   },
+    //   // \u884C\u4E0A\u7684\u8BE6\u60C5\u6309\u94AE
+    //   {
+    //     type: 'other',
+    //     code: 'detail',
+    //     position: 'in',
+    //     label: '\u8BE6\u60C5',
+    //     handler: ({ data }) => {
+    //       methods.handleDetail(data);
+    //     },
+    //     // disabled: () => {},
+    //   },
+    // ],
+  });
 
   const methods = {
     /** \u8DF3\u8F6C\u5230\u65B0\u5EFA\u9875\u9762 */
@@ -165,7 +164,7 @@ const Page = designKeepAlivePage(({ history }) => {
 
   return () => (
     <>
-      <O2Table option={state.option}>
+      <O2Table option={option}>
 ${qa(e.map(y=>My(y,t,e.length)).join(`
 `),8)}
       </O2Table>
@@ -173,7 +172,7 @@ ${qa(e.map(y=>My(y,t,e.length)).join(`
   );
 });
 // TODO \u8FD9\u91CC\u7684\u591A\u8BED\u8A00\u524D\u7F00\u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
-@formatterCollections({ code: ['${g}'] })(Page)
+formatterCollections({ code: ['${g}'] })(Page);
 `}var Df,k1=ce(()=>{"use strict";jn();Hl();Df={text:"O2ColumnInput",number:"O2ColumnInputNumber",currency:"O2ColumnCurrency",lovView:"O2ColumnLovView",lov:"O2ColumnLov",switch:"O2ColumnSwitch",select:"O2ColumnSelect",datetime:"O2ColumnDatePicker",time:"O2ColumnDatePicker",address:"O2ColumnAddress",image:"O2ColumnImage",none:"O2Column"}});function l3(e){let{name:t,code:r}=e,n=r||"FIXME\u7F3A\u5C11\u5B57\u6BB5\u7F16\u7801",i=r?`${r.replace(/code$/i,"")}Name`:"FIXME\u7F3A\u5C11\u5B57\u6BB5\u7F16\u7801",s=(()=>/country/i.test(r)||t.includes("\u56FD")?"country":/province/i.test(r)||t.includes("\u7701")?"region":/district/i.test(r)||t.includes("\u53BF")?"district":/city/i.test(r)||t.includes("\u5E02")?"city":"region city district")();return`
   parentValue={formOption.formData.\u7236\u7EA7\u5B57\u6BB5\u7F16\u7801}
   v-model-name={formOption.formData.${i}}
@@ -204,7 +203,7 @@ ${qa(e.map(y=>My(y,t,e.length)).join(`
  * @Description: ${n||""} - ${i||"\u8BE6\u60C5\u9875"}
  * @FilePath: \\o2-console-front\\packages\\
  */
-import React, { Component } from 'react';
+import React from 'react';
 // import { Anchor, Row, Col } from 'choerodon-ui'; // \u90E8\u5206\u9875\u9762\u4F1A\u8981\u6C42\u5728\u8BE6\u60C5\u9875\u53F3\u4FA7\u5C55\u793A\u76EE\u5F55
 import {
   designO2Page,
@@ -323,7 +322,7 @@ const Page = designO2Page((props) => {
   // );
 });
 // TODO \u8FD9\u91CC\u7684\u591A\u8BED\u8A00\u524D\u7F00\u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
-@formatterCollections({ code: ['${p}'] })(Page)
+formatterCollections({ code: ['${p}'] })(Page);
 `}var Lf,Fy=ce(()=>{"use strict";jn();Hl();Lf={text:"O2FormInput",number:"O2FormInputNumber",currency:"O2FormCurrency",lovView:"O2FormLovView",lov:"O2FormLov",switch:"O2FormSwitch",select:"O2FormSelect",datetime:"O2FormDatePicker",time:"O2FormDatePicker",address:"O2FormAddress",image:"O2FormImageUpload",upload:"O2FormUpload",none:"O2FormInput"}});function M1(e){let{pageCode:t,pageService:r,pageName:n}=e,i=bt(Tt(t),"pascal"),s=bt(Tt(t),"kebab");return`// ${n}
 {
   path: "/${r}/${s}",

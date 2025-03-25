@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2025-03-25 12:00:42
+ * @LastEditTime: 2025-03-25 15:25:45
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
  */
@@ -127,7 +127,7 @@ export function renderBaseFormPage(pageInfo: {
  * @Description: ${pageName || ''} - ${pageDesc || '详情页'}
  * @FilePath: \\o2-console-front\\packages\\
  */
-import React, { Component } from 'react';
+import React from 'react';
 // import { Anchor, Row, Col } from 'choerodon-ui'; // 部分页面会要求在详情页右侧展示目录
 import {
   designO2Page,
@@ -248,6 +248,6 @@ const Page = designO2Page((props) => {
   // );
 });
 // TODO 这里的多语言前缀由脚本自动生成，请检查
-@formatterCollections({ code: ['${langCode}'] })(Page)
+formatterCollections({ code: ['${langCode}'] })(Page);
 `;
 }
