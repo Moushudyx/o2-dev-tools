@@ -231,6 +231,6 @@ ${indent(options.map((option) => renderO2Column(option, pageInfo, options.length
   );
 });
 // TODO 这里的多语言前缀由脚本自动生成，请检查
-formatterCollections({ code: ['${langCode}'] })(Page);
+export default formatterCollections({ code: ['${langCode}'] })(Page);
 `;
 }

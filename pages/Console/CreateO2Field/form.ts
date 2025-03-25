@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2025-03-25 15:25:45
+ * @LastEditTime: 2025-03-25 15:38:12
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
  */
@@ -248,6 +248,6 @@ const Page = designO2Page((props) => {
   // );
 });
 // TODO 这里的多语言前缀由脚本自动生成，请检查
-formatterCollections({ code: ['${langCode}'] })(Page);
+export default formatterCollections({ code: ['${langCode}'] })(Page);
 `;
 }

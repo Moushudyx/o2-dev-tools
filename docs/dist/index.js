@@ -172,7 +172,7 @@ ${qa(e.map(y=>My(y,t,e.length)).join(`
   );
 });
 // TODO \u8FD9\u91CC\u7684\u591A\u8BED\u8A00\u524D\u7F00\u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
-formatterCollections({ code: ['${g}'] })(Page);
+export default formatterCollections({ code: ['${g}'] })(Page);
 `}var Df,k1=ce(()=>{"use strict";jn();Hl();Df={text:"O2ColumnInput",number:"O2ColumnInputNumber",currency:"O2ColumnCurrency",lovView:"O2ColumnLovView",lov:"O2ColumnLov",switch:"O2ColumnSwitch",select:"O2ColumnSelect",datetime:"O2ColumnDatePicker",time:"O2ColumnDatePicker",address:"O2ColumnAddress",image:"O2ColumnImage",none:"O2Column"}});function l3(e){let{name:t,code:r}=e,n=r||"FIXME\u7F3A\u5C11\u5B57\u6BB5\u7F16\u7801",i=r?`${r.replace(/code$/i,"")}Name`:"FIXME\u7F3A\u5C11\u5B57\u6BB5\u7F16\u7801",s=(()=>/country/i.test(r)||t.includes("\u56FD")?"country":/province/i.test(r)||t.includes("\u7701")?"region":/district/i.test(r)||t.includes("\u53BF")?"district":/city/i.test(r)||t.includes("\u5E02")?"city":"region city district")();return`
   parentValue={formOption.formData.\u7236\u7EA7\u5B57\u6BB5\u7F16\u7801}
   v-model-name={formOption.formData.${i}}
@@ -322,7 +322,7 @@ const Page = designO2Page((props) => {
   // );
 });
 // TODO \u8FD9\u91CC\u7684\u591A\u8BED\u8A00\u524D\u7F00\u7531\u811A\u672C\u81EA\u52A8\u751F\u6210\uFF0C\u8BF7\u68C0\u67E5
-formatterCollections({ code: ['${p}'] })(Page);
+export default formatterCollections({ code: ['${p}'] })(Page);
 `}var Lf,Fy=ce(()=>{"use strict";jn();Hl();Lf={text:"O2FormInput",number:"O2FormInputNumber",currency:"O2FormCurrency",lovView:"O2FormLovView",lov:"O2FormLov",switch:"O2FormSwitch",select:"O2FormSelect",datetime:"O2FormDatePicker",time:"O2FormDatePicker",address:"O2FormAddress",image:"O2FormImageUpload",upload:"O2FormUpload",none:"O2FormInput"}});function M1(e){let{pageCode:t,pageService:r,pageName:n}=e,i=bt(Tt(t),"pascal"),s=bt(Tt(t),"kebab");return`// ${n}
 {
   path: "/${r}/${s}",
