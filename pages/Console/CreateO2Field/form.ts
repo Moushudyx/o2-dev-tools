@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2025-03-13 14:30:51
+ * @LastEditTime: 2025-03-25 12:00:42
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
  */
@@ -75,25 +75,26 @@ export function renderLinkFormItem(
   const { pageCode, pageService } = pageInfo;
   const pageCodeCamel = caseConvert(splitVar(pageCode), 'camel');
   const langCode = `o2.${pageService.toLowerCase().replace('o2', '')}.${pageCodeCamel}.model.`;
-  const { type, code, name, lov, require, disable } = option;
+  const { type, code, name, lov, require, disable, hide } = option;
   const compName = formItemType[type] || formItemType.none;
   const basicData = `\n  label={intl.get('${langCode}${code || ''}').d('${name}')}\n  field="${
-    code || 'FIXME缺少字段编码'
+    code || `FIXME${name}缺少字段编码`
   }"`;
   const vModel =
     type === 'lovView'
       ? '\n  row={formOption.formData}'
       : type === 'address'
       ? ``
-      : `\n  v-model={formOption.formData.${code || 'FIXME缺少字段编码'}}`;
+      : `\n  v-model={formOption.formData.${code || `FIXME${name}缺少字段编码`}}`;
   const lovData = ['lovView', 'lov'].includes(type)
-    ? `\n  lovCode="${lov || 'FIXME缺少值集编码'}"`
+    ? `\n  lovCode="${lov || `FIXME${name}缺少值集编码`}"`
     : '';
   const requireData = require ? '\n  required' : '';
   const disableData = disable ? '\n  disabled' : '';
   const extraData = getExtraData(option);
-  return `<${compName}${basicData}${vModel}${lovData}${extraData}${requireData}${disableData}
+  const res = `<${compName}${basicData}${vModel}${lovData}${extraData}${requireData}${disableData}
 />`.replace(/\n\s+\n/g, '\n');
+  return hide ? `{/* ${res} */}` : res;
 }
 /** 获取所有需要的表单组件 */
 export function getFormComponents(options: LinkFieldProp[]) {

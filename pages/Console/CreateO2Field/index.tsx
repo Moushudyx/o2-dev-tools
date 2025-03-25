@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2022-09-30 15:05:27
- * @LastEditTime: 2024-10-31 10:34:38
+ * @LastEditTime: 2025-03-25 11:51:20
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\index.tsx
  */
@@ -190,6 +190,14 @@ export default () => {
                 </button>
               </label>
               <input {...bindValue('disableColumnIndex')}></input>
+            </Field>
+            <Field className="half-field">
+              <label>是否隐藏(仅列表生效)</label>
+              <input {...bindValue('hideColumnIndex')}></input>
+            </Field>
+            <Field className="half-field">
+              <label>是否筛选(仅列表生效)</label>
+              <input {...bindValue('filterColumnIndex')}></input>
             </Field>
           </Para>
           <hr />

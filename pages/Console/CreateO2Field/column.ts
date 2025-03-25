@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2025-03-13 14:11:25
+ * @LastEditTime: 2025-03-25 11:59:23
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
  */
@@ -65,19 +65,22 @@ export function renderO2Column(
   const { pageCode, pageService } = pageInfo;
   const pageCodeCamel = caseConvert(splitVar(pageCode), 'camel');
   const langCode = `o2.${pageService.toLowerCase().replace('o2', '')}.${pageCodeCamel}.model.`;
-  const { type, code, name, lov, require, disable } = option;
+  const { type, code, name, lov, require, disable, hide, filter } = option;
   const compName = columnType[type] || columnType.none;
   const basicData = `\n  title={intl.get('${langCode}${code || ''}').d('${name}')}\n  field="${
-    code || 'FIXME缺少字段编码'
+    code || `FIXME${name}缺少字段编码`
   }"`;
   // const autoFillData = ` auto-fill="${getAutoFillData(option)}"`;
   const lovData = ['lovView', 'lov'].includes(type)
-    ? `\n  lovCode="${lov || 'FIXME缺少值集编码'}"`
+    ? `\n  lovCode="${lov || `FIXME${name}缺少值集编码`}"`
     : '';
+  const hideData = hide ? '\n  hide' : '';
+  const filterData = filter ? '\n  formFilter' : '\n  // formFilter';
   const extraData = getExtraData(option);
   const editData = `${require ? '\n  required' : ''}${disable ? '\n  editable={false}' : ''}`;
-  return `<${compName}${basicData}${lovData}${extraData}${editData}
-  // formFilter${fieldCount > 8 ? '' : '\n  fit // 字段过少时自动占满页面宽度'}
+  return `<${compName}${basicData}${lovData}${extraData}${filterData}${editData}${hideData}${
+    fieldCount > 8 ? '' : '\n  fit // 字段过少时自动占满页面宽度'
+  }
 />`;
 }
 /** 获取所有需要的列组件 */

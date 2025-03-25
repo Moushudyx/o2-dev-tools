@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 16:57:01
- * @LastEditTime: 2023-10-23 14:47:24
+ * @LastEditTime: 2025-03-25 11:36:09
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\intelligent.ts
  */
@@ -17,6 +17,8 @@ export function intelligentHeadRead(head: string) {
     lovColumnIndex: Array(cols.length).fill(0) as number[],
     requireColumnIndex: Array(cols.length).fill(0) as number[],
     disableColumnIndex: Array(cols.length).fill(0) as number[],
+    hideColumnIndex: Array(cols.length).fill(0) as number[],
+    filterColumnIndex: Array(cols.length).fill(0) as number[],
   };
   // let getFieldName = false;
   cols.forEach((col, index) => {
@@ -46,6 +48,12 @@ export function intelligentHeadRead(head: string) {
     }
     if (/值列表类?型?|(?:lov|值集)编?码?/i.test(col)) {
       map.lovColumnIndex[index] += 5;
+    }
+    if (/筛选|过滤|查询|query/i.test(col)) {
+      map.filterColumnIndex[index] += 5;
+    }
+    if (/隐藏|不(?:放?在列?表格?)?[中里内]?(?:[展显]示|渲染)/.test(col)) {
+      map.hideColumnIndex[index] += 5;
     }
   });
   // console.log('Map', {...map});

@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2025-03-13 14:13:47
+ * @LastEditTime: 2025-03-25 11:54:22
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\utils.ts
  */
@@ -19,10 +19,14 @@ interface CreateLinkFieldProp {
   typeColumnIndex: number;
   /** 指示值列表类型位置 */
   lovColumnIndex: number;
-  /** 指示值列表类型位置 */
+  /** 指示是否必填的索引位置 */
   requireColumnIndex: number;
-  /** 指示值列表类型位置 */
+  /** 指示是否可编辑的索引位置 */
   disableColumnIndex: number;
+  /** 指示是否隐藏的索引位置 */
+  hideColumnIndex: number;
+  /** 指示是否筛选的索引位置 */
+  filterColumnIndex: number;
   /** 多语言前缀`o2.xxx.xxx.model.` */
   // intlPrefix: string;
   /** “可编辑” 还是 “禁用” */
@@ -36,21 +40,23 @@ export interface LinkFieldProp {
   lov: string;
   require?: boolean | undefined;
   disable?: boolean | undefined;
+  hide?: boolean | undefined;
+  filter?: boolean | undefined;
 }
 
 export const storageKey = 'CreateO2Field';
 export const defaultDescTable = read(
   `${storageKey}-descTable`,
-  `网店商品编码	platformProductCode	文本	是	否
-网店商品名称	title	文本	是	否
+  `网店商品编码	platformProductCode	文本	是	否		否	是
+网店商品名称	title	文本	是	否		否	是
 网店	catalogVersionName	值集视图	是	否	O2MD.ALL_ONLINE_SHOP
-MDM编码	mdmCode	文本	是	否
-网店商品状态	activeFlag	开关	是	否
-原价	price	数字	是	否
+MDM编码	mdmCode	文本	是	否		否	否
+网店商品状态	activeFlag	开关	是	否		否	否
+原价	price	数字	是	否		否	否
 发布状态	postStatusCode	值集	是	否	O2PCM.SHELF_STATUS
 上下架状态	shelfStatusCode	值集	是	否	O2PCM.ATTRIBUTE_SALE
-定时上架时间	autoOnlineDate	时间	是	否
-定时下架时间	autoOfflineDate	时间	是	否
+定时上架时间	autoOnlineDate	时间	是	否		否	否
+定时下架时间	autoOfflineDate	时间	是	否		否	否
 `
 );
 
@@ -63,6 +69,8 @@ export function getDefaultValue() {
     lovColumnIndex: read(`${storageKey}-lovColumnIndex`, '5'),
     requireColumnIndex: read(`${storageKey}-requireColumnIndex`, '4'),
     disableColumnIndex: read(`${storageKey}-disableColumnIndex`, '3'),
+    hideColumnIndex: read(`${storageKey}-hideColumnIndex`, '6'),
+    filterColumnIndex: read(`${storageKey}-filterColumnIndex`, '7'),
 
     tableHead: read(
       `${storageKey}-tableHead`,
@@ -104,6 +112,7 @@ const getType = (typeDesc: string): keyof typeof InputTypeRegExp => {
 };
 /** 解析自然语言为布尔值 */
 const getBoolean = (desc: string): boolean | undefined => {
+  if (!desc) return undefined;
   if (/t|true|Y|yes|是|√|对|有/i.test(desc)) return true;
   if (/f|false|N|no|否|×|错|无/i.test(desc)) return false;
   else return undefined;
@@ -143,7 +152,7 @@ const getBoolean = (desc: string): boolean | undefined => {
 // };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ReturnType<T> = T extends (...args: any[]) => infer P ? P: never;
+export type ReturnType<T> = T extends (...args: any[]) => infer P ? P : never;
 
 export function isValidSetting<T extends ReturnType<typeof getDefaultValue>>(
   state: T,
@@ -156,7 +165,9 @@ export function isValidSetting<T extends ReturnType<typeof getDefaultValue>>(
     isFinite(+state.typeColumnIndex) &&
     isFinite(+state.lovColumnIndex) &&
     isFinite(+state.requireColumnIndex) &&
-    isFinite(+state.disableColumnIndex)
+    isFinite(+state.disableColumnIndex) &&
+    isFinite(+state.hideColumnIndex) &&
+    isFinite(+state.filterColumnIndex)
   )
     return {
       descTable: state.descTable,
@@ -166,6 +177,8 @@ export function isValidSetting<T extends ReturnType<typeof getDefaultValue>>(
       lovColumnIndex: +state.lovColumnIndex,
       requireColumnIndex: +state.requireColumnIndex,
       disableColumnIndex: +state.disableColumnIndex,
+      hideColumnIndex: +state.hideColumnIndex,
+      filterColumnIndex: +state.filterColumnIndex,
       ...others,
     };
   else return null;
@@ -193,19 +206,32 @@ export function genProps(lines: string[][], props: Omit<CreateLinkFieldProp, 'de
     lovColumnIndex,
     requireColumnIndex,
     disableColumnIndex,
+    hideColumnIndex,
+    filterColumnIndex,
     isEditable,
   } = props;
   // 转换为驼峰命名
   const camel = (txt = '') => caseConvert(splitVar(txt), 'camel');
   return lines.map((line) => {
     const disableValue = getBoolean(line[disableColumnIndex]);
+    console.log(
+      'genProps',
+      'origin',
+      line[disableColumnIndex],
+      'disableValue',
+      disableValue,
+      'final',
+      !isBoolean(disableValue) ? false : isEditable ? !disableValue : disableValue
+    );
     return {
       code: camel(line[codeColumnIndex]),
       name: line[textColumnIndex],
       type: getType(line[typeColumnIndex]),
       lov: line[lovColumnIndex],
       require: getBoolean(line[requireColumnIndex]),
-      disable: isEditable && isBoolean(disableValue) ? !disableValue : disableValue,
+      disable: !isBoolean(disableValue) ? false : isEditable ? !disableValue : disableValue, // isEditable && isBoolean(disableValue) ? !disableValue : disableValue,
+      hide: getBoolean(line[hideColumnIndex]),
+      filter: getBoolean(line[filterColumnIndex]),
     };
   });
 }
