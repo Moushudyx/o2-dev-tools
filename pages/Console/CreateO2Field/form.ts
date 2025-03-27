@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2025-03-25 15:38:12
+ * @LastEditTime: 2025-03-27 18:28:01
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\form.ts
  */
@@ -218,6 +218,16 @@ const Page = designO2Page((props) => {
   };
 
   // const state = reactive({});
+
+  // onMounted(async () => {
+  //   // 新建状态
+  //   if (formOption.status !== 'insert') {
+  //     // 从别的页面跳转过来, 需要根据路径上的 ID 获取数据之类的
+  //     if (searchParams.has('xxxId')) {
+  //       // 用 searchParams.get('xxxId') 获取 ID
+  //     }
+  //   }
+  // });
 
   // 部分页面会要求在详情页右侧展示目录
   // const { use: _useAnchor, render: renderAnchor } = createHookForRender();

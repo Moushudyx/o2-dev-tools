@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2025-03-25 15:25:43
+ * @LastEditTime: 2025-03-27 18:28:32
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
  */
@@ -134,8 +134,10 @@ ${indent(
   // usePageOperator, // 渲染在页面顶部的按钮
   usePageTitle,
   // usePersistState, // TODO 1.8.0 以前是 designO2Page + usePersistState
+  // useReactHooks, // 用于将 React 的 Hooks 改造为 O2 的
   useTableOption,
 } from 'o2-design';
+// import { useLocation } from 'react-router'; // 用于实现监听页面跳转
 // O2ButtonCollapse 用于实现超过 5 个按钮时折叠多于按钮的逻辑
 // import O2ButtonCollapse from 'o2Components/O2ButtonCollapse';
 import formatterCollections from 'utils/intl/formatterCollections';
@@ -163,7 +165,7 @@ const Page = designKeepAlivePage(({ history }) => {
   // ));
 
   const http = useHttp();
-  // TODO 1.8.0 以前是 designO2Page + usePersistState(() => { /* ... */ })
+  // TODO 1.8.0 以前是 state = usePersistState(() => { /* 这里用 useTableOption */ })
   // const state = reactive({});
   const option = useTableOption({
     // TODO 这里的权限编码由脚本自动生成，请检查
@@ -221,6 +223,16 @@ const Page = designKeepAlivePage(({ history }) => {
   // createHookForRender 用于收集渲染 hooks
   // const { render: getButtonRender, use: usePageButton } = createHookForRender();  // TODO 1.8.0 以前是 createRenderHook
   // useXXXButton({ usePageButton, state, methods });
+
+  // // 监听页面跳转, 刷新列表页
+  // const loc = useReactHooks(() => useLocation());
+  // watch(
+  //   () => loc.current,
+  //   (newLoc) => {
+  //     // 这里的路由由脚本自动生成，请检查
+  //     if (newLoc?.pathname === '/${pageService}/${pageCodeKebab}/list') option.methods.load();
+  //   }
+  // );
 
   return () => (
     <>
