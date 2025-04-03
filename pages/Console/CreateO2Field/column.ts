@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2025-03-27 18:28:32
+ * @LastEditTime: 2025-04-03 09:32:01
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\column.ts
  */
@@ -118,7 +118,7 @@ export function renderO2ListPage(
  * @FilePath: \\o2-console-front\\packages\\
  */
 import React from 'react';
-// import { moment } from 'moment'; // O2DatePicker 可能需要用到
+// import moment from 'moment'; // O2DatePicker 可能需要用到
 import {
   // createHookForRender, // TODO 1.8.0 以前是 createRenderHook
   // designO2Page, // TODO 1.8.0 以前是 designO2Page + usePersistState

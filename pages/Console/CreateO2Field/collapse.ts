@@ -5,7 +5,7 @@ import { LinkFieldProp, indent, padLeft } from "./utils";
 /*
  * @Author: moushu
  * @Date: 2023-10-27 11:14:26
- * @LastEditTime: 2025-03-13 14:22:17
+ * @LastEditTime: 2025-04-03 09:32:26
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Console\CreateO2Field\collapse.ts
  */
@@ -38,7 +38,7 @@ export function renderFormCollapsePage(
  * @FilePath: \\o2-console-front\\packages\\
  */
 import React from 'react';
-// import { moment } from 'moment'; // O2DatePicker 可能需要用到
+// import moment from 'moment'; // O2DatePicker 可能需要用到
 import {
   O2Form,
 ${indent(

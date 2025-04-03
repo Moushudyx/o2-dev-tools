@@ -62,7 +62,7 @@ MDM\u7F16\u7801	mdmCode	\u6587\u672C	\u662F	\u5426		\u5426	\u5426
  * @FilePath: \\o2-console-front\\packages\\
  */
 import React from 'react';
-// import { moment } from 'moment'; // O2DatePicker \u53EF\u80FD\u9700\u8981\u7528\u5230
+// import moment from 'moment'; // O2DatePicker \u53EF\u80FD\u9700\u8981\u7528\u5230
 import {
   // createHookForRender, // TODO 1.8.0 \u4EE5\u524D\u662F createRenderHook
   // designO2Page, // TODO 1.8.0 \u4EE5\u524D\u662F designO2Page + usePersistState
@@ -371,7 +371,7 @@ export default formatterCollections({ code: ['${p}'] })(Page);
  * @FilePath: \\o2-console-front\\packages\\
  */
 import React from 'react';
-// import { moment } from 'moment'; // O2DatePicker \u53EF\u80FD\u9700\u8981\u7528\u5230
+// import moment from 'moment'; // O2DatePicker \u53EF\u80FD\u9700\u8981\u7528\u5230
 import {
   O2Form,
 ${qa(D1(e).map(g=>`${g},`).join(`
