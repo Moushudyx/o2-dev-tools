@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:48:26
- * @LastEditTime: 2023-08-08 14:58:03
+ * @LastEditTime: 2025-08-21 13:55:03
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\form.ts
  */
@@ -11,6 +11,7 @@ import { LinkFieldProp, indent, padLeft } from './utils';
 const formItemType: { [type: string]: string } = {
   text: 'link-input',
   number: 'link-input-number',
+  currency: 'link-input-number',
   lovView: 'link-object-input',
   lov: 'link-lov-select',
   select: 'link-select',
@@ -22,6 +23,8 @@ const formItemType: { [type: string]: string } = {
 function getExtraData(option: LinkFieldProp): string {
   const { type, code } = option;
   switch (type) {
+    case 'currency':
+      return ' precision="2"';
     case 'lovView':
       return ` :row="formOption.data" :option="填写PickList的Option" showKey="填写PickList的展示字段" :map="{${code}: '${code}'}"`;
     case 'address':

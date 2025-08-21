@@ -11,6 +11,7 @@ import { LinkFieldProp, indent, padLeft } from './utils';
 const columnType: { [type: string]: string } = {
   text: 'link-table-column-input',
   number: 'link-table-column-input-number',
+  currency: 'link-table-column-input-number',
   lovView: 'link-table-column-object',
   lov: 'link-table-column-lov',
   select: 'link-table-column-select',
@@ -22,6 +23,8 @@ const columnType: { [type: string]: string } = {
 function getExtraData(option: LinkFieldProp): string {
   const { type } = option;
   switch (type) {
+    case 'currency':
+      return ' precision="2"';
     case 'lovView':
       return ` :option="填写PickList的Option" showKey="填写PickList的展示字段" :map="填写PickList的字段Map"`;
     case 'address':
@@ -49,6 +52,8 @@ function getAutoFillData(option: LinkFieldProp): string {
   switch (type) {
     case 'number':
       return 'NUMBER';
+    case 'currency':
+      return 'CNY';
     case 'select':
     case 'lov':
       return 'TYPE'; // 值集和下拉框视为一类

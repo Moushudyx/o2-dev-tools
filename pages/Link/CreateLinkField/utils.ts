@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2022-09-30 15:14:33
- * @LastEditTime: 2023-06-28 10:38:07
+ * @LastEditTime: 2025-08-21 14:01:26
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\utils.ts
  */
@@ -77,6 +77,7 @@ export const defaultValue = {
 const InputTypeRegExp = {
   text: /varchar|文本框?/i,
   number: /number|数[字值]输?入?框?/i,
+  currency: /currency|(?:资?金额?)输?入?框?/i,
   lovView: /lovView|pick\s?List|object|l?o?v?值?集?(?:视图|弹出?框)/i,
   lov: /lov|值集?/i,
   select: /select|下拉选?择?框?/i,
