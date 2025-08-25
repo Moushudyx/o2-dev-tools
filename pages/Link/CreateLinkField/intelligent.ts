@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 16:57:01
- * @LastEditTime: 2023-06-28 10:56:47
+ * @LastEditTime: 2025-08-22 15:46:44
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\intelligent.ts
  */
@@ -30,7 +30,7 @@ export function intelligentHeadRead(head: string) {
       map.codeColumnIndex[index] += getFieldName ? 2 : 4;
     }
     if (/字段编[号码]?/.test(col)) {
-      map.codeColumnIndex[index] += 3;
+      map.codeColumnIndex[index] += 5;
     }
     if (/字段类型|界面类型/.test(col)) {
       map.typeColumnIndex[index] += 5;

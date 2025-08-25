@@ -75,9 +75,9 @@ function getAutoFillData(option: LinkFieldProp): string {
 export function renderLinkColumn(option: LinkFieldProp) {
   const { type, code, name, lov, require, disable } = option;
   const compName = columnType[type] || columnType.none;
-  const basicData = ` title="${name}" field="${code || 'FIXME缺少字段编码'}"`;
+  const basicData = ` title="${name}" field="${code || `FIXME${name}缺少字段编码`}"`;
   const autoFillData = ` auto-fill="${getAutoFillData(option)}"`;
-  const lovData = type === 'lov' ? ` lov-type="${lov || 'FIXME缺少值集编码'}"` : '';
+  const lovData = type === 'lov' ? ` lov-type="${lov || `FIXME${name}缺少值集编码`}"` : '';
   const editData = `${require ? ' required' : ''}${disable ? ' disabled' : ''}`;
   const extraData = getExtraData(option);
   return `<${compName}${basicData}${autoFillData}${lovData}${editData}${extraData} />`;
