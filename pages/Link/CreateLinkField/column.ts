@@ -1,7 +1,7 @@
 /*
  * @Author: moushu
  * @Date: 2023-06-07 15:30:34
- * @LastEditTime: 2023-09-14 11:37:46
+ * @LastEditTime: 2025-08-28 09:06:46
  * @Description: file content
  * @FilePath: \o2-dev-tools\pages\Link\CreateLinkField\column.ts
  */
@@ -78,7 +78,7 @@ export function renderLinkColumn(option: LinkFieldProp) {
   const basicData = ` title="${name}" field="${code || `FIXME${name}缺少字段编码`}"`;
   const autoFillData = ` auto-fill="${getAutoFillData(option)}"`;
   const lovData = type === 'lov' ? ` lov-type="${lov || `FIXME${name}缺少值集编码`}"` : '';
-  const editData = `${require ? ' required' : ''}${disable ? ' disabled' : ''}`;
+  const editData = `${require ? ' required' : ''}${disable ? ' :editable="false"' : ''}`;
   const extraData = getExtraData(option);
   return `<${compName}${basicData}${autoFillData}${lovData}${editData}${extraData} />`;
 }
